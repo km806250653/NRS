@@ -1,9 +1,8 @@
 $(function () {
-    $.get("pages/header.jsp",function (data) {
+    $.get("header.jsp",function (data) {
         $(".header").html(data);
     });
-    $.get("pages/footer.jsp",function (data) {
+    $.get("footer.jsp",function (data) {
         $("#footer").html(data);
     });
 });
-

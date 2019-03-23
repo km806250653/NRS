@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -57,7 +58,9 @@ public class JsoupForBaidu {
 
 
         //正文处理
-        String  content = elements.select("[class=article-content]").get(0).toString();//获取正文部分
+        Element element = elements.select("[class=article-content]").get(0);//获取正文部分
+        Elements element_imgs = element.select("img");
+        String content = element.toString();
         content = content.replaceAll("article-content","news_content");
         content = content.replaceAll("large","news_img");
         content = content.replaceAll("bjh-p","news_p");
@@ -80,6 +83,8 @@ public class JsoupForBaidu {
 
         System.out.println("\n**************全正文内容*************");
         System.out.println(content);
+
+        System.out.println(element_imgs);
 
         JdbcTemplate template = new JdbcTemplate(JDBCUtils.getDataSource());
         String sql = "insert into news values (null,?,?,?,?,?,?,?)";

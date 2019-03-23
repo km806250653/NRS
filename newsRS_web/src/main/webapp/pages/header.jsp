@@ -1,11 +1,16 @@
-<link href="../css/main.css" rel="stylesheet" type="text/css" />
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <link href="../css/main.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
 <header id="header" class="header">
     <div class="header__top">
         <div class="container">
             <div class="row">
                 <div class="col-sm-3">
                     <div class="wrap-logo">
-                        <a href="index.html" class="logo"></a>
+                        <a href="index.jsp" class="logo"></a>
                     </div>
                 </div>
                 <div class="col-sm-offset-2 col-md-offset-5 col-sm-6 col-md-4 hidden-xs">
@@ -72,7 +77,7 @@
 
                         <li class="active">
                             <span class="wsmenu-click"></span>
-                            <a href="index.html">Home</a>
+                            <a href="index.jsp">Home</a>
                         </li>
                         <li>
                             <span class="wsmenu-click"></span>
@@ -175,3 +180,6 @@
         </div>
     </div>
 </header>
+</body>
+</html>
+

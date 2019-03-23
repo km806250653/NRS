@@ -9,6 +9,5 @@ import java.util.List;
  * Created by Enzo Cotter on 2019/3/22.
  */
 public interface INewsMapper {
-    @Select("select * from news where cid=#{cid}")
-    List<News> findBycid(Integer cid);
+    List<News> findByCid(Integer cid);
 }
