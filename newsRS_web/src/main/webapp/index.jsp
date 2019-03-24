@@ -8,15 +8,21 @@
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
-    <script type="text/javascript" src="js/includeForIndex.js"></script>
+    <script type="text/javascript" src="js/getTopBar.js"></script>
     <title>新闻发布系统</title>
+    <%--<%!--%>
+        <%--String contextPath = request.getContextPath();--%>
+    <%--%>--%>
+    <%--<script>--%>
+        <%--contextPath=<%=contextPath%>--%>
+    <%--</script>--%>
 </head>
 <body>
 <!-- Header -->
-<header id="header" class="header">
-</header>
+<%@include file="pages/header.jsp"%>
 <!-- END header -->
 <!-- header slider -->
+
 <div class="slate_gray">
     <div class="container">
         <div class="row header_news_panel">

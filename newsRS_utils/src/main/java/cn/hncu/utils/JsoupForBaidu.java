@@ -19,7 +19,7 @@ import java.util.Random;
  */
 public class JsoupForBaidu {
     public static void main(String args[]) throws IOException, ParseException {
-        var urlStr = "https://news.baidu.com/";
+        String urlStr = "https://news.baidu.com/";
         //var urlStr = "https://www.china.com/";
 //        var urlStr = "http://baijiahao.baidu.com/s?id=1628528968999384960";
         Connection connect = Jsoup.connect(urlStr);

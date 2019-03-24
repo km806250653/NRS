@@ -15,15 +15,14 @@
     <script src="js/bootstrap.min.js"></script>
     <!-- Custom JavaScript -->
     <script src="js/main.js"></script>
-    <script type="text/javascript" src="js/includeForIndex.js"></script>
+    <script type="text/javascript" src="js/getTopBar.js"></script>
     <title>404 Page</title>
 </head>
 <body>
 <div class="wrapper-sticky-footer">
     <div class="content-sticky">
         <!-- Header -->
-        <header id="header" class="header">
-        </header>
+        <%@include file="pages/header.jsp"%>
         <!-- END header -->
         <!-- Content-->
         <div class="wrap-error">

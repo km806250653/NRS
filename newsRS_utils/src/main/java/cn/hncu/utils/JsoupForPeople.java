@@ -20,7 +20,7 @@ import java.util.Random;
  */
 public class JsoupForPeople {
     public static void main(String args[]) throws IOException, ParseException {
-        var urlStr = "http://www.people.com.cn/";
+        String urlStr = "http://www.people.com.cn/";
         Connection connect = Jsoup.connect(urlStr);
         Document document = connect.get();
         Elements elements = document.select("div[class^=box] li>a");//  详情页新闻体 常规 class box_con 健康网 articleCont

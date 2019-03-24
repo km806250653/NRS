@@ -10,4 +10,8 @@ import java.util.List;
  */
 public interface INewsMapper {
     List<News> findByCid(Integer cid);
+
+    List<News> findAll();
+
+    News findOne(Integer id);
 }

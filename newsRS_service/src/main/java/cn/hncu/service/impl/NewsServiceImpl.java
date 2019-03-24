@@ -13,12 +13,23 @@ import java.util.List;
  */
 @Service
 public class NewsServiceImpl implements INewsService {
+
     @Autowired
     private INewsMapper newsMapper;
 
 
     @Override
-    public List<News> findBycid(Integer cid) {
-        return newsMapper.findBycid(cid);
+    public List<News> findByCid(Integer cid) {
+        return newsMapper.findByCid(cid);
+    }
+
+    @Override
+    public List<News> findAll() {
+        return newsMapper.findAll();
+    }
+
+    @Override
+    public News findOne(Integer id) {
+        return newsMapper.findOne(id);
     }
 }

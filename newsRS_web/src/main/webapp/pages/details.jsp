@@ -9,23 +9,24 @@
 <html lang="zxx">
 <head>
     <meta charset="utf-8">
+    <meta name="referrer" content="never">
     <link href="../css/main.css" rel="stylesheet" type="text/css" />
     <!-- All JavaScript libraries -->
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/main.js"></script>
-    <script type="text/javascript" src="../js/include.js"></script>
+    <script type="text/javascript" src="../js/getTopBar.js"></script>
     <title></title>
 </head>
 <body>
 <!-- Header -->
-<header id="header" class="header">
-</header>
+<%@ include file="header.jsp"%>
 <!-- END header -->
 <!-- header slider -->
 <div class="wrapper">
     <article class="container articles">
         <div class="row">
+            <%--右边--%>
             <div class="col-sm-4 col-md-3 right_sidebar hidden-xs hidden-sm" data-spy="affix" data-offset-top="112" data-offset-bottom="80">
                 <div class="news-tabs">
                     <p class="news-tabs__title h2">News feed</p>
@@ -81,8 +82,9 @@
                     </ul>
                 </div>
             </div>
+                <%--正文上面的--%>
             <div class="col-sm-12 col-md-9 p0 wrap-headline">
-                <img src="img/content/article.jpg" alt="img" class="wrap-headline__img">
+                <img src="../img/content/article.jpg" alt="img" class="wrap-headline__img">
                 <div class="headline clearfix">
                     <div class="headline__data">
                         <a href="category.html" class="headline__category headline__category_orange">Policy</a>
@@ -112,23 +114,19 @@
                     </div>
                 </div>
             </div>
+                <%--正文--%>
             <div class="col-sm-12 col-md-9 article_text">
                 <div class="current">
-                    <h1 class="text-center yel_line current__title">Insiders Guide to Miami</h1>
-                    <p class="current__text">But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth,
-                        the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely
-                        painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To
-                        take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying
-                        consequences, or one who avoids a pain that produces no resultant pleasure?</p>
-                    <img src="img/content/article2.jpg" alt="img" class="current__img">
-                    <p class="current__text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
-                        ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
-                        adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid
-                        ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
-                    <blockquote class="quote current__quote">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</blockquote>
-                    <p class="current__text">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <h1 class="text-center yel_line current__title">${news.title}</h1>
+                    ${news.content}
+                    <p class="current__text"></p>
+                    <img src="../img/content/article2.jpg" alt="img" class="current__img">
+                    <p class="current__text"></p>
+                    <blockquote class="quote current__quote">Lorem</blockquote>
+                    <p class="current__text">Duis aute </p>
                 </div>
             </div>
+                <%--标签--%>
             <div class="col-sm-12 col-md-9 tags">
                 <p>Tags:</p>
                 <ul>
@@ -143,6 +141,7 @@
                     </li>
                 </ul>
             </div>
+                <%--评论--%>
             <div class="col-sm-9 col-md-8 col-lg-6 comments">
                 <p class="comments__title">Comments</p>
                 <div class="comments__media">

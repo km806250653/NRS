@@ -6,4 +6,10 @@
     <select id="findByCid" resultType="news" parameterType="int">
       select * from news where cid = #{cid}
     </select>
+    <select id="findAll" resultType="news">
+        select * from news
+    </select>
+    <select id="findOne" resultType="news" parameterType="int">
+        select * from news where id = #{id}
+    </select>
 </mapper>

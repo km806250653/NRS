@@ -1,7 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta name="referrer" content="never">
     <link href="../css/main.css" rel="stylesheet" type="text/css"/>
+    <script src="../js/jquery-3.3.1.min.js"/>
+    <script type="text/javascript" src="../js/getTopBar.js"></script>
 </head>
 <body>
 <header id="header" class="header">
@@ -63,77 +66,28 @@
             <div class="wrapper clearfix bigmegamenu">
                 <!--Main Menu HTML Code-->
                 <nav class="wsmenu slideLeft clearfix">
-                    <ul class="mobile-sub wsmenu-list">
-                        <li class="visible-xs">
-                            <form class="navbar-form mob_search" role="search">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Search">
-                                </div>
-                                <button type="submit" class="btn btn-search">
-                                    <i class="icon-search"></i>
-                                </button>
-                            </form>
+                    <ul id="" class="mobile-sub wsmenu-list">
+                        <li id="home" class="active">
+                            <span class="wsmenu-click"></span>
+                            <a href="index.jsp">主页</a>
                         </li>
 
-                        <li class="active">
+                        <li id="more">
                             <span class="wsmenu-click"></span>
-                            <a href="index.jsp">Home</a>
-                        </li>
-                        <li>
-                            <span class="wsmenu-click"></span>
-                            <a href="category.html">Policy</a>
-                        </li>
-                        <li>
-                            <span class="wsmenu-click"></span>
-                            <a href="category.html">Sport</a>
-                        </li>
-                        <li>
-                            <span class="wsmenu-click"></span>
-                            <a href="category.html">Holidays</a>
-                        </li>
-                        <li>
-                            <span class="wsmenu-click"></span>
-                            <a href="category.html">Religion</a>
-                        </li>
-                        <li>
-                            <span class="wsmenu-click"></span>
-                            <a href="category.html">People</a>
-                        </li>
-                        <li>
-                            <span class="wsmenu-click"></span>
-                            <a href="category.html">Main</a>
-                        </li>
-                        <li>
-                            <span class="wsmenu-click"></span>
-                            <a href="">Other
+                            <a href="">更多
                                 <span class="arrow"></span>
                             </a>
-                            <ul class="wsmenu-submenu">
-                                <li>
-                                    <a href="404.html">404 page</a>
-                                </li>
-                                <li>
-                                    <a href="category.html">Category page</a>
-                                </li>
-                                <li>
-                                    <a href="news.html">News page</a>
-                                </li>
-                                <li>
-                                    <a href="search-result.html">Search result</a>
-                                </li>
-                                <li>
-                                    <a href="full-width.html">Full width</a>
-                                </li>
+                            <ul class="wsmenu-submenu" id="more_ul">
                             </ul>
                         </li>
                         <li class="navbar-right hidden-xs">
                             <form class="navbar-form" role="search">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Search">
+                                    <input type="text" class="form-control" placeholder="搜索">
                                 </div>
                                 <button type="submit" class="btn btn-search">
                                     <i class="icon-search"></i>
-                                    <br/>Search
+                                    <br/>搜索
                                 </button>
                             </form>
                         </li>
