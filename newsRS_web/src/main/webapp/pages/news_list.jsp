@@ -17,7 +17,6 @@
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/main.js"></script>
-    <script type="text/javascript" src="../js/getTopBar.js"></script>
     <title></title>
 </head>
 <body class="page">
@@ -34,7 +33,7 @@
                         <div class="col-sm-3">
                             <div class="thumbnail thumbnail_small">
                                 <a href=${pageContext.request.contextPath}/news/findOne?id=${news.id} class="thumbnail__link">
-                                    <img src="img/content/news2.jpg" height="153" width="270" alt="News">
+                                    <img src="../img/content/news2.jpg" height="153" width="270" alt="News">
                                 </a>
                                 <div class="caption thumbnail__caption">
                                     <div class="news caption__news">

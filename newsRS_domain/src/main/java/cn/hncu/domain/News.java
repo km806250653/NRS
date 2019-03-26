@@ -3,33 +3,22 @@ package cn.hncu.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Created by Enzo Cotter on 2019/3/22.
- */
 public class News implements Serializable {
+    private Integer id;
 
-    private Integer id;         //唯一标志，无意义
-    private String title;       //新闻标题
-    private String author;      //作者
-    private Date releaseDate;   //发布时间
-    private String content;     //正文内容
-    private String Source;      //源地址
-    private Integer cid;        //所属类别
-    private Integer uid;        //上传用户id
+    private String title;
 
-    @Override
-    public String toString() {
-        return "News{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", releaseDate=" + releaseDate +
-                ", content='" + content + '\'' +
-                ", Source='" + Source + '\'' +
-                ", cid=" + cid +
-                ", uid=" + uid +
-                '}';
-    }
+    private String author;
+
+    private Date releasedate;
+
+    private String source;
+
+    private Integer cid;
+
+    private Integer uid;
+
+    private String content;
 
     public Integer getId() {
         return id;
@@ -44,7 +33,7 @@ public class News implements Serializable {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = title == null ? null : title.trim();
     }
 
     public String getAuthor() {
@@ -52,31 +41,23 @@ public class News implements Serializable {
     }
 
     public void setAuthor(String author) {
-        this.author = author;
+        this.author = author == null ? null : author.trim();
     }
 
-    public Date getReleaseDate() {
-        return releaseDate;
+    public Date getReleasedate() {
+        return releasedate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
+    public void setReleasedate(Date releasedate) {
+        this.releasedate = releasedate;
     }
 
     public String getSource() {
-        return Source;
+        return source;
     }
 
     public void setSource(String source) {
-        Source = source;
+        this.source = source == null ? null : source.trim();
     }
 
     public Integer getCid() {
@@ -93,5 +74,13 @@ public class News implements Serializable {
 
     public void setUid(Integer uid) {
         this.uid = uid;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
     }
 }

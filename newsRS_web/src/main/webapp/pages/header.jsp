@@ -2,13 +2,63 @@
 <html>
 <head>
     <meta name="referrer" content="never">
-    <link href="../css/main.css" rel="stylesheet" type="text/css"/>
     <script src="../js/jquery-3.3.1.min.js"/>
-    <script type="text/javascript" src="../js/getTopBar.js"></script>
+    <script></script>
+    <link href="css/main.css" rel="stylesheet" type="text/css" />
+    <script>
+        $(function () {
+            $(".header").css("z-index","999");
+            $(".header").css("width","100%");
+            $(window).scroll(function () {
+                if($(window).scrollTop()>74){
+                    $(".header").css("position","fixed");
+                    $(".header__top").css("display","none");
+                }else {
+                    $(".header").css("position","relative");
+                    $(".header__top").css("display","");
+                }
+            });
+            path = getAbsolutePath(); //全局变量  http://ip:port/newsRS_web/
+            //设置主页按钮路径
+            $("#home a").prop("href",path+"index.jsp");
+            $.get(path+"category/findAll","",function (list) {
+                for (var i = 0; i <list.length ; i++) {
+                    if(i>6){             //超过六个时，多余的放入下拉框中
+                        li = '<li style="width: 100px">\n' +
+                            '                                    <a style="text-align: center" href="'+path+'news/findByCid?cid='+list[i].id+'">'+list[i].name+'</a>\n' +
+                            '                                </li>';
+                        $("#more_ul").append($(li));
+                    }
+                    else {
+                        li = '<li id="home" class="active">\n' +
+                            '                            <span class="wsmenu-click"></span>\n' +
+                            '                            <a href="'+path+'news/findByCid?cid='+list[i].id+'">'+list[i].name+'</a>\n' +
+                            '                        </li>';
+                        $("#more").before($(li));
+                    }
+                }
+            });
+        });
+
+
+        function getAbsolutePath() {
+            var pathname = location.pathname; //newsRS_web/pages/news_list.jsp
+            // alert(pathname);
+            pathname=pathname.substring(1); // newsRS_web/pages/news_list.jsp
+            // alert(pathname);
+            pathname=pathname.substring(0,pathname.indexOf("/")+1); //newsRS_web/
+            // alert(pathname);
+            var href = location.href; //http://localhost:8080/newsRS_web/pages/news_list.jsp
+            // alert(href);
+            href=href.substring(0,href.indexOf(pathname)+pathname.length); // http://localhost:8080/newsRS_web/
+            // alert(href);
+            return href;
+        }
+    </script>
 </head>
 <body>
 <header id="header" class="header">
-    <div class="header__top">
+    <div class="header__top" id="header-top">
         <div class="container">
             <div class="row">
                 <div class="col-sm-3">
@@ -55,13 +105,7 @@
             </div>
         </div>
     </div>
-    <div class="wsmenucontent overlapblackbg"></div>
-    <div class="wsmenuexpandermain slideRight">
-        <a id="navToggle" class="animated-arrow slideLeft">
-            <span></span>
-        </a>
-    </div>
-    <div class="header_down">
+    <div class="header_down" id="header-down">
         <div class="container">
             <div class="wrapper clearfix bigmegamenu">
                 <!--Main Menu HTML Code-->
@@ -90,42 +134,6 @@
                                     <br/>搜索
                                 </button>
                             </form>
-                        </li>
-                        <li>
-                            <div class="visible-xs col-sm-offset-5 col-sm-4">
-                                <div class="col-sm-5">
-                                    <div class="weather">
-                                        <div class="weather__temperature">
-                                            <span class="icon-sun"></span>
-                                            <em>+8 C</em>
-                                        </div>
-                                        <div class="weather__city">
-                                            <em>London</em>
-                                            <div class="weather__city__list">
-                                                <ul>
-                                                    <li class="active">
-                                                        <a href="#">London</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">Moscow</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">Kiev</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-7">
-                                    <div class="exchange">
-                                        <p class="exchange__name">Central Bank Rate</p>
-                                        <p class="exchange__course">
-                                            $<span>32.32</span>&#8364;<span>28.23</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
                         </li>
                     </ul>
                 </nav>

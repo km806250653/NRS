@@ -15,7 +15,6 @@
     <script src="js/bootstrap.min.js"></script>
     <!-- Custom JavaScript -->
     <script src="js/main.js"></script>
-    <script type="text/javascript" src="js/getTopBar.js"></script>
     <title>404 Page</title>
 </head>
 <body>

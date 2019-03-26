@@ -9,13 +9,11 @@
 <html lang="zxx">
 <head>
     <meta charset="utf-8">
-    <meta name="referrer" content="never">
     <link href="../css/main.css" rel="stylesheet" type="text/css" />
     <!-- All JavaScript libraries -->
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/main.js"></script>
-    <script type="text/javascript" src="../js/getTopBar.js"></script>
     <title></title>
 </head>
 <body>

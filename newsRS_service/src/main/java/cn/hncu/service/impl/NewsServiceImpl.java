@@ -1,7 +1,8 @@
 package cn.hncu.service.impl;
 
 import cn.hncu.domain.News;
-import cn.hncu.mapper.INewsMapper;
+import cn.hncu.domain.NewsExample;
+import cn.hncu.mapper.NewsMapper;
 import cn.hncu.service.INewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,21 +16,24 @@ import java.util.List;
 public class NewsServiceImpl implements INewsService {
 
     @Autowired
-    private INewsMapper newsMapper;
+    private NewsMapper newsMapper;
 
 
     @Override
     public List<News> findByCid(Integer cid) {
-        return newsMapper.findByCid(cid);
+        NewsExample example = new NewsExample();
+        NewsExample.Criteria criteria = example.createCriteria();
+        criteria.andCidEqualTo(cid);
+        return newsMapper.selectByExample(example);
     }
 
     @Override
     public List<News> findAll() {
-        return newsMapper.findAll();
+        return newsMapper.selectByExample(null);
     }
 
     @Override
     public News findOne(Integer id) {
-        return newsMapper.findOne(id);
+        return newsMapper.selectByPrimaryKey(id);
     }
 }
