@@ -5,23 +5,18 @@
     <meta charset="utf-8">
 
     <!-- All JavaScript libraries -->
+    <link href="css/main.css" rel="stylesheet" type="text/css"/>
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="plugins/angularjs/angular.min.js"/>
     <title>新闻发布系统</title>
-    <%--<%!--%>
-        <%--String contextPath = request.getContextPath();--%>
-    <%--%>--%>
-    <%--<script>--%>
-        <%--contextPath=<%=contextPath%>--%>
-    <%--</script>--%>
 </head>
-<body>
+<body >
 <!-- Header -->
 <%@include file="pages/header.jsp"%>
 <!-- END header -->
 <!-- header slider -->
-
 <div class="slate_gray">
     <div class="container">
         <div class="row header_news_panel">

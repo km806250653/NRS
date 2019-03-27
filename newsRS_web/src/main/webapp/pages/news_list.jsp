@@ -17,10 +17,14 @@
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/main.js"></script>
+    <script src="../plugins/angularjs/angular.min.js"/>
+    <script src="../js/Bootstrap-paginator.js"/>
     <title></title>
 </head>
-<body class="page">
-<div class="wrapper-sticky-footer">
+<body class="page" >
+
+<div class="wrapper-sticky-footer" >
+
     <div class="content-sticky">
         <!-- Header -->
         <%@ include file="header.jsp" %>
@@ -28,9 +32,10 @@
         <!-- content-->
         <div class="wrap wrap_gray pt20">
             <div class="container">
-                <div class="row">
-                    <c:forEach items="${list}" var="news" varStatus="s">
-                        <div class="col-sm-3">
+
+                <div class="row" >
+                    <c:forEach items="${result.rows}" var="news" varStatus="s">
+                        <div class="col-sm-3" style="height: 300px">
                             <div class="thumbnail thumbnail_small">
                                 <a href=${pageContext.request.contextPath}/news/findOne?id=${news.id} class="thumbnail__link">
                                     <img src="../img/content/news2.jpg" height="153" width="270" alt="News">
@@ -62,6 +67,27 @@
                         </div>
                     </c:forEach>
                 </div>
+                    <ul class="pagination pagination-lg" id="page">
+                        <nav class="paging">
+                            <ul class="pagination pagination-lg" id="pagination">
+                                <li><a href="#" aria-label="Previous"><span aria-hidden="true"><<</span></a></li>
+                                <li><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                                <li><a href="#" aria-label="Next"><span aria-hidden="true">>></span></a></li>
+                            </ul>
+                        </nav>
+                    </ul>
+                <%--<a href="#">首页</a>--%>
+                <%--<a href="#">上一页</a>--%>
+                <%--<c:forEach begin="1" end="${result.total}" varStatus="s">--%>
+
+                    <%--<a href="#">${s.index}</a>--%>
+                <%--</c:forEach>--%>
+                <%--<a href="#">下一页</a>--%>
+                <%--<a href="#">末页</a>--%>
                 <div class="row">
                     <div class="ajax_load">
                         <i class="icon-arrows-cw"></i>Load more

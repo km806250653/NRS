@@ -1,6 +1,7 @@
 package cn.hncu.service.impl;
 
 import cn.hncu.domain.Category;
+import cn.hncu.domain.CategoryExample;
 import cn.hncu.mapper.CategoryMapper;
 import cn.hncu.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,13 @@ public class CategoryServiceImpl implements ICategoryService {
     @Autowired
     private CategoryMapper categoryMapper;
     @Override
-    public List<Category> findAll() {
-        return categoryMapper.selectByExample(null);
+    public List<Category> findAll(String type) {
+        CategoryExample example = new CategoryExample();
+        CategoryExample.Criteria criteria = example.createCriteria();
+        if(type.equals("more"))
+        criteria.andIdGreaterThanOrEqualTo(7);
+        else
+            criteria.andIdLessThanOrEqualTo(6);
+        return categoryMapper.selectByExample(example);
     }
 }

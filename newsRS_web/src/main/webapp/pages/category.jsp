@@ -16,7 +16,7 @@
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/main.js"></script>
-    <script type="text/javascript" src="../js/getTopBar.js"></script>
+    <script src="../plugins/angularjs/angular.min.js"/>
     <title></title>
 </head>
 <body>

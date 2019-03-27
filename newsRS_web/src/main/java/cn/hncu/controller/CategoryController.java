@@ -21,9 +21,8 @@ public class CategoryController {
     private ICategoryService categoryService;
 
     @RequestMapping("/findAll")
-    public @ResponseBody List<Category> findAll(){
-        List<Category> categories = categoryService.findAll();
-
+    public @ResponseBody List<Category> findAll(String type){
+        List<Category> categories = categoryService.findAll(type);
         return categories;
     }
 }

@@ -1,63 +1,55 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <meta name="referrer" content="never">
-    <script src="../js/jquery-3.3.1.min.js"/>
-    <script></script>
-    <link href="css/main.css" rel="stylesheet" type="text/css" />
-    <script>
-        $(function () {
-            $(".header").css("z-index","999");
-            $(".header").css("width","100%");
-            $(window).scroll(function () {
-                if($(window).scrollTop()>74){
-                    $(".header").css("position","fixed");
-                    $(".header__top").css("display","none");
-                }else {
-                    $(".header").css("position","relative");
-                    $(".header__top").css("display","");
-                }
-            });
-            path = getAbsolutePath(); //全局变量  http://ip:port/newsRS_web/
-            //设置主页按钮路径
-            $("#home a").prop("href",path+"index.jsp");
-            $.get(path+"category/findAll","",function (list) {
-                for (var i = 0; i <list.length ; i++) {
-                    if(i>6){             //超过六个时，多余的放入下拉框中
-                        li = '<li style="width: 100px">\n' +
-                            '                                    <a style="text-align: center" href="'+path+'news/findByCid?cid='+list[i].id+'">'+list[i].name+'</a>\n' +
-                            '                                </li>';
-                        $("#more_ul").append($(li));
-                    }
-                    else {
-                        li = '<li id="home" class="active">\n' +
-                            '                            <span class="wsmenu-click"></span>\n' +
-                            '                            <a href="'+path+'news/findByCid?cid='+list[i].id+'">'+list[i].name+'</a>\n' +
-                            '                        </li>';
-                        $("#more").before($(li));
-                    }
-                }
-            });
+<script></script>
+<script>
+    $(function () {
+        $(".header").css("z-index", "999");
+        $(".header").css("width", "100%");
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 74) {
+                $(".header").css("position", "fixed");
+                $(".header__top").css("display", "none");
+            } else {
+                $(".header").css("position", "relative");
+                $(".header__top").css("display", "");
+            }
         });
+        path = getAbsolutePath(); //全局变量  http://ip:port/newsRS_web/
+        //设置主页按钮路径
+        $("#home a").prop("href", path + "index.jsp");
+    });
 
-
-        function getAbsolutePath() {
-            var pathname = location.pathname; //newsRS_web/pages/news_list.jsp
-            // alert(pathname);
-            pathname=pathname.substring(1); // newsRS_web/pages/news_list.jsp
-            // alert(pathname);
-            pathname=pathname.substring(0,pathname.indexOf("/")+1); //newsRS_web/
-            // alert(pathname);
-            var href = location.href; //http://localhost:8080/newsRS_web/pages/news_list.jsp
-            // alert(href);
-            href=href.substring(0,href.indexOf(pathname)+pathname.length); // http://localhost:8080/newsRS_web/
-            // alert(href);
-            return href;
+    var app = angular.module("newsRS", []);
+    app.controller("header", function ($scope, $http) {
+        $scope.path = getAbsolutePath();
+        $scope.getSomeCategory = function () {
+            $http.get($scope.path + "category/findAll?type=first").success(function (response) {
+                $scope.categories = response;
+            });
         }
-    </script>
-</head>
-<body>
-<header id="header" class="header">
+        $scope.getAllCategory = function () {
+            $http.get($scope.path + "category/findAll?type=more").success(function (response) {
+                $scope.allCategories = response;
+            });
+        }
+
+    });
+
+
+    function getAbsolutePath() {
+        var pathname = location.pathname; //newsRS_web/pages/news_list.jsp
+        // alert(pathname);
+        pathname = pathname.substring(1); // newsRS_web/pages/news_list.jsp
+        // alert(pathname);
+        pathname = pathname.substring(0, pathname.indexOf("/") + 1); //newsRS_web/
+        // alert(pathname);
+        var href = location.href; //http://localhost:8080/newsRS_web/pages/news_list.jsp
+        // alert(href);
+        href = href.substring(0, href.indexOf(pathname) + pathname.length); // http://localhost:8080/newsRS_web/
+        // alert(href);
+        return href;
+    }
+</script>
+<header id="header" class="header"  ng-app="newsRS" ng-controller="header" ng-init="getSomeCategory()">
     <div class="header__top" id="header-top">
         <div class="container">
             <div class="row">
@@ -116,19 +108,25 @@
                             <a href="index.jsp">主页</a>
                         </li>
 
-                        <li id="more">
+                        <li class="active" ng-repeat="category in categories">
+                            <span class="wsmenu-click"></span>
+                            <a href="{{path}}news/findList?cid={{category.id}}&condition={{condition}}&currentPage=1&size=12">{{category.name}}</a>
+                        </li>
+
+                        <li id="more" ng-mouseenter="getAllCategory()">
                             <span class="wsmenu-click"></span>
                             <a href="">更多
-                                <span class="arrow"></span>
                             </a>
                             <ul class="wsmenu-submenu" id="more_ul">
+                                <li class="active" ng-repeat="category in allCategories">
+                                    <span class="wsmenu-click"></span>
+                                    <a href="{{path}}news/findList?cid={{category.id}}&condition={{condition}}&currentPage=1&size=12">{{category.name}}</a>
+                                </li>
                             </ul>
                         </li>
                         <li class="navbar-right hidden-xs">
                             <form class="navbar-form" role="search">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="搜索">
-                                </div>
+                                <input type="text" class="form-control" placeholder="搜索" ng-model="condition" id="condit">
                                 <button type="submit" class="btn btn-search">
                                     <i class="icon-search"></i>
                                     <br/>搜索
@@ -142,6 +140,4 @@
         </div>
     </div>
 </header>
-</body>
-</html>
 

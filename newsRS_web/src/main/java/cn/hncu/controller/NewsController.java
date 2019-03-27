@@ -1,6 +1,7 @@
 package cn.hncu.controller;
 
 import cn.hncu.domain.News;
+import cn.hncu.entity.ResultInfo;
 import cn.hncu.service.INewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,14 +27,22 @@ public class NewsController {
         return list;
     }
 
-    @RequestMapping("/findByCid")
-    public ModelAndView findByCid(ModelAndView mv,Integer cid){
-        List<News> list = newsService.findByCid(cid);
-        System.out.println(list);
-        mv.addObject("list",list);
+    @RequestMapping("/findList")
+    public ModelAndView findList(ModelAndView mv,Integer cid,String condition,Integer currentPage,Integer size){
+        ResultInfo result = newsService.findList(cid,condition,currentPage,size);
+        result.setCurrentPage(currentPage);
+        mv.addObject("result",result);
         mv.setViewName("news_list");
         return mv;
     }
+
+    @RequestMapping("/findaaa")
+    public @ResponseBody ResultInfo findaaa(){
+        ResultInfo result = newsService.findList(1,"人民",1,5);
+        return result;
+    }
+
+
 
     @RequestMapping("/findOne")
     public ModelAndView findOne(ModelAndView mv,Integer id){

@@ -14,6 +14,7 @@
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/main.js"></script>
+    <script src="../plugins/angularjs/angular.min.js"/>
     <title></title>
 </head>
 <body>
@@ -80,45 +81,12 @@
                     </ul>
                 </div>
             </div>
-                <%--正文上面的--%>
-            <div class="col-sm-12 col-md-9 p0 wrap-headline">
-                <img src="../img/content/article.jpg" alt="img" class="wrap-headline__img">
-                <div class="headline clearfix">
-                    <div class="headline__data">
-                        <a href="category.html" class="headline__category headline__category_orange">Policy</a>
-                        <p class="headline__category">today, 18:48</p>
-                    </div>
-                    <div class="share">
-                        <ul class="share__list">
-                            <li class="share__row">
-                                <a class="share__link share__link_bg-facebook" href="#">
-                                    <i class="bg bg_facebook">&ensp;</i>
-                                </a>
-                                <span class="share__number">13</span>
-                            </li>
-                            <li class="share__row">
-                                <a class="share__link share__link_bg-twitter" href="#">
-                                    <i class="bg bg_twitter">&ensp;</i>
-                                </a>
-                                <span class="share__number">26</span>
-                            </li>
-                            <li class="share__row">
-                                <a class="share__link share__link_bg-google" href="#">
-                                    <i class="bg bg_google">&ensp;</i>
-                                </a>
-                                <span class="share__number">17</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
                 <%--正文--%>
             <div class="col-sm-12 col-md-9 article_text">
                 <div class="current">
                     <h1 class="text-center yel_line current__title">${news.title}</h1>
                     ${news.content}
                     <p class="current__text"></p>
-                    <img src="../img/content/article2.jpg" alt="img" class="current__img">
                     <p class="current__text"></p>
                     <blockquote class="quote current__quote">Lorem</blockquote>
                     <p class="current__text">Duis aute </p>

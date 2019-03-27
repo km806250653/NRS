@@ -1,6 +1,7 @@
 package cn.hncu.service;
 
 import cn.hncu.domain.News;
+import cn.hncu.entity.ResultInfo;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -10,11 +11,11 @@ import java.util.List;
  */
 public interface INewsService {
 
-    @Select("select * from news where cid=#{cid}")
-    List<News> findByCid(Integer cid);
+    ResultInfo findList(Integer cid, String condition, int page, int size);
 
-    @Select("select * from news")
     List<News> findAll();
 
     News findOne(Integer id);
+
+    Integer insert(News news);
 }
