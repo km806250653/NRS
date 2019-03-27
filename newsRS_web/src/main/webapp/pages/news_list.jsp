@@ -19,6 +19,9 @@
     <script src="../js/main.js"></script>
     <script src="../plugins/angularjs/angular.min.js"/>
     <script src="../js/Bootstrap-paginator.js"/>
+    <script>
+
+    </script>
     <title></title>
 </head>
 <body class="page" >

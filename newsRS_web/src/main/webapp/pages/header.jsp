@@ -31,9 +31,7 @@
                 $scope.allCategories = response;
             });
         }
-
     });
-
 
     function getAbsolutePath() {
         var pathname = location.pathname; //newsRS_web/pages/news_list.jsp
@@ -49,7 +47,7 @@
         return href;
     }
 </script>
-<header id="header" class="header"  ng-app="newsRS" ng-controller="header" ng-init="getSomeCategory()">
+<header id="header" class="header" ng-app="newsRS" ng-controller="header" ng-init="getSomeCategory()" >
     <div class="header__top" id="header-top">
         <div class="container">
             <div class="row">
