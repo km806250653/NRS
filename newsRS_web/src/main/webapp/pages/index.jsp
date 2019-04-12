@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="zxx">
 <head>
@@ -9,14 +8,18 @@
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
-    <script src="plugins/angularjs/angular.min.js"/>
+    <script src="js/utils.js"></script>
+    <script src="plugins/angularjs/angular.min.js"></script>
+    <script src="js/base.js"></script>
+    <script src="js/controller/headerController.js"></script>
     <title>新闻发布系统</title>
 </head>
-<body >
+<body ng-app="newsRS" ng-controller="header" ng-init="getSomeCategory()">
 <!-- Header -->
-<%@include file="pages/header.jsp"%>
+<%@include file="header.jsp"%>
 <!-- END header -->
 <!-- header slider -->
+{{ss}}
 <div class="slate_gray">
     <div class="container">
         <div class="row header_news_panel">

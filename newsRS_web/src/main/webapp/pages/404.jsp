@@ -10,18 +10,22 @@
 <html lang="zxx">
 <head>
     <meta charset="utf-8">
-    <link href="css/main.css" rel="stylesheet" type="text/css" />
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <link href="../css/main.css" rel="stylesheet" type="text/css" />
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
     <!-- Custom JavaScript -->
-    <script src="js/main.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../plugins/angularjs/angular.min.js"></script>
+    <script src="../js/base.js"></script>
+    <script src="../js/controller/headerController.js"></script>
     <title>404 Page</title>
 </head>
-<body>
+<body ng-app="newsRS" ng-controller="header" ng-init="getSomeCategory()">
 <div class="wrapper-sticky-footer">
     <div class="content-sticky">
         <!-- Header -->
-        <%@include file="pages/header.jsp"%>
+        <%@include file="header.jsp"%>
         <!-- END header -->
         <!-- Content-->
         <div class="wrap-error">
@@ -37,7 +41,7 @@
                             <a href="#" class="link">Go back to previous page</a>
                         </li>
                         <li>
-                            <a href="index.html" class="link">Go to homepage</a>
+                            <a href="../" class="link">Go to homepage</a>
                         </li>
                     </ul>
                 </div>

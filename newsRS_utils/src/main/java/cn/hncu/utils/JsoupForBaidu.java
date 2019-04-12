@@ -8,6 +8,7 @@ import org.jsoup.select.Elements;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -90,5 +91,9 @@ public class JsoupForBaidu {
         String sql = "insert into news values (null,?,?,?,?,?,?,?)";
         int i = template.update(sql,title.text(),author_name.text(),new Date(),content,url,new Random().nextInt(11)+1,new Random().nextInt(2)+1);
         System.out.println("i = " + i);
+
+        int[] ints = new int[10];
+        int[] aa={1,2};
+        int[] ints1 = new int[]{12, 3};
     }
 }

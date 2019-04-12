@@ -1,53 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<script></script>
-<script>
-    $(function () {
-        $(".header").css("z-index", "999");
-        $(".header").css("width", "100%");
-        $(window).scroll(function () {
-            if ($(window).scrollTop() > 74) {
-                $(".header").css("position", "fixed");
-                $(".header__top").css("display", "none");
-            } else {
-                $(".header").css("position", "relative");
-                $(".header__top").css("display", "");
-            }
-        });
-        path = getAbsolutePath(); //全局变量  http://ip:port/newsRS_web/
-        //设置主页按钮路径
-        $("#home a").prop("href", path + "index.jsp");
-    });
-
-    var app = angular.module("newsRS", []);
-    app.controller("header", function ($scope, $http) {
-        $scope.path = getAbsolutePath();
-        $scope.getSomeCategory = function () {
-            $http.get($scope.path + "category/findAll?type=first").success(function (response) {
-                $scope.categories = response;
-            });
-        }
-        $scope.getAllCategory = function () {
-            $http.get($scope.path + "category/findAll?type=more").success(function (response) {
-                $scope.allCategories = response;
-            });
-        }
-    });
-
-    function getAbsolutePath() {
-        var pathname = location.pathname; //newsRS_web/pages/news_list.jsp
-        // alert(pathname);
-        pathname = pathname.substring(1); // newsRS_web/pages/news_list.jsp
-        // alert(pathname);
-        pathname = pathname.substring(0, pathname.indexOf("/") + 1); //newsRS_web/
-        // alert(pathname);
-        var href = location.href; //http://localhost:8080/newsRS_web/pages/news_list.jsp
-        // alert(href);
-        href = href.substring(0, href.indexOf(pathname) + pathname.length); // http://localhost:8080/newsRS_web/
-        // alert(href);
-        return href;
-    }
-</script>
-<header id="header" class="header" ng-app="newsRS" ng-controller="header" ng-init="getSomeCategory()" >
+<header id="header" class="header"  >
     <div class="header__top" id="header-top">
         <div class="container">
             <div class="row">
@@ -103,7 +55,7 @@
                     <ul id="" class="mobile-sub wsmenu-list">
                         <li id="home" class="active">
                             <span class="wsmenu-click"></span>
-                            <a href="index.jsp">主页</a>
+                            <a href="{{path}}" >主页</a>
                         </li>
 
                         <li class="active" ng-repeat="category in categories">
@@ -124,7 +76,7 @@
                         </li>
                         <li class="navbar-right hidden-xs">
                             <form class="navbar-form" role="search">
-                                <input type="text" class="form-control" placeholder="搜索" ng-model="condition" id="condit">
+                                <input type="text" class="form-control" placeholder="搜索" ng-model="condition" id="condition">
                                 <button type="submit" class="btn btn-search">
                                     <i class="icon-search"></i>
                                     <br/>搜索

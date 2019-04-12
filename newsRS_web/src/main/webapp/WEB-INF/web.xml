@@ -41,12 +41,14 @@
     </context-param>
 
 
-<!--    错误页面
+    <!--错误页面-->
 
 <error-page>
-        <error-code>403</error-code>
-        <location>/403.jsp</location>
+        <error-code>404</error-code>
+        <location>/404.jsp</location>
     </error-page>
--->
+    <welcome-file-list>
+        <welcome-file>pages/index.jsp</welcome-file>
+    </welcome-file-list>
 
 </web-app>

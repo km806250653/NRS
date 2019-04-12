@@ -16,9 +16,16 @@ public class JDBCUtils {
 
     static {
         Properties pro = new Properties();
-        InputStream is = JDBCUtils.class.getClassLoader().getResourceAsStream("druid.properties");
+//        InputStream is = JDBCUtils.class.getClassLoader().getResourceAsStream("druid.properties");
         try {
-            pro.load(is);
+//            pro.load(is);
+            pro.put("driverClassName","com.mysql.jdbc.Driver");
+            pro.put("url","jdbc:mysql://127.0.0.1:3306/nrs");
+            pro.put("username","root");
+            pro.put("password","123");
+            pro.put("initialSize","5");
+            pro.put("maxActive","10");
+            pro.put("maxWait","3000");
             ds = DruidDataSourceFactory.createDataSource(pro);
         } catch (IOException e) {
             e.printStackTrace();
