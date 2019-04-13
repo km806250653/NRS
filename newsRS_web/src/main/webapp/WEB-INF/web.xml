@@ -37,7 +37,7 @@
     </listener>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath*:applicationContext.xml</param-value>
+        <param-value>classpath*:applicationContext*.xml</param-value>
     </context-param>
 
 
@@ -45,7 +45,7 @@
 
 <error-page>
         <error-code>404</error-code>
-        <location>/404.jsp</location>
+        <location>/pages/404.jsp</location>
     </error-page>
     <welcome-file-list>
         <welcome-file>pages/index.jsp</welcome-file>

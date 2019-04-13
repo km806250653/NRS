@@ -15,13 +15,11 @@
     <script src="../js/bootstrap.min.js"></script>
     <!-- Custom JavaScript -->
     <script src="../js/main.js"></script>
-    <script src="../js/utils.js"></script>
     <script src="../plugins/angularjs/angular.min.js"></script>
     <script src="../js/base.js"></script>
-    <script src="../js/controller/headerController.js"></script>
     <title>404 Page</title>
 </head>
-<body ng-app="newsRS" ng-controller="header" ng-init="getSomeCategory()">
+<body ng-app="newsRS" ng-controller="baseController" ng-init="getSomeCategory()">
 <div class="wrapper-sticky-footer">
     <div class="content-sticky">
         <!-- Header -->

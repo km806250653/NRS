@@ -14,13 +14,11 @@
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/main.js"></script>
-    <script src="../js/utils.js"></script>
     <script src="../plugins/angularjs/angular.min.js"></script>
     <script src="../js/base.js"></script>
-    <script src="../js/controller/headerController.js"></script>
     <title></title>
 </head>
-<body ng-app="newsRS" ng-controller="header" ng-init="getSomeCategory()">
+<body ng-app="newsRS" ng-controller="baseController" ng-init="getSomeCategory()">
 <!-- Header -->
 <%@ include file="header.jsp"%>
 <!-- END header -->

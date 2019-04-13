@@ -17,17 +17,14 @@
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/main.js"></script>
-    <script src="../js/utils.js"></script>
     <script src="../plugins/angularjs/angular.min.js"></script>
     <script src="../js/base.js"></script>
-    <script src="../js/controller/headerController.js"></script>
-    <script src="../js/Bootstrap-paginator.js"/>
     <script>
 
     </script>
     <title></title>
 </head>
-<body class="page" ng-app="newsRS" ng-controller="header" ng-init="getSomeCategory()" >
+<body class="page" ng-app="newsRS" ng-controller="baseController" ng-init="getSomeCategory()" >
 
 <div class="wrapper-sticky-footer" >
 

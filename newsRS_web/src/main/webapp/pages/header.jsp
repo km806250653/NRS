@@ -1,4 +1,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<script>
+    $(function () {
+        $(".header").css("z-index", "999");
+        $(".header").css("width", "100%");
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 74) {
+                $(".header").css("position", "fixed");
+                $(".header__top").css("display", "none");
+            } else {
+                $(".header").css("position", "relative");
+                $(".header__top").css("display", "");
+            }
+        });
+    });
+</script>
 <header id="header" class="header"  >
     <div class="header__top" id="header-top">
         <div class="container">
