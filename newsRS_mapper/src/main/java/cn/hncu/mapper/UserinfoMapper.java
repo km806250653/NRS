@@ -1,7 +1,7 @@
 package cn.hncu.mapper;
 
-import cn.hncu.domain.Userinfo;
-import cn.hncu.domain.UserinfoExample;
+import cn.hncu.pojo.Userinfo;
+import cn.hncu.pojo.UserinfoExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

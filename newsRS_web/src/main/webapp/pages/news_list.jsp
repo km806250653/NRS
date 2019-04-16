@@ -19,35 +19,34 @@
     <script src="../js/main.js"></script>
     <script src="../plugins/angularjs/angular.min.js"></script>
     <script src="../js/base.js"></script>
-    <script>
-
-    </script>
+    <script src="../js/service/newsListService.js"></script>
+    <script src="../js/controller/newsListController.js"></script>
     <title></title>
 </head>
-<body class="page" ng-app="newsRS" ng-controller="baseController" ng-init="getSomeCategory()" >
+<body class="page" ng-app="newsRS" ng-controller="newsListController" ng-init="findList();randomNum()" >
 
 <div class="wrapper-sticky-footer" >
 
     <div class="content-sticky">
         <!-- Header -->
-        <%@ include file="header.jsp" %>
+        <%--<%@ include file="header.jsp" %>--%>
+        <div ng-include="'../pages/header.jsp'"></div>
         <!-- END header -->
         <!-- content-->
         <div class="wrap wrap_gray pt20">
             <div class="container">
 
                 <div class="row" >
-                    <c:forEach items="${result.rows}" var="news" varStatus="s">
-                        <div class="col-sm-3" style="height: 300px">
+                        <div class="col-sm-3" style="height: 300px" ng-repeat="entity in list">
                             <div class="thumbnail thumbnail_small">
-                                <a href=${pageContext.request.contextPath}/news/findOne?id=${news.id} class="thumbnail__link">
+                                <a href="{{path}}/news/findOne.do?id={{entity.id}}" class="thumbnail__link">
                                     <img src="../img/content/news2.jpg" height="153" width="270" alt="News">
                                 </a>
                                 <div class="caption thumbnail__caption">
                                     <div class="news caption__news">
                                         <p class="news__category yellow-line">Economy</p>
-                                        <a href=${pageContext.request.contextPath}/news/findOne?id=${news.id} class="news__link">
-                                            <p class="news__text">${news.title}</p>
+                                        <a href="{{path}}/news/findOne.do?id={{entity.id}}" class="news__link">
+                                            <p class="news__text">{{entity.title}}</p>
                                         </a>
                                     </div>
                                     <div class="posted">
@@ -68,7 +67,7 @@
                                 </div>
                             </div>
                         </div>
-                    </c:forEach>
+
                 </div>
                     <ul class="pagination pagination-lg" id="page">
                         <nav class="paging">

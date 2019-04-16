@@ -1,8 +1,6 @@
-package cn.hncu.domain;
+package cn.hncu.pojo;
 
-import java.io.Serializable;
-
-public class Category implements Serializable {
+public class Category {
     private Integer id;
 
     private String name;

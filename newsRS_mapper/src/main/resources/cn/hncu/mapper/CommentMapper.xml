@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.hncu.mapper.NewsMapper" >
-  <resultMap id="BaseResultMap" type="cn.hncu.domain.News" >
+<mapper namespace="cn.hncu.mapper.CommentMapper" >
+  <resultMap id="BaseResultMap" type="cn.hncu.pojo.Comment" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="author" property="author" jdbcType="VARCHAR" />
-    <result column="releaseDate" property="releasedate" jdbcType="TIMESTAMP" />
-    <result column="source" property="source" jdbcType="VARCHAR" />
-    <result column="cid" property="cid" jdbcType="INTEGER" />
+    <result column="nid" property="nid" jdbcType="INTEGER" />
     <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="release_time" property="releaseTime" jdbcType="DATE" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="cn.hncu.domain.News" extends="BaseResultMap" >
-    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  <resultMap id="ResultMapWithBLOBs" type="cn.hncu.pojo.Comment" extends="BaseResultMap" >
+    <result column="text" property="text" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -72,12 +70,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, title, author, releaseDate, source, cid, uid
+    id, nid, uid, text,release_time, status
   </sql>
   <sql id="Blob_Column_List" >
-    content
+    text
   </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="cn.hncu.domain.NewsExample" >
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="cn.hncu.pojo.CommentExample" >
     select
     <if test="distinct" >
       distinct
@@ -85,7 +83,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from news
+    from comment
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -93,13 +91,13 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.hncu.domain.NewsExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.hncu.pojo.CommentExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from news
+    from comment
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -112,114 +110,96 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from news
+    from comment
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from news
+    delete from comment
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="cn.hncu.domain.NewsExample" >
-    delete from news
+  <delete id="deleteByExample" parameterType="cn.hncu.pojo.CommentExample" >
+    delete from comment
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="cn.hncu.domain.News" >
-    insert into news (id, title, author, 
-      releaseDate, source, cid, 
-      uid, content)
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
-      #{releasedate,jdbcType=TIMESTAMP}, #{source,jdbcType=VARCHAR}, #{cid,jdbcType=INTEGER}, 
-      #{uid,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
+  <insert id="insert" parameterType="cn.hncu.pojo.Comment" >
+    insert into comment (id, nid, uid, 
+      release_time, status, varchar
+      )
+    values (#{id,jdbcType=INTEGER}, #{nid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, 
+      #{releaseTime,jdbcType=DATE}, #{status,jdbcType=VARCHAR}, #{text,jdbcType=LONGVARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="cn.hncu.domain.News" >
-    insert into news
+  <insert id="insertSelective" parameterType="cn.hncu.pojo.Comment" >
+    insert into comment
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="title != null" >
-        title,
-      </if>
-      <if test="author != null" >
-        author,
-      </if>
-      <if test="releasedate != null" >
-        releaseDate,
-      </if>
-      <if test="source != null" >
-        source,
-      </if>
-      <if test="cid != null" >
-        cid,
+      <if test="nid != null" >
+        nid,
       </if>
       <if test="uid != null" >
         uid,
       </if>
-      <if test="content != null" >
-        content,
+      <if test="releaseTime != null" >
+        release_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="text != null" >
+        text,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="title != null" >
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="author != null" >
-        #{author,jdbcType=VARCHAR},
-      </if>
-      <if test="releasedate != null" >
-        #{releasedate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="source != null" >
-        #{source,jdbcType=VARCHAR},
-      </if>
-      <if test="cid != null" >
-        #{cid,jdbcType=INTEGER},
+      <if test="nid != null" >
+        #{nid,jdbcType=INTEGER},
       </if>
       <if test="uid != null" >
         #{uid,jdbcType=INTEGER},
       </if>
-      <if test="content != null" >
-        #{content,jdbcType=LONGVARCHAR},
+      <if test="releaseTime != null" >
+        #{releaseTime,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="text != null" >
+        #{text,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="cn.hncu.domain.NewsExample" resultType="java.lang.Integer" >
-    select count(*) from news
+  <select id="countByExample" parameterType="cn.hncu.pojo.CommentExample" resultType="java.lang.Integer" >
+    select count(*) from comment
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update news
+    update comment
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.title != null" >
-        title = #{record.title,jdbcType=VARCHAR},
-      </if>
-      <if test="record.author != null" >
-        author = #{record.author,jdbcType=VARCHAR},
-      </if>
-      <if test="record.releasedate != null" >
-        releaseDate = #{record.releasedate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.source != null" >
-        source = #{record.source,jdbcType=VARCHAR},
-      </if>
-      <if test="record.cid != null" >
-        cid = #{record.cid,jdbcType=INTEGER},
+      <if test="record.nid != null" >
+        nid = #{record.nid,jdbcType=INTEGER},
       </if>
       <if test="record.uid != null" >
         uid = #{record.uid,jdbcType=INTEGER},
       </if>
-      <if test="record.content != null" >
-        content = #{record.content,jdbcType=LONGVARCHAR},
+      <if test="record.releaseTime != null" >
+        release_time = #{record.releaseTime,jdbcType=DATE},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.text != null" >
+        text = #{record.text,jdbcType=LONGVARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -227,78 +207,64 @@
     </if>
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update news
+    update comment
     set id = #{record.id,jdbcType=INTEGER},
-      title = #{record.title,jdbcType=VARCHAR},
-      author = #{record.author,jdbcType=VARCHAR},
-      releaseDate = #{record.releasedate,jdbcType=TIMESTAMP},
-      source = #{record.source,jdbcType=VARCHAR},
-      cid = #{record.cid,jdbcType=INTEGER},
+      nid = #{record.nid,jdbcType=INTEGER},
       uid = #{record.uid,jdbcType=INTEGER},
-      content = #{record.content,jdbcType=LONGVARCHAR}
+      release_time = #{record.releaseTime,jdbcType=DATE},
+      status = #{record.status,jdbcType=VARCHAR},
+      varchar = #{record.text,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update news
+    update comment
     set id = #{record.id,jdbcType=INTEGER},
-      title = #{record.title,jdbcType=VARCHAR},
-      author = #{record.author,jdbcType=VARCHAR},
-      releaseDate = #{record.releasedate,jdbcType=TIMESTAMP},
-      source = #{record.source,jdbcType=VARCHAR},
-      cid = #{record.cid,jdbcType=INTEGER},
-      uid = #{record.uid,jdbcType=INTEGER}
+      nid = #{record.nid,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      release_time = #{record.releaseTime,jdbcType=DATE},
+      status = #{record.status,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.hncu.domain.News" >
-    update news
+  <update id="updateByPrimaryKeySelective" parameterType="cn.hncu.pojo.Comment" >
+    update comment
     <set >
-      <if test="title != null" >
-        title = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="author != null" >
-        author = #{author,jdbcType=VARCHAR},
-      </if>
-      <if test="releasedate != null" >
-        releaseDate = #{releasedate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="source != null" >
-        source = #{source,jdbcType=VARCHAR},
-      </if>
-      <if test="cid != null" >
-        cid = #{cid,jdbcType=INTEGER},
+      <if test="nid != null" >
+        nid = #{nid,jdbcType=INTEGER},
       </if>
       <if test="uid != null" >
         uid = #{uid,jdbcType=INTEGER},
       </if>
-      <if test="content != null" >
-        content = #{content,jdbcType=LONGVARCHAR},
+      <if test="releaseTime != null" >
+        release_time = #{releaseTime,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="text != null" >
+        text = #{text,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.hncu.domain.News" >
-    update news
-    set title = #{title,jdbcType=VARCHAR},
-      author = #{author,jdbcType=VARCHAR},
-      releaseDate = #{releasedate,jdbcType=TIMESTAMP},
-      source = #{source,jdbcType=VARCHAR},
-      cid = #{cid,jdbcType=INTEGER},
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.hncu.pojo.Comment" >
+    update comment
+    set nid = #{nid,jdbcType=INTEGER},
       uid = #{uid,jdbcType=INTEGER},
-      content = #{content,jdbcType=LONGVARCHAR}
+      release_time = #{releaseTime,jdbcType=DATE},
+      status = #{status,jdbcType=VARCHAR},
+      varchar = #{text,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.hncu.domain.News" >
-    update news
-    set title = #{title,jdbcType=VARCHAR},
-      author = #{author,jdbcType=VARCHAR},
-      releaseDate = #{releasedate,jdbcType=TIMESTAMP},
-      source = #{source,jdbcType=VARCHAR},
-      cid = #{cid,jdbcType=INTEGER},
-      uid = #{uid,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="cn.hncu.pojo.Comment" >
+    update comment
+    set nid = #{nid,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      release_time = #{releaseTime,jdbcType=DATE},
+      status = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

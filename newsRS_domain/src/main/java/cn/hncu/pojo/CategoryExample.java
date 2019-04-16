@@ -1,4 +1,4 @@
-package cn.hncu.domain;
+package cn.hncu.pojo;
 
 import java.util.ArrayList;
 import java.util.List;

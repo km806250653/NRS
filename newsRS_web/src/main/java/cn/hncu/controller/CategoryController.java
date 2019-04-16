@@ -1,10 +1,9 @@
 package cn.hncu.controller;
 
-import cn.hncu.domain.Category;
+import cn.hncu.pojo.Category;
 import cn.hncu.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,7 +20,8 @@ public class CategoryController {
     private ICategoryService categoryService;
 
     @RequestMapping("/findAll")
-    public @ResponseBody List<Category> findAll(String type){
+    @ResponseBody
+    public List<Category> findAll(String type){
         List<Category> categories = categoryService.findAll(type);
         return categories;
     }

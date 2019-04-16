@@ -1,7 +1,7 @@
 package cn.hncu.mapper;
 
-import cn.hncu.domain.News;
-import cn.hncu.domain.NewsExample;
+import cn.hncu.pojo.News;
+import cn.hncu.pojo.NewsExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

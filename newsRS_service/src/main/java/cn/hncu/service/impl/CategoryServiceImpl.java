@@ -1,7 +1,7 @@
 package cn.hncu.service.impl;
 
-import cn.hncu.domain.Category;
-import cn.hncu.domain.CategoryExample;
+import cn.hncu.pojo.Category;
+import cn.hncu.pojo.CategoryExample;
 import cn.hncu.mapper.CategoryMapper;
 import cn.hncu.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;

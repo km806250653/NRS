@@ -1,7 +1,6 @@
 package cn.hncu.controller;
 
-import cn.hncu.domain.News;
-import cn.hncu.entity.ResultInfo;
+import cn.hncu.pojo.News;
 import cn.hncu.service.INewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,26 +20,12 @@ public class NewsController {
     @Autowired
     private INewsService newsService;
 
-    @RequestMapping("/findAll")
-    public @ResponseBody List<News> findAll(){
-        List<News> list = newsService.findAll();
-        return list;
-    }
 
     @RequestMapping("/findList")
-    public ModelAndView findList(ModelAndView mv,Integer cid,String condition,Integer currentPage,Integer size){
-        ResultInfo result = newsService.findList(cid,condition,currentPage,size);
-        result.setCurrentPage(currentPage);
-        mv.addObject("result",result);
-        mv.setViewName("news_list");
-        return mv;
+    public @ResponseBody List<News> findList(Integer cid){
+        return newsService.findListByCid(cid);
     }
 
-    @RequestMapping("/findaaa")
-    public @ResponseBody ResultInfo findaaa(){
-        ResultInfo result = newsService.findList(1,"人民",1,5);
-        return result;
-    }
 
 
 

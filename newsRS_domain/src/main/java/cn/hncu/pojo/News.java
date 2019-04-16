@@ -1,23 +1,8 @@
-package cn.hncu.domain;
+package cn.hncu.pojo;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class News implements Serializable {
-    @Override
-    public String toString() {
-        return "News{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", releasedate=" + releasedate +
-                ", source='" + source + '\'' +
-                ", cid=" + cid +
-                ", uid=" + uid +
-                ", content='" + content + '\'' +
-                '}';
-    }
-
+public class News {
     private Integer id;
 
     private String title;

@@ -16,11 +16,15 @@
     <script src="../js/main.js"></script>
     <script src="../plugins/angularjs/angular.min.js"></script>
     <script src="../js/base.js"></script>
+
     <title></title>
 </head>
 <body ng-app="newsRS" ng-controller="baseController" ng-init="getSomeCategory()">
+    <div value="${news.id}" ng-model="nid"></div>
+    {{nid}}
 <!-- Header -->
-<%@ include file="header.jsp"%>
+<%--<%@ include file="header.jsp"%>--%>
+<div ng-include="'../pages/header.jsp'"></div>
 <!-- END header -->
 <!-- header slider -->
 <div class="wrapper">

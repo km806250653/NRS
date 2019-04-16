@@ -10,14 +10,15 @@
     <script src="js/main.js"></script>
     <script src="plugins/angularjs/angular.min.js"></script>
     <script src="js/base.js"></script>
+    <script src="js/controller/indexController.js"></script>
     <title>新闻发布系统</title>
 </head>
-<body ng-app="newsRS" ng-controller="baseController" ng-init="getSomeCategory()">
+<body  ng-app="newsRS" ng-controller="indexController">
 <!-- Header -->
-<%@include file="header.jsp"%>
+<%--<%@include file="header.jsp"%>--%>
+<div ng-include="'pages/header.jsp'"></div>
 <!-- END header -->
 <!-- header slider -->
-{{ss}}
 <div class="slate_gray">
     <div class="container">
         <div class="row header_news_panel">

@@ -1,8 +1,6 @@
-package cn.hncu.domain;
+package cn.hncu.pojo;
 
-import java.io.Serializable;
-
-public class Userinfo implements Serializable {
+public class Userinfo {
     private Integer id;
 
     private String username;

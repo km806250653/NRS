@@ -1,7 +1,7 @@
 package cn.hncu.mapper;
 
-import cn.hncu.domain.Category;
-import cn.hncu.domain.CategoryExample;
+import cn.hncu.pojo.Category;
+import cn.hncu.pojo.CategoryExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

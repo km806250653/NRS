@@ -23,7 +23,9 @@
 <div class="wrapper-sticky-footer">
     <div class="content-sticky">
         <!-- Header -->
-        <%@include file="header.jsp"%>
+        <%--<%@include file="header.jsp"%>--%>
+        {{path}}
+        <div ng-include="'../pages/header.jsp'"></div>
         <!-- END header -->
         <!-- Content-->
         <div class="wrap-error">

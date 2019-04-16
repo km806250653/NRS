@@ -1,6 +1,6 @@
 package cn.hncu.service;
 
-import cn.hncu.domain.Category;
+import cn.hncu.pojo.Category;
 
 import java.util.List;
 

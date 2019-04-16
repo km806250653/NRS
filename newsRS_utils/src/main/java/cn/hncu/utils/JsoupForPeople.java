@@ -1,16 +1,11 @@
 package cn.hncu.utils;
 
-import cn.hncu.domain.News;
-import cn.hncu.service.impl.NewsServiceImpl;
-import com.alibaba.druid.pool.DruidDataSourceFactory;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.junit.runner.RunWith;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 import java.text.ParseException;

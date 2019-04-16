@@ -22,7 +22,8 @@
 </head>
 <body ng-app="newsRS" ng-controller="baseController" ng-init="getSomeCategory()">
 <!-- Header -->
-<%@ include file="header.jsp"%>
+<%--<%@ include file="header.jsp"%>--%>
+<div ng-include="'../pages/header.jsp'"></div>
 <!-- END header -->
 <!-- header slider -->
 <section>

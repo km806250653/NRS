@@ -2,10 +2,10 @@ var app = angular.module('newsRS',[]);
 app.service('baseService',function ($http) {
     path=getAbsolutePath();
     this.getSomeCategory = function () {
-        return $http.get(path + "category/findAll?type=first");
+        return $http.get(path + "category/findAll.do?type=first");
     }
     this.getAllCategory = function () {
-        return $http.get(path + "category/findAll?type=more");
+        return $http.get(path + "category/findAll.do?type=more");
     }
 });
 app.controller('baseController',function ($scope,baseService) {

@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="col-sm-3">
                     <div class="wrap-logo">
-                        <a href="index.jsp" class="logo"></a>
+                        <h1><a href="{{path}}" >空名NEWS</a></h1>
                     </div>
                 </div>
                 <div class="col-sm-offset-2 col-md-offset-5 col-sm-6 col-md-4 hidden-xs">
@@ -33,17 +33,17 @@
                                 <em>+3 C</em>
                             </div>
                             <div class="weather__city">
-                                <em>London</em>
+                                <em>武汉</em>
                                 <div class="weather__city__list">
                                     <ul>
                                         <li class="active">
-                                            <a href="#">London</a>
+                                            <a href="#">中华人民共和国</a>
                                         </li>
                                         <li>
-                                            <a href="#">Moscow</a>
+                                            <a href="#">湖北</a>
                                         </li>
                                         <li>
-                                            <a href="#">Kiev</a>
+                                            <a href="#">武汉</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -63,10 +63,12 @@
         </div>
     </div>
     <div class="header_down" id="header-down">
-        <div class="container">
-            <div class="wrapper clearfix bigmegamenu">
+        <%--style="width: 100%"--%>
+        <div class="container" >
+            <div class="wrapper clearfix bigmegamenu" >
                 <!--Main Menu HTML Code-->
-                <nav class="wsmenu slideLeft clearfix">
+                <%--style="margin-left: 8%;margin-right: 8%"--%>
+                <nav class="wsmenu slideLeft clearfix" >
                     <ul id="" class="mobile-sub wsmenu-list">
                         <li id="home" class="active">
                             <span class="wsmenu-click"></span>
@@ -75,7 +77,7 @@
 
                         <li class="active" ng-repeat="category in categories">
                             <span class="wsmenu-click"></span>
-                            <a href="{{path}}news/findList?cid={{category.id}}&condition={{condition}}&currentPage=1&size=12">{{category.name}}</a>
+                            <a href="{{path}}pages/news_list.jsp?{{random}}#?cid={{category.id}}">{{category.name}}</a>
                         </li>
 
                         <li id="more" ng-mouseenter="getAllCategory()">
@@ -85,11 +87,11 @@
                             <ul class="wsmenu-submenu" id="more_ul">
                                 <li class="active" ng-repeat="category in allCategories">
                                     <span class="wsmenu-click"></span>
-                                    <a href="{{path}}news/findList?cid={{category.id}}&condition={{condition}}&currentPage=1&size=12">{{category.name}}</a>
+                                    <a href="{{path}}pages/news_list.jsp?{{random}}#?cid={{category.id}}" >{{category.name}}</a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="navbar-right hidden-xs">
+                        <li class="hidden-xs">
                             <form class="navbar-form" role="search">
                                 <input type="text" class="form-control" placeholder="搜索" ng-model="condition" id="condition">
                                 <button type="submit" class="btn btn-search">
@@ -98,7 +100,15 @@
                                 </button>
                             </form>
                         </li>
+                        <li class="right-arrow-button">
+                            <div class="top-header-left">
+                                <a href="{{path}}pages/register.html">注册</a>
+                                <a href="#">登录</a>
+                                <a href="javascript:void(0)">我是管理员</a>
+                            </div> <!-- /.top-header-left -->
+                        </li>
                     </ul>
+
                 </nav>
                 <!--Menu HTML Code-->
             </div>

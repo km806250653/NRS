@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.hncu.mapper.UserinfoMapper" >
-  <resultMap id="BaseResultMap" type="cn.hncu.domain.Userinfo" >
+  <resultMap id="BaseResultMap" type="cn.hncu.pojo.Userinfo" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
@@ -75,7 +75,7 @@
     id, username, password, name, email, phone_number, own_page, ismanager, isactivated, 
     code
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.hncu.domain.UserinfoExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.hncu.pojo.UserinfoExample" >
     select
     <if test="distinct" >
       distinct
@@ -99,13 +99,13 @@
     delete from userinfo
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="cn.hncu.domain.UserinfoExample" >
+  <delete id="deleteByExample" parameterType="cn.hncu.pojo.UserinfoExample" >
     delete from userinfo
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="cn.hncu.domain.Userinfo" >
+  <insert id="insert" parameterType="cn.hncu.pojo.Userinfo" >
     insert into userinfo (id, username, password, 
       name, email, phone_number, 
       own_page, ismanager, isactivated, 
@@ -115,7 +115,7 @@
       #{ownPage,jdbcType=VARCHAR}, #{ismanager,jdbcType=VARCHAR}, #{isactivated,jdbcType=VARCHAR}, 
       #{code,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="cn.hncu.domain.Userinfo" >
+  <insert id="insertSelective" parameterType="cn.hncu.pojo.Userinfo" >
     insert into userinfo
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -182,7 +182,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="cn.hncu.domain.UserinfoExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="cn.hncu.pojo.UserinfoExample" resultType="java.lang.Integer" >
     select count(*) from userinfo
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -242,7 +242,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.hncu.domain.Userinfo" >
+  <update id="updateByPrimaryKeySelective" parameterType="cn.hncu.pojo.Userinfo" >
     update userinfo
     <set >
       <if test="username != null" >
@@ -275,7 +275,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.hncu.domain.Userinfo" >
+  <update id="updateByPrimaryKey" parameterType="cn.hncu.pojo.Userinfo" >
     update userinfo
     set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
