@@ -30,11 +30,29 @@ public class CommentServiceImpl implements ICommentService {
         CommentExample example = new CommentExample();
         CommentExample.Criteria criteria = example.createCriteria();
         criteria.andNidEqualTo(nid);
-        List<Comment> comments = commentMapper.selectByExample(example);
+        criteria.andParentIdIsNull();
+        List<Comment> comments = commentMapper.selectByExampleWithBLOBs(example);
         comments.forEach(comment -> {
-            Userinfo user = userMapper.selectByPrimaryKey(comment.getUid());
-            list.add(new CommUserGroup(comment,user));
+            Userinfo user = userMapper.selectByPrimaryKey(comment.getId());
+            CommUserGroup commUserGroup = new CommUserGroup(comment, user);
+            commUserGroup.setChildren(findByParentId(comment.getId()));
+            list.add(commUserGroup);
         });
         return list;
     }
+
+    @Override
+    public List<CommUserGroup> findByParentId(Integer pid) {
+        ArrayList<CommUserGroup> list = new ArrayList<>();
+        CommentExample example = new CommentExample();
+        CommentExample.Criteria criteria = example.createCriteria();
+        criteria.andParentIdEqualTo(pid);
+        List<Comment> children = commentMapper.selectByExampleWithBLOBs(example);
+        children.forEach(child->{
+            Userinfo user = userMapper.selectByPrimaryKey(child.getUid());
+            list.add(new CommUserGroup(child,user));
+        });
+        return list;
+    }
+
 }

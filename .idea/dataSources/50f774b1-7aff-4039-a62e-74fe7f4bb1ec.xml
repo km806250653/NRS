@@ -5177,7 +5177,7 @@ User</ColNames>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="1070" parent="282" name="name">
+    <column id="1070" parent="282" name="text">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>

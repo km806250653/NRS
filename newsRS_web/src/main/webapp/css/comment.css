@@ -1,0 +1,91 @@
+.comment .children {
+    padding-left: 8%; }
+
+.comment-list > li:first-child > .comment-body {
+    border-top: 0;
+    padding-top: 0; }
+
+.comment-body {
+    margin-bottom: 24px;
+    padding-top: 24px;
+    border-top: 1px solid #ebeeef; }
+
+.comment-text {
+    overflow: hidden; }
+.comment-text p {
+    margin-bottom: 10px; }
+
+.comment-avatar {
+    float: left;
+    margin-right: 20px;
+    display: block;
+    border-radius: 50%;
+    overflow: hidden; }
+
+.comment-author {
+    font-family: "Open Sans", sans-serif;
+    font-size: 15px;
+    display: block;
+    margin-bottom: 5px; }
+
+.comment-date, .comment-edit-link {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-size: 13px;
+    font-style: italic;
+    color: #adb6b9; }
+
+.comment-edit-link {
+    margin-left: 5px;
+    margin-bottom: 0;
+    color: #fc6d41; }
+
+.comment-reply {
+    color: #404648;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600; }
+.comment-reply:hover {
+    color: #fc6d41; }
+
+/* Comment Form
+/*-------------------------------------------------------*/
+.comment-form p {
+    margin: 0; }
+
+.comment-respond {
+    margin-top: 40px; }
+
+/*-------------------------------------------------------*/
+/* Pagination
+/*-------------------------------------------------------*/
+.pagination__page {
+    font-size: 15px;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    line-height: 30px;
+    margin-right: 2px;
+    border-radius: 2px;
+    text-align: center;
+    font-family: "Open Sans", sans-serif;
+    border: 1px solid #ebeeef;
+    color: #404648;
+    vertical-align: middle; }
+.pagination__page:not(span):hover {
+    background-color: #fc6d41;
+    border-color: transparent;
+    color: #fff; }
+.pagination__page--current {
+    background-color: #fc6d41;
+    color: #fff;
+    border-color: transparent; }
+
+.pagination__icon {
+    font-size: 12px; }
+
+p {
+    font-size: 16px;
+    color: #878c8e;
+    font-weight: normal;
+    line-height: 26px;
+    margin: 0 0 10px; }

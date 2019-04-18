@@ -39,13 +39,13 @@
                 <div class="row" >
                         <div class="col-sm-3" style="height: 300px" ng-repeat="entity in list">
                             <div class="thumbnail thumbnail_small">
-                                <a href="{{path}}/news/findOne.do?id={{entity.id}}" class="thumbnail__link">
+                                <a href="{{path}}news/findOne.do?id={{entity.id}}" class="thumbnail__link">
                                     <img src="../img/content/news2.jpg" height="153" width="270" alt="News">
                                 </a>
                                 <div class="caption thumbnail__caption">
                                     <div class="news caption__news">
                                         <p class="news__category yellow-line">Economy</p>
-                                        <a href="{{path}}/news/findOne.do?id={{entity.id}}" class="news__link">
+                                        <a href="{{path}}news/findOne.do?id={{entity.id}}" class="news__link">
                                             <p class="news__text">{{entity.title}}</p>
                                         </a>
                                     </div>

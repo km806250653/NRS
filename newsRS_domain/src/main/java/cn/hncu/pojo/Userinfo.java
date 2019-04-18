@@ -21,6 +21,8 @@ public class Userinfo {
 
     private String code;
 
+    private String image;
+
     public Integer getId() {
         return id;
     }
@@ -99,5 +101,13 @@ public class Userinfo {
 
     public void setCode(String code) {
         this.code = code == null ? null : code.trim();
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image == null ? null : image.trim();
     }
 }

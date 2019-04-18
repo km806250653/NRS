@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -16,13 +17,19 @@ import java.util.Random;
  */
 @WebServlet("/checkCode")
 public class CheckCodeServlet extends HttpServlet {
+	int a=1;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		
 		//服务器通知浏览器不要缓存
 		response.setHeader("pragma","no-cache");
 		response.setHeader("cache-control","no-cache");
 		response.setHeader("expires","0");
-		
+		ArrayList<Object> objects = new ArrayList<>();
+		class aaa{
+			int a=1;
+			void ss(){
+			}
+		}
 		//在内存中创建一个长80，宽30的图片，默认黑色背景
 		//参数一：长
 		//参数二：宽

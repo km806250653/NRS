@@ -3,7 +3,7 @@ package cn.hncu.pojo;
 public class Category {
     private Integer id;
 
-    private String name;
+    private String text;
 
     public Integer getId() {
         return id;
@@ -13,11 +13,11 @@ public class Category {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getText() {
+        return text;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setText(String text) {
+        this.text = text == null ? null : text.trim();
     }
 }

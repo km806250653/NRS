@@ -9,5 +9,7 @@ import java.util.List;
  * Created by Enzo Cotter on 2019/4/16.
  */
 public interface ICommentService {
-    public List<CommUserGroup> findByNid(Integer nid);
+    List<CommUserGroup> findByNid(Integer nid);
+
+    List<CommUserGroup> findByParentId(Integer pid);
 }

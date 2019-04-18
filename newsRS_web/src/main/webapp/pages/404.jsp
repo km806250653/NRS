@@ -24,7 +24,6 @@
     <div class="content-sticky">
         <!-- Header -->
         <%--<%@include file="header.jsp"%>--%>
-        {{path}}
         <div ng-include="'../pages/header.jsp'"></div>
         <!-- END header -->
         <!-- Content-->
@@ -41,7 +40,7 @@
                             <a href="#" class="link">Go back to previous page</a>
                         </li>
                         <li>
-                            <a href="../" class="link">Go to homepage</a>
+                            <a href="{{path}}" class="link">Go to homepage</a>
                         </li>
                     </ul>
                 </div>

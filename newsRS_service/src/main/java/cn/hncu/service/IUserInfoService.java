@@ -7,4 +7,6 @@ import cn.hncu.pojo.Userinfo;
  */
 public interface IUserInfoService {
     public void register(Userinfo user);
+
+    public Userinfo getUserByUsername(String username);
 }

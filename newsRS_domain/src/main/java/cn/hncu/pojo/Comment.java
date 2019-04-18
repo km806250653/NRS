@@ -1,5 +1,7 @@
 package cn.hncu.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Comment {
@@ -9,9 +11,12 @@ public class Comment {
 
     private Integer uid;
 
+    @JsonFormat(pattern = "yyyy,MM-dd hh:mm")
     private Date releaseTime;
 
     private String status;
+
+    private Integer parentId;
 
     private String text;
 
@@ -53,6 +58,14 @@ public class Comment {
 
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
+    }
+
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
     public String getText() {

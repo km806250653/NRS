@@ -3,12 +3,23 @@ package cn.hncu.pojo_group;
 import cn.hncu.pojo.Comment;
 import cn.hncu.pojo.Userinfo;
 
+import java.util.List;
+
 /**
  * Created by Enzo Cotter on 2019/4/16.
  */
 public class CommUserGroup {
     private Comment comment;
     private Userinfo user;
+    private List<CommUserGroup> children;
+
+    public List<CommUserGroup> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<CommUserGroup> children) {
+        this.children = children;
+    }
 
     public CommUserGroup() {
     }

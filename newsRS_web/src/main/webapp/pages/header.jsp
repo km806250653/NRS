@@ -14,6 +14,14 @@
         });
     });
 </script>
+<style>
+    .comment-avatar {
+        float: left;
+        margin-right: 20px;
+        display: block;
+        border-radius: 50%;
+        overflow: hidden; }
+</style>
 <header id="header" class="header"  >
     <div class="header__top" id="header-top">
         <div class="container">
@@ -26,35 +34,30 @@
                 <div class="col-sm-offset-2 col-md-offset-5 col-sm-6 col-md-4 hidden-xs">
                     <div class="col-xs-4 col-sm-5">
                         <div class="weather">
-                            <div class="weather__temperature">
-                                <span class="icon-sun"></span>
-                                <em class="active">+8 C</em>
-                                <em>+2 C</em>
-                                <em>+3 C</em>
+                            <div class="exchange__name">
+                                <em>{{weather.city}}</em>
                             </div>
-                            <div class="weather__city">
-                                <em>武汉</em>
+                            <div class="weather__temperature">
                                 <div class="weather__city__list">
                                     <ul>
-                                        <li class="active">
-                                            <a href="#">中华人民共和国</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">湖北</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">武汉</a>
+                                        <%--class="active"--%>
+                                        <li ng-repeat="date in weather.data">
+                                            <a href="javascript:void(0)" ng-click="chooseDate($index)">{{date.day}}</a>
                                         </li>
                                     </ul>
                                 </div>
+                            </div>
+                            <div class="weather__city">
+                                <em>{{selectDate.day}}</em>
                             </div>
                         </div>
                     </div>
                     <div class="col-xs-6 col-sm-7">
                         <div class="exchange">
-                            <p class="exchange__name">Central Bank Rate</p>
+                            <p class="exchange__name">{{time}}</p>
                             <p class="exchange__course">
-                                $<span>32.32</span>&#8364;<span>28.23</span>
+                                <img src="{{path}}img/icon/{{selectDate.wea_img}}.png" style="width: 20px;height: 20px">
+                                <em class="active">{{selectDate.tem}}</em>
                             </p>
                         </div>
                     </div>
@@ -68,6 +71,7 @@
             <div class="wrapper clearfix bigmegamenu" >
                 <!--Main Menu HTML Code-->
                 <%--style="margin-left: 8%;margin-right: 8%"--%>
+                <%--<iframe scrolling="no" src="https://tianqiapi.com/api.php?style=tx&skin=orange" frameborder="0" width="100%" height="30" allowtransparency="true"></iframe>--%>
                 <nav class="wsmenu slideLeft clearfix" >
                     <ul id="" class="mobile-sub wsmenu-list">
                         <li id="home" class="active">
@@ -77,17 +81,17 @@
 
                         <li class="active" ng-repeat="category in categories">
                             <span class="wsmenu-click"></span>
-                            <a href="{{path}}pages/news_list.jsp?{{random}}#?cid={{category.id}}">{{category.name}}</a>
+                            <a href="{{path}}pages/news_list.jsp?{{random}}#?cid={{category.id}}">{{category.text}}</a>
                         </li>
 
-                        <li id="more" ng-mouseenter="getAllCategory()">
+                        <li  ng-mouseenter="getAllCategory()">
                             <span class="wsmenu-click"></span>
                             <a href="">更多
                             </a>
-                            <ul class="wsmenu-submenu" id="more_ul">
+                            <ul class="wsmenu-submenu" >
                                 <li class="active" ng-repeat="category in allCategories">
                                     <span class="wsmenu-click"></span>
-                                    <a href="{{path}}pages/news_list.jsp?{{random}}#?cid={{category.id}}" >{{category.name}}</a>
+                                    <a href="{{path}}pages/news_list.jsp?{{random}}#?cid={{category.id}}" >{{category.text}}</a>
                                 </li>
                             </ul>
                         </li>
@@ -101,12 +105,22 @@
                             </form>
                         </li>
                         <li class="right-arrow-button">
-                            <div class="top-header-left">
-                                <a href="{{path}}pages/register.html">注册</a>
-                                <a href="#">登录</a>
-                                <a href="javascript:void(0)">我是管理员</a>
-                            </div> <!-- /.top-header-left -->
+                            <span class="wsmenu-click"></span>
+                            <div class="comment-avatar">
+                                <img alt="" src="img/comment_2.jpg">
+                            </div>
+                            <ul class="wsmenu-submenu" >
+                                <li class="active" >
+                                    <span class="wsmenu-click"></span>
+                                    <a href="{{path}}pages/register.html">注册</a>
+                                </li>
+                                <li class="active" >
+                                    <span class="wsmenu-click"></span>
+                                    <a href="{{path}}user/login.do">登录</a>
+                                </li>
+                            </ul>
                         </li>
+
                     </ul>
 
                 </nav>

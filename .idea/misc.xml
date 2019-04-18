@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/casdemo" />
+    <file type="web" url="file://$PROJECT_DIR$/casdemo2" />
+    <file type="web" url="file://$PROJECT_DIR$/casdemo3" />
     <file type="web" url="file://$PROJECT_DIR$/newsRS_web" />
   </component>
   <component name="JavaScriptSettings">

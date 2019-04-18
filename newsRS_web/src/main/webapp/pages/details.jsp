@@ -10,18 +10,20 @@
 <head>
     <meta charset="utf-8">
     <link href="../css/main.css" rel="stylesheet" type="text/css" />
+    <link href="../css/comment.css" rel="stylesheet" type="text/css" />
     <!-- All JavaScript libraries -->
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/main.js"></script>
     <script src="../plugins/angularjs/angular.min.js"></script>
     <script src="../js/base.js"></script>
+    <script src="../js/service/detailService.js"></script>
+    <script src="../js/controller/detailController.js"></script>
 
     <title></title>
 </head>
-<body ng-app="newsRS" ng-controller="baseController" ng-init="getSomeCategory()">
-    <div value="${news.id}" ng-model="nid"></div>
-    {{nid}}
+<body ng-app="newsRS" ng-controller="detailController" ng-init="findComment(${news.id})">
+
 <!-- Header -->
 <%--<%@ include file="header.jsp"%>--%>
 <div ng-include="'../pages/header.jsp'"></div>
@@ -99,7 +101,7 @@
             </div>
                 <%--标签--%>
             <div class="col-sm-12 col-md-9 tags">
-                <p>Tags:</p>
+                <p>标签:</p>
                 <ul>
                     <li>
                         <a href="#" title="World" class="font">World</a>
@@ -113,47 +115,52 @@
                 </ul>
             </div>
                 <%--评论--%>
+
             <div class="col-sm-9 col-md-8 col-lg-6 comments">
-                <p class="comments__title">Comments</p>
-                <div class="comments__media">
-                    <div class="media-middle">
-                        <i class="media-object" style="background-image: url('img/content/comment.png')"></i>
-                        <div class="comm_info">
-                            <h4 class="media-heading">Maria</h4>
-                            <span class="time">today, 12:30</span>
+                <p class="comments__title">笔削褒贬</p>
+
+
+                <ul class="comment-list">
+                    <li class="comment" ng-repeat="entity in list">
+                        <div class="comment-body">
+                            <div class="comment-avatar">
+                                <img alt="" src="../img/comment_2.jpg">
+                            </div>
+                            <div class="comment-text">
+                                <h6 class="comment-author">{{entity.user.name}}</h6>
+                                <div class="comment-metadata">
+                                    <a href="#" class="comment-date">{{entity.comment.releaseTime}}</a>
+                                </div>
+                                <p >{{entity.comment.text}}</p>
+                                <a href="#" class="comment-reply">评论</a>
+                            </div>
                         </div>
-                    </div>
-                    <p class="media-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-                <div class="comments__media">
-                    <div class="media-middle">
-                        <i class="media-object" style="background-image: url('img/content/comment.png')"></i>
-                        <div class="comm_info">
-                            <h4 class="media-heading">Maria</h4>
-                            <span class="time">today, 12:30</span>
-                        </div>
-                    </div>
-                    <p class="media-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-                <div class="comments__media">
-                    <div class="media-middle">
-                        <i class="media-object" style="background-image: url('img/content/comment.png')"></i>
-                        <div class="comm_info">
-                            <h4 class="media-heading">Maria</h4>
-                            <span class="time">today, 12:30</span>
-                        </div>
-                    </div>
-                    <p class="media-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
+
+                        <ul class="children" ng-repeat="child in entity.children">
+                            <li class="comment">
+                                <div class="comment-body">
+                                    <div class="comment-avatar">
+                                        <img alt="" src="../img/comment_2.jpg">
+                                    </div>
+                                    <div class="comment-text">
+                                        <h6 class="comment-author">{{child.user.name}}</h6>
+                                        <div class="comment-metadata">
+                                            <a href="#" class="comment-date">{{child.comment.releaseTime}}</a>
+                                        </div>
+                                        <p class="comment-date">{{child.comment.text}}</p>
+                                    </div>
+                                </div>
+                            </li> <!-- end reply comment -->
+                        </ul>
+                    </li>
+                </ul>
+
                 <div class="comments__form">
                     <form action="#" method="POST">
                         <div class="form-group">
-                            <input type="text" style="width: 200px;" class="form-control" placeholder="Your name">
+                            <textarea name="text" id="input" class="form-control" rows="7"  required="required"></textarea>
                         </div>
-                        <div class="form-group">
-                            <textarea name="text" id="input" class="form-control" rows="7" required="required"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-comment">send</button>
+                        <button type="submit" class="btn btn-comment" ng-click="releaseComment()">指点江山</button>
                     </form>
                 </div>
             </div>
@@ -161,37 +168,7 @@
     </article>
 </div>
 <!-- Footer -->
-<footer class="footer slate_gray">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6">
-                <p class="copyright">Copyright &copy; 2017.Company name All rights reserved.</p>
-            </div>
-            <div class="col-sm-6">
-                <div class="social navbar-right">
-                    <p class="social__text">We are in social networks</p>
-                    <ul class="social__list">
-                        <li class="social__item">
-                            <a class="facebook" href="#">
-                                <i class="icon-facebook"></i>
-                            </a>
-                        </li>
-                        <li class="social__item">
-                            <a class="twitter" href="#">
-                                <i class="icon-twitter"></i>
-                            </a>
-                        </li>
-                        <li class="social__item">
-                            <a class="gplus" href="#">
-                                <i class="icon-gplus"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
+    <div ng-include="'../pages/footer.html'"></div>
 </body>
 </html>
 

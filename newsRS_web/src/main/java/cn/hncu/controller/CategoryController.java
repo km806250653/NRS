@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class CategoryController {
 
     @RequestMapping("/findAll")
     @ResponseBody
-    public List<Category> findAll(String type){
+    public List<Category> findAll(HttpServletRequest request,String type) {
         List<Category> categories = categoryService.findAll(type);
         return categories;
     }

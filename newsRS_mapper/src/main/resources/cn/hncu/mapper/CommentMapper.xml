@@ -7,6 +7,7 @@
     <result column="uid" property="uid" jdbcType="INTEGER" />
     <result column="release_time" property="releaseTime" jdbcType="DATE" />
     <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="cn.hncu.pojo.Comment" extends="BaseResultMap" >
     <result column="text" property="text" jdbcType="LONGVARCHAR" />
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, nid, uid, text,release_time, status
+    id, nid, uid, release_time, status, parent_id
   </sql>
   <sql id="Blob_Column_List" >
     text
@@ -125,11 +126,11 @@
   </delete>
   <insert id="insert" parameterType="cn.hncu.pojo.Comment" >
     insert into comment (id, nid, uid, 
-      release_time, status, varchar
-      )
+      release_time, status, parent_id, 
+      text)
     values (#{id,jdbcType=INTEGER}, #{nid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, 
-      #{releaseTime,jdbcType=DATE}, #{status,jdbcType=VARCHAR}, #{text,jdbcType=LONGVARCHAR}
-      )
+      #{releaseTime,jdbcType=DATE}, #{status,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
+      #{text,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.hncu.pojo.Comment" >
     insert into comment
@@ -148,6 +149,9 @@
       </if>
       <if test="status != null" >
         status,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
       </if>
       <if test="text != null" >
         text,
@@ -168,6 +172,9 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
       </if>
       <if test="text != null" >
         #{text,jdbcType=LONGVARCHAR},
@@ -198,6 +205,9 @@
       <if test="record.status != null" >
         status = #{record.status,jdbcType=VARCHAR},
       </if>
+      <if test="record.parentId != null" >
+        parent_id = #{record.parentId,jdbcType=INTEGER},
+      </if>
       <if test="record.text != null" >
         text = #{record.text,jdbcType=LONGVARCHAR},
       </if>
@@ -213,7 +223,8 @@
       uid = #{record.uid,jdbcType=INTEGER},
       release_time = #{record.releaseTime,jdbcType=DATE},
       status = #{record.status,jdbcType=VARCHAR},
-      varchar = #{record.text,jdbcType=LONGVARCHAR}
+      parent_id = #{record.parentId,jdbcType=INTEGER},
+      text = #{record.text,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -224,7 +235,8 @@
       nid = #{record.nid,jdbcType=INTEGER},
       uid = #{record.uid,jdbcType=INTEGER},
       release_time = #{record.releaseTime,jdbcType=DATE},
-      status = #{record.status,jdbcType=VARCHAR}
+      status = #{record.status,jdbcType=VARCHAR},
+      parent_id = #{record.parentId,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -244,6 +256,9 @@
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
       </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
       <if test="text != null" >
         text = #{text,jdbcType=LONGVARCHAR},
       </if>
@@ -256,7 +271,8 @@
       uid = #{uid,jdbcType=INTEGER},
       release_time = #{releaseTime,jdbcType=DATE},
       status = #{status,jdbcType=VARCHAR},
-      varchar = #{text,jdbcType=LONGVARCHAR}
+      parent_id = #{parentId,jdbcType=INTEGER},
+      text = #{text,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.hncu.pojo.Comment" >
@@ -264,7 +280,8 @@
     set nid = #{nid,jdbcType=INTEGER},
       uid = #{uid,jdbcType=INTEGER},
       release_time = #{releaseTime,jdbcType=DATE},
-      status = #{status,jdbcType=VARCHAR}
+      status = #{status,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -3,7 +3,7 @@
 <mapper namespace="cn.hncu.mapper.CategoryMapper" >
   <resultMap id="BaseResultMap" type="cn.hncu.pojo.Category" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="text" property="text" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -64,7 +64,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name
+    id, text
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.hncu.pojo.CategoryExample" >
     select
@@ -97,8 +97,8 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.hncu.pojo.Category" >
-    insert into category (id, name)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})
+    insert into category (id, text)
+    values (#{id,jdbcType=INTEGER}, #{text,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.hncu.pojo.Category" >
     insert into category
@@ -106,16 +106,16 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="name != null" >
-        name,
+      <if test="text != null" >
+        text,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
+      <if test="text != null" >
+        #{text,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -131,8 +131,8 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null" >
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.text != null" >
+        text = #{record.text,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -142,7 +142,7 @@
   <update id="updateByExample" parameterType="map" >
     update category
     set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR}
+      text = #{record.text,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -150,15 +150,15 @@
   <update id="updateByPrimaryKeySelective" parameterType="cn.hncu.pojo.Category" >
     update category
     <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
+      <if test="text != null" >
+        text = #{text,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.hncu.pojo.Category" >
     update category
-    set name = #{name,jdbcType=VARCHAR}
+    set text = #{text,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
