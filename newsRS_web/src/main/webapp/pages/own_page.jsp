@@ -12,5 +12,6 @@
 </head>
 <body>
         <h1>个人中心</h1>
+<h1><a href="http://192.168.25.1/newsRS_web/">去主页</a></h1>
 </body>
 </html>

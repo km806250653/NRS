@@ -22,7 +22,7 @@ public class CategoryController {
 
     @RequestMapping("/findAll")
     @ResponseBody
-    public List<Category> findAll(HttpServletRequest request,String type) {
+    public List<Category> findAll(String type) {
         List<Category> categories = categoryService.findAll(type);
         return categories;
     }

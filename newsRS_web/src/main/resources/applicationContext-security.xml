@@ -17,7 +17,7 @@ http://www.springframework.org/schema/security/spring-security.xsd">
     <http use-expressions="false" entry-point-ref="casProcessingFilterEntryPoint">
         <intercept-url pattern="/user/login.do" access="ROLE_USER"/>
         <csrf disabled="true"/>
-        <!-- custom-filter 为过滤器， position 表示将过滤器放在指定的位置上，before 表示放
+        <!-- custom-interceptor 为过滤器， position 表示将过滤器放在指定的位置上，before 表示放
 在指定位置之前  ，after 表示放在指定的位置之后  -->
         <custom-filter ref="casAuthenticationFilter" position="CAS_FILTER"/>
         <custom-filter ref="requestSingleLogoutFilter" before="LOGOUT_FILTER"/>
@@ -34,7 +34,7 @@ http://www.springframework.org/schema/security/spring-security.xsd">
     <beans:bean id="serviceProperties"
                 class="org.springframework.security.cas.ServiceProperties">
         <!--service 配置自身工程的根地址+/login/cas   -->
-        <beans:property name="service" value="http://192.168.25.1:8080/newsRS_web/login/cas"/>
+        <beans:property name="service" value="http://192.168.25.1/newsRS_web/login/cas"/>
     </beans:bean>
     <!-- CAS 入口点 结束 -->
 

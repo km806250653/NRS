@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <script>
     $(function () {
@@ -14,21 +15,13 @@
         });
     });
 </script>
-<style>
-    .comment-avatar {
-        float: left;
-        margin-right: 20px;
-        display: block;
-        border-radius: 50%;
-        overflow: hidden; }
-</style>
 <header id="header" class="header"  >
     <div class="header__top" id="header-top">
         <div class="container">
             <div class="row">
                 <div class="col-sm-3">
                     <div class="wrap-logo">
-                        <h1><a href="{{path}}" >空名NEWS</a></h1>
+                        <h1><a href="{{pathJson.projectPath}}" >空名NEWS</a></h1>
                     </div>
                 </div>
                 <div class="col-sm-offset-2 col-md-offset-5 col-sm-6 col-md-4 hidden-xs">
@@ -56,7 +49,7 @@
                         <div class="exchange">
                             <p class="exchange__name">{{time}}</p>
                             <p class="exchange__course">
-                                <img src="{{path}}img/icon/{{selectDate.wea_img}}.png" style="width: 20px;height: 20px">
+                                <img src="{{pathJson.projectPath}}img/icon/{{selectDate.wea_img}}.png" style="width: 20px;height: 20px">
                                 <em class="active">{{selectDate.tem}}</em>
                             </p>
                         </div>
@@ -76,12 +69,12 @@
                     <ul id="" class="mobile-sub wsmenu-list">
                         <li id="home" class="active">
                             <span class="wsmenu-click"></span>
-                            <a href="{{path}}" >主页</a>
+                            <a href="{{pathJson.projectPath}}" >主页</a>
                         </li>
 
                         <li class="active" ng-repeat="category in categories">
                             <span class="wsmenu-click"></span>
-                            <a href="{{path}}pages/news_list.jsp?{{random}}#?cid={{category.id}}">{{category.text}}</a>
+                            <a href="{{pathJson.projectPath}}pages/news_list.jsp?{{random}}#?cid={{category.id}}">{{category.text}}</a>
                         </li>
 
                         <li  ng-mouseenter="getAllCategory()">
@@ -91,7 +84,7 @@
                             <ul class="wsmenu-submenu" >
                                 <li class="active" ng-repeat="category in allCategories">
                                     <span class="wsmenu-click"></span>
-                                    <a href="{{path}}pages/news_list.jsp?{{random}}#?cid={{category.id}}" >{{category.text}}</a>
+                                    <a href="{{pathJson.projectPath}}pages/news_list.jsp?{{random}}#?cid={{category.id}}" >{{category.text}}</a>
                                 </li>
                             </ul>
                         </li>
@@ -106,20 +99,21 @@
                         </li>
                         <li class="right-arrow-button">
                             <span class="wsmenu-click"></span>
-                            <div class="comment-avatar">
-                                <img alt="" src="img/comment_2.jpg">
-                            </div>
+                                <img class="user_image" width="45px" height="45px" style="border-radius: 50%" src="{{user==null? pathJson.projectPath+'pages/img/photo.png':user.image}}">
                             <ul class="wsmenu-submenu" >
                                 <li class="active" >
                                     <span class="wsmenu-click"></span>
-                                    <a href="{{path}}pages/register.html">注册</a>
+                                    <a href="{{pathJson.projectPath}}pages/register.html" ng-if="user==null">注册</a>
                                 </li>
                                 <li class="active" >
                                     <span class="wsmenu-click"></span>
-                                    <a href="{{path}}user/login.do">登录</a>
+                                    <a href="{{pathJson.projectPath+'user/login.do'}}" ng-if="user==null">登录</a>
+                                    <a  href="javascript:void(0)" ng-click="logout()" ng-if="user!=null">注销</a>
                                 </li>
                             </ul>
                         </li>
+
+
 
                     </ul>
 

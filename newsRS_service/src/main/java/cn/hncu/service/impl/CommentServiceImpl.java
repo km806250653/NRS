@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ public class CommentServiceImpl implements ICommentService {
         criteria.andParentIdIsNull();
         List<Comment> comments = commentMapper.selectByExampleWithBLOBs(example);
         comments.forEach(comment -> {
-            Userinfo user = userMapper.selectByPrimaryKey(comment.getId());
+            Userinfo user = userMapper.selectByPrimaryKey(comment.getUid());
             CommUserGroup commUserGroup = new CommUserGroup(comment, user);
             commUserGroup.setChildren(findByParentId(comment.getId()));
             list.add(commUserGroup);
@@ -53,6 +54,12 @@ public class CommentServiceImpl implements ICommentService {
             list.add(new CommUserGroup(child,user));
         });
         return list;
+    }
+
+    @Override
+    public void releaseComment(Comment comment) {
+        comment.setReleaseTime(new Date());
+        commentMapper.insert(comment);
     }
 
 }

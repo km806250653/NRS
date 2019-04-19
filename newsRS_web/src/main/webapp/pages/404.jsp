@@ -40,7 +40,7 @@
                             <a href="#" class="link">Go back to previous page</a>
                         </li>
                         <li>
-                            <a href="{{path}}" class="link">Go to homepage</a>
+                            <a href="{{pathJson.projectPath}}" class="link">Go to homepage</a>
                         </li>
                     </ul>
                 </div>

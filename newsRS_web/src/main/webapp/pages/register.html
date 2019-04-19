@@ -1,13 +1,17 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]><html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
 <head>
-<!-- 
-Kool Store Template
-#/preview/templatemo_428_kool_store
--->
+    <!--
+    Kool Store Template
+    #/preview/templatemo_428_kool_store
+    -->
     <meta charset="utf-8">
     <title>KMNews用户注册</title>
 
@@ -24,53 +28,59 @@ Kool Store Template
     <script src="../js/base.js"></script>
     <script src="../js/service/registerService.js"></script>
     <script src="../js/controller/registerController.js"></script>
-
+    <style>
+        .image {
+            border-radius: 50%;}
+    </style>
 </head>
-<body ng-app="newsRS" ng-controller="registerController">
+<body ng-app="newsRS" ng-controller="registerController" ng-init="init()">
 
-            <div class="container">
-                <div class="row">
-                        <div class="logo">
-                            <h1><a href="{{path}}">空名NEWS</a></h1>
-                        </div>
-                </div>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="logo">
+            <h1><a href="{{pathJson.projectPath}}">空名NEWS</a></h1>
+        </div>
+    </div>
+</div>
 
-    <div class="content-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3 col-sm-6"></div>
-                <div class="col-md-5 col-sm-6">
-                    <h3 class="widget-title">欢迎注册</h3>
-                    <div class="contact-form">
-                        <form name="contactform" id="contactform" action="#" method="post">
-                            <p>
-                                <input  type="text" id="username" placeholder="用户名" ng-model="entity.username">
-                            </p>
-                            <p>
-                                <input  type="password"  placeholder="密码" ng-model="entity.password">
-                            </p>
-                            <p>
-                                <input  type="password"  placeholder="确认密码" ng-model="confirmPassword">
-                            </p>
-                            <p>
-                                <input  type="text" id="name" placeholder="昵称" ng-model="entity.name">
-                            </p>
-                            <p>
-                                <input  type="text" id="email" placeholder="邮箱" ng-model="entity.email">
-                            </p>
-                            <p>
-                                <input  type="text" id="phoneNumber" placeholder="电话" ng-model="entity.phoneNumber">
-                            </p>
-                            <input type="button" class="mainBtn" value="立即注册" ng-click="register()">
-                        </form>
-                        {{entity}}
-                    </div>
+<div class="content-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-6"></div>
+            <div class="col-md-5 col-sm-6">
+                <h3 class="widget-title">欢迎注册</h3>
+                <input type="file" id="file"/>
+                <input class="btn btn-primary" type="button" ng-click="upload()" value="上传">
+                    <img class="image"src="{{entity.image}}" width="50px" height="50px">
+                <div class="contact-form">
+                    <form name="contactform" id="contactform" action="#" method="post">
+                        <p>
+                            <input type="text" id="username" placeholder="用户名" ng-model="entity.username">
+                        </p>
+                        <p>
+                            <input type="password" placeholder="密码" ng-model="entity.password">
+                        </p>
+                        <p>
+                            <input type="password" placeholder="确认密码" ng-model="confirmPassword">
+                        </p>
+                        <p>
+                            <input type="text" id="name" placeholder="昵称" ng-model="entity.name">
+                        </p>
+                        <p>
+                            <input type="text" id="email" placeholder="邮箱" ng-model="entity.email">
+                        </p>
+                        <p>
+                            <input type="text" id="phoneNumber" placeholder="电话" ng-model="entity.phoneNumber">
+                        </p>
+                        <input type="button" class="mainBtn" value="立即注册" ng-click="register()">
+                    </form>
+                    {{entity}}<br>
+                    {{urlArr}}
                 </div>
             </div>
         </div>
     </div>
-
+</div>
 
 
 </body>

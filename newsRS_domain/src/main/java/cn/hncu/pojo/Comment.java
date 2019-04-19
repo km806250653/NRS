@@ -20,6 +20,19 @@ public class Comment {
 
     private String text;
 
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", nid=" + nid +
+                ", uid=" + uid +
+                ", releaseTime=" + releaseTime +
+                ", status='" + status + '\'' +
+                ", parentId=" + parentId +
+                ", text='" + text + '\'' +
+                '}';
+    }
+
     public Integer getId() {
         return id;
     }

@@ -1,3 +1,5 @@
+package cn.hncu.common;
+
 import java.io.IOException;
 
 import org.csource.common.NameValuePair;

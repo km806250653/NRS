@@ -12,4 +12,6 @@ public interface ICommentService {
     List<CommUserGroup> findByNid(Integer nid);
 
     List<CommUserGroup> findByParentId(Integer pid);
+
+    void releaseComment(Comment comment);
 }
