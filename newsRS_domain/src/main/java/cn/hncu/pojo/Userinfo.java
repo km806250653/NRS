@@ -13,8 +13,6 @@ public class Userinfo {
 
     private Integer phoneNumber;
 
-    private String ownPage;
-
     private String ismanager;
 
     private String isactivated;
@@ -22,6 +20,8 @@ public class Userinfo {
     private String code;
 
     private String image;
+
+    private String background;
 
     public Integer getId() {
         return id;
@@ -71,14 +71,6 @@ public class Userinfo {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getOwnPage() {
-        return ownPage;
-    }
-
-    public void setOwnPage(String ownPage) {
-        this.ownPage = ownPage == null ? null : ownPage.trim();
-    }
-
     public String getIsmanager() {
         return ismanager;
     }
@@ -109,5 +101,13 @@ public class Userinfo {
 
     public void setImage(String image) {
         this.image = image == null ? null : image.trim();
+    }
+
+    public String getBackground() {
+        return background;
+    }
+
+    public void setBackground(String background) {
+        this.background = background == null ? null : background.trim();
     }
 }

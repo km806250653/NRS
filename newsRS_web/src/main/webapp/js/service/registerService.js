@@ -2,6 +2,10 @@ app.service('registerService',function ($http) {
     this.register = function (entity) {
         return $http.post("../user/register.do",entity);
     }
+
+    this.isExists = function (username) {
+        return $http.get('../user/isExists.do?username='+username);
+    }
     //上传文件
     this.upload=function(){
         var formData = new FormData();

@@ -389,8 +389,8 @@ h6 {
    ========================================================================== */
 .content-section {
   margin: 60px 0;
-  border-bottom: 1px solid #dddddd;
-  padding-bottom: 60px;
+  border-bottom: 1px solid #45494d;
+  padding-bottom: 0px;
 }
 
 .section-title h2 {
@@ -695,23 +695,20 @@ textarea {
   background: #fff;
   border: 1px solid #ddd;
   padding: 12px 15px;
+  width: 70%;
 }
 
-#contactform textarea,
-#contactform input {
+form textarea,
+form input {
   width: 100%;
 }
-
-#contactform textarea {
-  min-height: 140px;
-}
-
-#contactform input.mainBtn {
+form input.mainBtn {
   border: 0;
   outline: 0;
   padding: 12px;
   color: #fff;
   background: #2a80b9;
+  width: 70%;
 }
 
 

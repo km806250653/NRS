@@ -1,82 +1,114 @@
 package cn.hncu.utils;
 
-import org.jsoup.Connection;
+import cn.hncu.pojo.News;
+import cn.hncu.pojo.NewsImage;
+import cn.hncu.pojo_group.NewsWithImages;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 /**
  * Created by Enzo Cotter on 2019/3/21.
  */
 public class JsoupForPeople {
-    public static void main(String args[]) throws IOException, ParseException {
+    public static List<String> getUrlFromPeople() throws IOException {
+        ArrayList<String> urlList = new ArrayList<>();
         String urlStr = "http://www.people.com.cn/";
-        Connection connect = Jsoup.connect(urlStr);
-        Document document = connect.get();
-        Elements elements = document.select("div[class^=box] li>a");//  详情页新闻体 常规 class box_con 健康网 articleCont
+        Document document = null;
+        try {
+            document = Jsoup.connect(urlStr).get();
+        } catch (IOException e) {
+            System.err.println("连接人民网失败，请检查网络");
+        }
 
+        Elements elements = document.select("div[class^=box] li>a");//  详情页新闻体 常规 class box_con 健康网 articleCont
 
         elements.forEach(element -> {
             String href = element.attr("href");
-            System.out.println(href);
-            try {
-                getContext(href);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            urlList.add(href);
         });
-        System.out.println("新闻数量 = " + elements.size());
+        return urlList;
     }
 
-    private static void getContext(String url) throws IOException, ParseException {
+    public static NewsWithImages getNewsFromPeople(String url) throws Exception {
         if (url.startsWith("http://finance"))  //404,直接返回
-            return;
+            return null;
 
-        Document document = Jsoup.connect(url).get();
-
-
-
-
+        Document document = null;
+        try {
+            document = Jsoup.connect(url).get();
+        } catch (IOException e) {
+            System.err.println("连接失败："+url);
+        }
+        if(document == null){
+            return null;
+        }
         Elements elements = document.select("[class=box_con]");
         if(elements==null||elements.size()==0) {
-            return;
+            return null;
         }
 
+        News news = new News();
+        List<NewsImage> images = new ArrayList<>();
 
+        //设置来源
+        news.setSource(url);
         Element element = document.select("div[class=box01]>div[class=fl]").get(0);
-
         //获取标题
         Element title = document.select("title").get(0);
+        //设置标题
+        news.setTitle(title.text());
 
-        String dateStr = element.text().substring(0,16);   //截取发布时间
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日hh:mm");
-        Date date = sdf.parse(dateStr);  //格式化日期
-
+        //设置发布时间
+        //截取发布时间
+        try {
+            String dateStr = element.text().substring(0,16);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日hh:mm");
+            Date date = sdf.parse(dateStr);  //格式化日期
+            news.setReleasedate(date);
+        } catch (ParseException e) {
+            System.err.println("格式化日期错误");
+        }
         String author_name = element.select("a").text();  //作者
+        //设置作者
+        news.setAuthor(author_name);
 
-        String content = elements.select("div[class=box_con] p").toString();
-        content="<div class=\"news_content\">"+content+ "</div>";
-        content=content.replaceAll("<p","<p class=\"news_p\"");
-        content=content.replaceAll("</p>","</span></p>");
-        System.out.println("dateStr = " + dateStr);
-        System.out.println("date = " + date);
-        System.out.println("title = " + title.text());
-        System.out.println("content = " + content);
-        System.out.println("author_name = " + author_name);
+        Elements content = elements.select("div[class=box_con]");
 
-        JdbcTemplate template = new JdbcTemplate(JDBCUtils.getDataSource());
-        String sql = "insert into news values (null,?,?,?,?,?,?,?)";
-        int i = template.update(sql,title.text(),author_name,new Date(),content,url,new Random().nextInt(11)+1,new Random().nextInt(2)+1);
-        System.out.println("i = " + i);
+        Elements imagesDOM = content.select("img");
+        for (Element imageDoM : imagesDOM) {
+            //下载生成临时文件
+            String filename = DownloadFileUtils.downloadImage(imageDoM.attr("src"));
+            if (filename == null)
+                continue;
+            //上传文件到fastdfs
+            FastDFSClient fastDFSClient = new FastDFSClient("classpath:fast_dfs_client.conf");
+            String path = fastDFSClient.uploadFile(filename);
+            String fdfsUrl = "http://192.168.25.136/" + path;
+            images.add(new NewsImage(fdfsUrl));
+            //将url替换成fastdfs上的url
+            imageDoM.attr("src", fdfsUrl);
+            //删除临时文件
+            DownloadFileUtils.delete(filename);
+        }
+
+        news.setContent(content.toString());
+        if(images.size()>0){
+            news.setImage(images.get(0).getUrl());
+        }
+        //分类……随机吧
+        news.setCid(new Random().nextInt(11)+1);
+        //1号用户是system
+        news.setUid(1);
+        return new NewsWithImages(news, images);
     }
 }

@@ -5,15 +5,8 @@ app.controller('newsListController',function ($scope,$controller,$location,newsL
             $scope.entity = response;
         });
     }
-
-    $scope.findList = function () {
-        var cid = $location.search().cid;
-        newsListService.findList(cid).success(function (response) {
-            $scope.list = response;
-        });
+    $scope.init = function () {
+        var id = $location.search()['id'];
+        $scope.findList(id);
     }
-
-    $scope.randomNum = function () {
-        $scope.random = Math.floor(Math.random()*10000);
-    }
-})
+});

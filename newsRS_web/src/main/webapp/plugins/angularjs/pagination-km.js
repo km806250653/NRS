@@ -21,7 +21,9 @@ angular.module('pagination', []).directive('tmPagination',[function(){
                     </ul>
         * */
         template: '<div class="page-list">' +
-            '<ul class="pagination pagination-lg" ng-show="conf.totalItems > 0">' +
+            '<ul class="pagination pagination-lg" id="page" ng-show="conf.totalItems > 0">' +
+            '<nav class="paging">'+
+            '<ul class="pagination pagination-lg" id="pagination">'+
             '<li ng-class="{disabled: conf.currentPage == 1}" ng-click="prevPage()"><span>&laquo;</span></li>' +
             '<li ng-repeat="item in pageList track by $index" ng-class="{active: item == conf.currentPage, separate: item == \'...\'}" ' +
             'ng-click="changeCurrentPage(item)">' +
@@ -35,6 +37,8 @@ angular.module('pagination', []).directive('tmPagination',[function(){
             '/共<strong>{{ conf.totalItems }}</strong>条' +
             '</div>' +
             '<div class="no-items" ng-show="conf.totalItems <= 0">暂无数据</div>' +
+            '</ul>'+
+            '</nav>'+
             '</div>',
         replace: true,
         scope: {

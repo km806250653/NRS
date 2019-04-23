@@ -5,9 +5,26 @@ app.controller('registerController', function ($scope, $controller, registerServ
         $scope.urlArr = [];
         $scope.entity={image:'img/photo.png'}
     }
+
+    $scope.isExists = function(){
+        if(!$scope.registerForm.username.$valid){
+            //用户名校验未通过
+            return;
+        }
+        registerService.isExists($scope.entity.username).success(function (response) {
+            $scope.usernameAllow = response;
+        });
+    }
+
     $scope.register = function () {
-        if ($scope.entity.password != $scope.confirmPassword) {
-            alert("两次密码不一致");
+        //表单校验不通过时
+        if(!$scope.registerForm.$valid){
+            alert("请认真填写哦~");
+            return;
+        }
+        //两次密码不一致
+        if(!$scope.confirmPassword==$scope.entity.password){
+            alert("两次密码不一致")
             return;
         }
         //去除最终选择的图片

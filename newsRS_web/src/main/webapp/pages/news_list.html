@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <meta charset="utf-8">
+    <meta name="referrer" content="never">
+    <link href="../css/main.css" rel="stylesheet" type="text/css"/>
+    <!-- All JavaScript libraries -->
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../plugins/angularjs/angular.min.js"></script>
+    <script src="../plugins/angularjs/pagination-km.js"></script>
+    <script src="../js/base.js"></script>
+    <script src="../js/service/newsListService.js"></script>
+    <script src="../js/controller/newsListController.js"></script>
+    <title></title>
+</head>
+<body class="page" ng-app="newsRS" ng-controller="newsListController" ng-init="init()">
+
+<div class="wrapper-sticky-footer" >
+
+    <div class="content-sticky">
+        <!-- Header -->
+        <div ng-include="'../pages/header.html'"></div>
+        <!-- END header -->
+        <!-- content-->
+        <div class="wrap wrap_gray pt20">
+            <div class="container">
+
+                <div class="row" >
+                        <div class="col-sm-3" style="height: 300px" ng-repeat="entity in list">
+                            <div class="thumbnail thumbnail_small">
+                                <a href="details.html#?id={{entity.id}}" class="thumbnail__link">
+                                    <img src="{{entity.image}}" style="width: 270px;height: 153px" alt="News">
+                                </a>
+                                <div class="caption thumbnail__caption">
+                                    <div class="news caption__news">
+                                        <p class="news__category yellow-line">Economy</p>
+                                        <a href="details.html#?id={{entity.id}}" class="news__link">
+                                            <p class="news__text">{{entity.title}}</p>
+                                        </a>
+                                    </div>
+                                    <div class="posted">
+                                        <span class="posted__date">today, 12:30</span>
+                                        <ul class="posted__icon">
+                                            <li>
+                                                    <span>
+                                                <i class="icon-comment-empty"></i>29
+                                            </span>
+                                            </li>
+                                            <li>
+                                                    <span>
+                                                <i class="icon-eye"></i>2.3k
+                                            </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                </div>
+
+                <!--分页组件-->
+                <tm-pagination conf="paginationConf"></tm-pagination>
+
+                <!--<div class="row">
+                   <div class="ajax_load">
+                        <i class="icon-arrows-cw"></i>Load more
+                        <svg width="128" height="40" viewBox="0 0 128 40" xmlns="http://www.w3.org/2000/svg">
+                            <rect x='0' y='0' fill='none' width='128' height='40'></rect>
+                        </svg>
+                    </div>
+                </div> -->
+            </div>
+
+            <!-- Footer -->
+            <footer ng-include="'footer.html'">
+            </footer>
+        </div>
+</body>
+</html>
+
+

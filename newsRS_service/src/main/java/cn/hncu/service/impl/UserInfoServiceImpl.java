@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by Enzo Cotter on 2019/3/22.
  */
@@ -27,5 +31,22 @@ public class UserInfoServiceImpl implements IUserInfoService {
             UserinfoExample.Criteria criteria = example.createCriteria();
             criteria.andUsernameEqualTo(username);
             return userMapper.selectByExample(example).get(0);
+    }
+
+    @Override
+    public Map<String, Object> findCurrentUser(Integer id) {
+        HashMap<String, Object> map = new HashMap<>();
+        Userinfo user = userMapper.selectByPrimaryKey(id);
+        map.put("user",user);
+        return map;
+    }
+
+    @Override
+    public boolean isExists(String username) {
+        UserinfoExample example = new UserinfoExample();
+        UserinfoExample.Criteria criteria = example.createCriteria();
+        criteria.andUsernameEqualTo(username);
+        List<Userinfo> list = userMapper.selectByExample(example);
+        return list.size()>0;
     }
 }

@@ -504,76 +504,6 @@ public class UserinfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andOwnPageIsNull() {
-            addCriterion("own_page is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnPageIsNotNull() {
-            addCriterion("own_page is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnPageEqualTo(String value) {
-            addCriterion("own_page =", value, "ownPage");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnPageNotEqualTo(String value) {
-            addCriterion("own_page <>", value, "ownPage");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnPageGreaterThan(String value) {
-            addCriterion("own_page >", value, "ownPage");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnPageGreaterThanOrEqualTo(String value) {
-            addCriterion("own_page >=", value, "ownPage");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnPageLessThan(String value) {
-            addCriterion("own_page <", value, "ownPage");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnPageLessThanOrEqualTo(String value) {
-            addCriterion("own_page <=", value, "ownPage");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnPageLike(String value) {
-            addCriterion("own_page like", value, "ownPage");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnPageNotLike(String value) {
-            addCriterion("own_page not like", value, "ownPage");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnPageIn(List<String> values) {
-            addCriterion("own_page in", values, "ownPage");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnPageNotIn(List<String> values) {
-            addCriterion("own_page not in", values, "ownPage");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnPageBetween(String value1, String value2) {
-            addCriterion("own_page between", value1, value2, "ownPage");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnPageNotBetween(String value1, String value2) {
-            addCriterion("own_page not between", value1, value2, "ownPage");
-            return (Criteria) this;
-        }
-
         public Criteria andIsmanagerIsNull() {
             addCriterion("ismanager is null");
             return (Criteria) this;
@@ -851,6 +781,76 @@ public class UserinfoExample {
 
         public Criteria andImageNotBetween(String value1, String value2) {
             addCriterion("image not between", value1, value2, "image");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackgroundIsNull() {
+            addCriterion("background is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackgroundIsNotNull() {
+            addCriterion("background is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackgroundEqualTo(String value) {
+            addCriterion("background =", value, "background");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackgroundNotEqualTo(String value) {
+            addCriterion("background <>", value, "background");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackgroundGreaterThan(String value) {
+            addCriterion("background >", value, "background");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackgroundGreaterThanOrEqualTo(String value) {
+            addCriterion("background >=", value, "background");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackgroundLessThan(String value) {
+            addCriterion("background <", value, "background");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackgroundLessThanOrEqualTo(String value) {
+            addCriterion("background <=", value, "background");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackgroundLike(String value) {
+            addCriterion("background like", value, "background");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackgroundNotLike(String value) {
+            addCriterion("background not like", value, "background");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackgroundIn(List<String> values) {
+            addCriterion("background in", values, "background");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackgroundNotIn(List<String> values) {
+            addCriterion("background not in", values, "background");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackgroundBetween(String value1, String value2) {
+            addCriterion("background between", value1, value2, "background");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackgroundNotBetween(String value1, String value2) {
+            addCriterion("background not between", value1, value2, "background");
             return (Criteria) this;
         }
     }

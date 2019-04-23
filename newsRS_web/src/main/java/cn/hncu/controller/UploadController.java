@@ -3,7 +3,7 @@ package cn.hncu.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.hncu.common.FastDFSClient;
+import cn.hncu.utils.FastDFSClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,8 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class UploadController {
 
-    @Value("${FILE_SERVER_URL}")
-    private String FILE_SERVER_URL;
+    private String FILE_SERVER_URL = "http://192.168.25.136/";
 
 
     @RequestMapping("/upload")

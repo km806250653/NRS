@@ -1,36 +1,38 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>
-<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>
-<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>
-<html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js"> <!--<![endif]-->
 <head>
-    <!--
-    Kool Store Template
-    #/preview/templatemo_428_kool_store
-    -->
     <meta charset="utf-8">
     <title>KMNews用户注册</title>
 
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
-    <link href="http://fonts.useso.com/css?family=Open+Sans:400,300,600,700,800" rel="stylesheet">
 
     <link rel="stylesheet" href="../css/bootstrap.css">
     <link rel="stylesheet" href="../css/templatemo-misc.css">
     <link rel="stylesheet" href="../css/templatemo-style.css">
 
     <script src="../plugins/angularjs/angular.min.js"></script>
+    <script src="../plugins/angularjs/pagination-km.js"></script>
     <script src="../js/base.js"></script>
     <script src="../js/service/registerService.js"></script>
     <script src="../js/controller/registerController.js"></script>
     <style>
-        .image {
-            border-radius: 50%;}
+        error {
+            color: red;
+        }
+
+        success {
+            color: green;
+        }
+
+        .success {
+            width: 18px;
+            height: 18px;
+        }
+
+        div {
+            margin: 10px;
+        }
     </style>
 </head>
 <body ng-app="newsRS" ng-controller="registerController" ng-init="init()">
@@ -49,37 +51,112 @@
             <div class="col-md-3 col-sm-6"></div>
             <div class="col-md-5 col-sm-6">
                 <h3 class="widget-title">欢迎注册</h3>
-                <input type="file" id="file"/>
-                <input class="btn btn-primary" type="button" ng-click="upload()" value="上传">
-                    <img class="image"src="{{entity.image}}" width="50px" height="50px">
+
                 <div class="contact-form">
-                    <form name="contactform" id="contactform" action="#" method="post">
+                    <form name="registerForm" id="registerForm" action="#" method="post">
+                        <div class="row">
+                            <div class="col-sm-offset-1 col-sm-4"><img class="image"
+                                                                       src="{{entity.image==null?'../img/icon/photo.png':entity.image}}"
+                                                                       width="75px" height="75px"
+                                                                       style="border-radius: 50%"></div>
+                            <div class="col-sm-5">
+                                <div class="row"><input type="file" id="file"/></div>
+                                <div class="row"><input class="btn btn-primary" type="button" ng-click="upload()"
+                                                        value="上传" style="width: 100px;margin: 5px"></div>
+                            </div>
+                        </div>
+                        <!--用户名校验开始-->
                         <p>
-                            <input type="text" id="username" placeholder="用户名" ng-model="entity.username">
+                            <input type="text" id="username" name="username" placeholder="用户名"
+                                   ng-model="entity.username" required ng-minlength="6" ng-maxlength="20"
+                                   ng-blur="isExists()" ng-focus="usernameAllow=null">
+                            <!-- $dirty表示在第一次输入之后 -->
+                            <error
+                                    ng-show="registerForm.username.$dirty && registerForm.username.$error.required">*
+                            </error>
+
+                            <error
+                                    ng-show="registerForm.username.$error.minlength||registerForm.username.$error.maxlength">
+                                6-20位字符
+                            </error>
+                            <!--用户名已存在-->
+                            <error
+                                    ng-show="usernameAllow&&!usernameAllow.success">{{usernameAllow.msg}}
+                            </error>
+                            <!--校验通过-->
+                            <span ng-show="usernameAllow&&usernameAllow.success">
+                                <img class="success" src="../img/icon/success.png">
+                            </span>
+
+                        </p>
+                        <!--用户名校验结束-->
+                        <p>
+                            <input type="password" placeholder="密码" name="password" ng-model="entity.password" required
+                                   ng-minlength="6"
+                                   ng-maxlength="20">
+                            <error ng-show="registerForm.password.$dirty && registerForm.password.$error.required">*
+                            </error>
+                            <error ng-show="registerForm.password.$error.minlength||registerForm.password.$error.maxlength">
+                                6-20位字符
+                            </error>
+                            <span ng-show="registerForm.password.$valid">
+                                <img class="success" src="../img/icon/success.png">
+                            </span>
                         </p>
                         <p>
-                            <input type="password" placeholder="密码" ng-model="entity.password">
+                            <input type="password" name="confirmPassword" placeholder="确认密码" ng-model="confirmPassword">
+                            <error ng-show="registerForm.confirmPassword.$dirty && confirmPassword != entity.password">
+                                两次密码不一致
+                            </error>
+                            <span ng-show="registerForm.password.$valid && confirmPassword == entity.password">
+                                <img class="success" src="../img/icon/success.png">
+                            </span>
                         </p>
                         <p>
-                            <input type="password" placeholder="确认密码" ng-model="confirmPassword">
+                            <input type="text" name="name" id="name" placeholder="昵称" ng-model="entity.name" required
+                                   ng-pattern="/^[a-zA-Z0-9_\u4e00-\u9fa5]+$/">
+                            <error ng-show="registerForm.name.$dirty && registerForm.name.$error.required">*
+                            </error>
+                            <error ng-show="registerForm.name.$error.pattern">
+                                不能包含特殊字符
+                            </error>
+                            <span ng-show="registerForm.name.$valid">
+                                <img class="success" src="../img/icon/success.png">
+                            </span>
                         </p>
                         <p>
-                            <input type="text" id="name" placeholder="昵称" ng-model="entity.name">
+                            <input type="text" id="email" name="email" placeholder="邮箱" ng-model="entity.email" required
+                                   ng-pattern="/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/">
+                            <error ng-show="registerForm.email.$dirty && registerForm.email.$error.required">*
+                            </error>
+                            <error ng-show="registerForm.email.$error.pattern">
+                                邮箱格式不正确
+                            </error>
+                            <span ng-show="registerForm.email.$valid">
+                                <img class="success" src="../img/icon/success.png">
+                            </span>
                         </p>
                         <p>
-                            <input type="text" id="email" placeholder="邮箱" ng-model="entity.email">
-                        </p>
-                        <p>
-                            <input type="text" id="phoneNumber" placeholder="电话" ng-model="entity.phoneNumber">
+                            <input type="text" id="phoneNumber" name="phoneNumber" placeholder="电话"
+                                   ng-model="entity.phoneNumber" required
+                                   ng-pattern="/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/">
+                            <error ng-show="registerForm.phoneNumber.$dirty && registerForm.phoneNumber.$error.required">
+                                *
+                            </error>
+                            <error ng-show="registerForm.phoneNumber.$error.pattern">
+                                手机号不正确
+                            </error>
+                            <span ng-show="registerForm.phoneNumber.$valid">
+                                <img class="success" src="../img/icon/success.png">
+                            </span>
                         </p>
                         <input type="button" class="mainBtn" value="立即注册" ng-click="register()">
                     </form>
-                    {{entity}}<br>
-                    {{urlArr}}
                 </div>
             </div>
         </div>
     </div>
+    <footer ng-include="'footer.html'"></footer>
 </div>
 
 

@@ -1,4 +1,4 @@
-package cn.hncu.utils;
+package cn.hncu.utils.other;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;

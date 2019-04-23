@@ -4,17 +4,15 @@ import cn.hncu.entity.ResultInfo;
 import cn.hncu.pojo.Userinfo;
 import cn.hncu.entity.Result;
 import cn.hncu.service.IUserInfoService;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * Created by Enzo Cotter on 2019/4/15.
@@ -40,7 +38,7 @@ public class UserController {
 
     @RequestMapping("/getUser")
     @ResponseBody
-    public ResultInfo showName() {
+    public ResultInfo findUser() {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         System.out.println(name);
         if (name != null && !"".equals(name) && !"anonymousUser".equals(name))
@@ -54,4 +52,23 @@ public class UserController {
         mv.setViewName("own_page");
         return mv;
     }
+
+    @RequestMapping("/findCurrentUser")
+    @ResponseBody
+    public Map<String,Object> findCurrentUser(Integer id) {
+        return userService.findCurrentUser(id);
+    }
+
+    @RequestMapping("/isExists")
+    @ResponseBody
+    public Result isExists(String username){
+        if(userService.isExists(username)){
+            //存在
+            return new Result(false,"用户名已存在");
+        }else {
+            //不存在
+            return new Result(true,"用户名可以使用");
+        }
+    }
+
 }

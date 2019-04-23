@@ -1639,21 +1639,20 @@ article .quote {
 
 .btn-comment {
   margin-top: 20px;
-  min-width: 100px;
   color: #fff;
   text-transform: uppercase;
   border-style: solid;
   border-width: 1px;
-  border-color: #eb9024;
+  border-color: #e5deeb;
   border-radius: 8px;
-  background-image: -webkit-linear-gradient(90deg, #e2871a 0%, #ea9836 100%);
-  background-image: -ms-linear-gradient(90deg, #e2871a 0%, #ea9836 100%);
+  background-image: -webkit-linear-gradient(90deg, #37b8e2 0%, #6fd6ea 100%);
+  background-image: -ms-linear-gradient(90deg, #36bbe2 0%, #5cd9ea 100%);
   -webkit-transition-property: color, background;
   transition-property: color, background;
 }
 
 .btn-comment:hover {
-  color: #f38844;
+  color: #3dc7f3;
   background-image: none;
   background-color: #ffffff;
 }
@@ -2381,6 +2380,42 @@ article .quote {
   .copyright {
     font-size: 12px;
   }
+}
+
+.circular{
+    width: 50px;
+    height: 50px;
+    margin-top:80px;
+    border-radius: 50%;
+    position: relative;
+}
+.circular:after{
+    content:"";
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    /* background-color: #0000FF; */
+    position: absolute;
+    top:0;
+    left:0
+}
+.circular:hover:after{
+    animation: circle 1.3s  ease-out 75ms;
+}
+
+@keyframes circle{
+    0% {
+        opacity: 0.4;
+    }
+    40% {
+        opacity: 0.7;
+        box-shadow: 0 0 0 2px rgba(255,255,255,0.3), 0 0 10px 10px black, 0 0 0 10px rgba(255,255,255,0.8); /*三层阴影 */
+    }
+    100% {
+        box-shadow: 0 0 0 2px rgba(255,255,255,0.3), 0 0 10px 10px black, 0 0 0 10px rgba(255,255,255,0.8);
+        transform: scale(2); /*放大两倍*/
+        opacity: 0;
+    }
 }
 /***********************************
         /* END 6.RESPONSIVE */

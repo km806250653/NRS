@@ -9,6 +9,7 @@
     <result column="source" property="source" jdbcType="VARCHAR" />
     <result column="cid" property="cid" jdbcType="INTEGER" />
     <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="cn.hncu.pojo.News" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
@@ -72,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, title, author, releaseDate, source, cid, uid
+    id, title, author, releaseDate, source, cid, uid, image
   </sql>
   <sql id="Blob_Column_List" >
     content
@@ -126,12 +127,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.hncu.pojo.News" >
+    <selectKey resultType="java.lang.Integer" order="AFTER"
+               keyProperty="id">
+      SELECT LAST_INSERT_ID() AS id
+    </selectKey>
     insert into news (id, title, author, 
       releaseDate, source, cid, 
-      uid, content)
+      uid, image, content
+      )
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
       #{releasedate,jdbcType=TIMESTAMP}, #{source,jdbcType=VARCHAR}, #{cid,jdbcType=INTEGER}, 
-      #{uid,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
+      #{uid,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cn.hncu.pojo.News" >
     insert into news
@@ -156,6 +163,9 @@
       </if>
       <if test="uid != null" >
         uid,
+      </if>
+      <if test="image != null" >
+        image,
       </if>
       <if test="content != null" >
         content,
@@ -182,6 +192,9 @@
       </if>
       <if test="uid != null" >
         #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
       </if>
       <if test="content != null" >
         #{content,jdbcType=LONGVARCHAR},
@@ -218,6 +231,9 @@
       <if test="record.uid != null" >
         uid = #{record.uid,jdbcType=INTEGER},
       </if>
+      <if test="record.image != null" >
+        image = #{record.image,jdbcType=VARCHAR},
+      </if>
       <if test="record.content != null" >
         content = #{record.content,jdbcType=LONGVARCHAR},
       </if>
@@ -235,6 +251,7 @@
       source = #{record.source,jdbcType=VARCHAR},
       cid = #{record.cid,jdbcType=INTEGER},
       uid = #{record.uid,jdbcType=INTEGER},
+      image = #{record.image,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -248,7 +265,8 @@
       releaseDate = #{record.releasedate,jdbcType=TIMESTAMP},
       source = #{record.source,jdbcType=VARCHAR},
       cid = #{record.cid,jdbcType=INTEGER},
-      uid = #{record.uid,jdbcType=INTEGER}
+      uid = #{record.uid,jdbcType=INTEGER},
+      image = #{record.image,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -274,6 +292,9 @@
       <if test="uid != null" >
         uid = #{uid,jdbcType=INTEGER},
       </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
       <if test="content != null" >
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
@@ -288,6 +309,7 @@
       source = #{source,jdbcType=VARCHAR},
       cid = #{cid,jdbcType=INTEGER},
       uid = #{uid,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -298,7 +320,8 @@
       releaseDate = #{releasedate,jdbcType=TIMESTAMP},
       source = #{source,jdbcType=VARCHAR},
       cid = #{cid,jdbcType=INTEGER},
-      uid = #{uid,jdbcType=INTEGER}
+      uid = #{uid,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

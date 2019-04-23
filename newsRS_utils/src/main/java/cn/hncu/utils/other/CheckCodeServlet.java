@@ -1,4 +1,4 @@
-package cn.hncu.utils;
+package cn.hncu.utils.other;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;

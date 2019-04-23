@@ -1,15 +1,17 @@
-app.controller('detailController',function ($scope,$controller,detailService) {
+app.controller('detailController',function ($scope,$controller,$location,detailService) {
 
     $controller('baseController',{$scope:$scope});
 
-    $scope.findComment = function (nid) {
-        detailService.findComment(nid).success(function (response) {
-            $scope.list = response;
+    $scope.findNews = function () {
+        var id  = $location.search()['id'];
+        detailService.findNews(id).success(function (response) {
+            $scope.news = response.news;
+            $scope.list = response.comments;
         });
     }
 
     //发表评论
-    $scope.releaseComment = function (nid,pid) {
+    $scope.releaseComment = function (pid) {
         if($scope.user==null){
             alert("未登录")
             return;
@@ -23,6 +25,7 @@ app.controller('detailController',function ($scope,$controller,detailService) {
             }
             $scope.comment.parentId = pid;
             $scope.comment.text = $scope.childTexts[pid];
+            $scope.childTexts[pid] = '';
         }else{
             //无pid，是根评论，设置文本为根文本框的值
             if(!$scope.text){
@@ -30,8 +33,9 @@ app.controller('detailController',function ($scope,$controller,detailService) {
                 return;
             }
             $scope.comment.text =$scope.text;
+            $scope.text = '';
         }
-        $scope.comment.nid = nid;
+        $scope.comment.nid = $scope.news.id;
         $scope.comment.uid = $scope.user.id;
         detailService.releaseComment($scope.comment).success(function (response) {
             if(response.success){

@@ -1,14 +1,12 @@
-package cn.hncu.common;
+package cn.hncu.utils;
+
+import org.csource.common.NameValuePair;
+import org.csource.fastdfs.*;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-import org.csource.common.NameValuePair;
-import org.csource.fastdfs.ClientGlobal;
-import org.csource.fastdfs.StorageClient1;
-import org.csource.fastdfs.StorageServer;
-import org.csource.fastdfs.TrackerClient;
-import org.csource.fastdfs.TrackerServer;
-
+@Component
 public class FastDFSClient {
 
 	private TrackerClient trackerClient = null;
@@ -61,7 +59,6 @@ public class FastDFSClient {
 	 * @throws Exception
 	 */
 	public String uploadFile(byte[] fileContent, String extName, NameValuePair[] metas) throws Exception {
-		
 		String result = storageClient.upload_file1(fileContent, extName, metas);
 		return result;
 	}
@@ -78,4 +75,8 @@ public class FastDFSClient {
 		return  storageClient.delete_file1(url);
 	}
 
+	public Integer deleteFile(String url,String pre) throws Exception {
+		url = url.substring(pre.length());
+		return this.deleteFile(url);
+	}
 }

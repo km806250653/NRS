@@ -1,8 +1,9 @@
 package cn.hncu.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class News {
+public class News implements Serializable {
     private Integer id;
 
     private String title;
@@ -17,7 +18,24 @@ public class News {
 
     private Integer uid;
 
+    private String image;
+
     private String content;
+
+    @Override
+    public String toString() {
+        return "News{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", releasedate=" + releasedate +
+                ", source='" + source + '\'' +
+                ", cid=" + cid +
+                ", uid=" + uid +
+                ", image='" + image + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
 
     public Integer getId() {
         return id;
@@ -73,6 +91,14 @@ public class News {
 
     public void setUid(Integer uid) {
         this.uid = uid;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image == null ? null : image.trim();
     }
 
     public String getContent() {
