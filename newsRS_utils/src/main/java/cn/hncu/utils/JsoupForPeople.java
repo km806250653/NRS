@@ -74,7 +74,7 @@ public class JsoupForPeople {
             String dateStr = element.text().substring(0,16);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日hh:mm");
             Date date = sdf.parse(dateStr);  //格式化日期
-            news.setReleasedate(date);
+            news.setReleaseDate(date);
         } catch (ParseException e) {
             System.err.println("格式化日期错误");
         }

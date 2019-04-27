@@ -49,14 +49,15 @@ app.controller('baseController', function ($scope, $interval, baseService) {
         itemsPerPage: 8,
         perPageOptions: [8, 12, 16, 20, 24],
         onChange: function(){
-            if($scope.loadDataFirst == 1) {
-                $scope.findList($scope.cid);//重新加载
-                $scope.loadDataFirst = 2;
-            }else if($scope.loadDataFirst == 2) {
-                $scope.loadDataFirst = 0;
-            }else if ($scope.loadDataFirst == 0) {
-                $scope.findList($scope.cid); //重新加载
-            }
+            $scope.findList();
+            // if($scope.loadDataFirst == 1) {
+            //     $scope.findList();//重新加载
+            //     $scope.loadDataFirst = 2;
+            // }else if($scope.loadDataFirst == 2) {
+            //     $scope.loadDataFirst = 0;
+            // }else if ($scope.loadDataFirst == 0) {
+            //     $scope.findList(); //重新加载
+            // }
         }
     };
 
@@ -67,13 +68,7 @@ app.controller('baseController', function ($scope, $interval, baseService) {
         }
     );
 
-    //获取用户信息
-    $scope.getUser = function () {
-        baseService.getUser().success(function (response) {
-                $scope.user = response.object;
-            });
-    }
-    $scope.getUser();
+
 
     //获取天气
     $scope.getWeather = baseService.getIp().success(function (response) {
@@ -103,6 +98,12 @@ app.controller('baseController', function ($scope, $interval, baseService) {
     $scope.chooseDate = function (index) {
         $scope.selectDate = $scope.weather.data[index];
     }
+    //获取用户信息
+    $scope.getUser = function () {
+        baseService.getUser().success(function (response) {
+            $scope.user = response.object;
+        });
+    }
 
     //登出
     $scope.logout = function () {
@@ -114,6 +115,9 @@ app.controller('baseController', function ($scope, $interval, baseService) {
 
     //
     $scope.findNewsList = function(id){
+        //将当前页置1
+        $scope.paginationConf.currentPage=1;
+
         $scope.cid = id;
         var number = location.href.indexOf("news_list.html");
         if(number>=0){
@@ -124,8 +128,8 @@ app.controller('baseController', function ($scope, $interval, baseService) {
             location.href = $scope.pathJson.projectPath+'pages/news_list.html#?id='+$scope.cid;
         }
     }
-    $scope.findList = function (id) {
-        baseService.findNewsList(id,$scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage).success(function (response) {
+    $scope.findList = function () {
+        baseService.findNewsList($scope.cid,$scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage).success(function (response) {
             $scope.list = response.rows;
             $scope.paginationConf.totalItems = response.total;
         });

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发布新闻</title>
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="../css/own_page.css" rel="stylesheet">
+    <link href="../css/own_page_routes.css" rel="stylesheet">
+    <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- 富文本编辑器 -->
+    <link rel="stylesheet" href="../plugins/kindeditor/themes/default/default.css"/>
+    <script charset="utf-8" src="../plugins/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="../plugins/kindeditor/lang/zh_CN.js"></script>
+
+    <script src="../plugins/angularjs/angular.min.js"></script>
+    <script src="../js/ownPage.js"></script>
+    <script src="../js/service/editService.js"></script>
+    <script src="../js/controller/newsEditController.js"></script>
+
+</head>
+<body ng-app="newsRS" ng-controller="newsEditController" ng-init="init()">
+<header class="AppHeader">
+    <div class="AppHeader-inner">
+        <nav class="AppHeader-nav">
+            <a class="AppHeader-navItem" href="http://192.168.25.1/newsRS_web">首页</a>
+        </nav>
+        <div class="AppHeader-userInfo">
+            <div class="Popover">
+                <img src="../img/icon/msg.jpg" style="width:25px;height: 25px"><span class="Messages-count">1</span>
+            </div>
+            &nbsp;&nbsp;<img src="{{user.image==null?'../img/icon/photo.png':user.image}}"
+                             style="width:35px;height: 35px;border-radius: 50%">
+        </div>
+    </div>
+</header>
+<main class="App-main">
+    <div class="ProfileHeader">
+        <div class="Card">
+            <div class="ProfileHeader-main">
+                <div class="ProfileEdit-fields" style="margin-left: 100px">
+                    <div class="Field"><h3 class="Field-label">标题</h3>
+                        <div class="Field-content">
+                            <div class="HeadlineField-input Input-wrapper is-focus">
+                                <input class="Input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Field"><h3 class="Field-label">邮箱</h3>
+                        <div class="Field-content">
+                            <div class="HeadlineField-input Input-wrapper is-focus">
+                                <input class="Input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Field"><h3 class="Field-label">签名</h3>
+                        <div class="Field-content">
+                            <div class="HeadlineField-input Input-wrapper is-focus">
+                                <input class="Input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Field"><h3 class="Field-label">电话号码</h3>
+                        <div class="Field-content">
+                            <div class="HeadlineField-input Input-wrapper is-focus">
+                                <input class="Input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Field">
+                        <div class="Field-content">
+                            <div>
+                                <div class="HeadlineField-actions" style="margin-left: 150px">
+                                    <a class="Button Button--primary Button--blue" ng-click="update()">
+                                        保存
+                                    </a>
+                                    <a class="Button Button--primary" ng-click="cloneUser()">
+                                        重置
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <textarea name="content"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript">
+
+    var editor;
+    KindEditor.ready(function (K) {
+        editor = K.create('textarea[name="content"]', {
+            allowFileManager: true,
+            uploadJson: '../upload.do'
+        });
+    });
+
+</script>
+</body>
+</html>

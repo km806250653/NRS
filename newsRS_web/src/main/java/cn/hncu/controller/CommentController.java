@@ -1,7 +1,9 @@
 package cn.hncu.controller;
 
+import cn.hncu.entity.PageResult;
 import cn.hncu.entity.Result;
 import cn.hncu.pojo.Comment;
+import cn.hncu.pojo_group.CommNewsGroup;
 import cn.hncu.pojo_group.CommUserGroup;
 import cn.hncu.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,20 +23,43 @@ public class CommentController {
     @Autowired
     private ICommentService commentService;
 
-    @RequestMapping("/findByNid")
-    public List<CommUserGroup> findByNid(Integer nid){
-        return commentService.findByNid(nid);
+
+
+    @RequestMapping("/findByUid")
+    public PageResult findByUid(Integer uid, int pageNum) {
+        return commentService.findByUid(uid, pageNum);
     }
 
-    @RequestMapping("/releaseComment")
-    public Result releaseComment(@RequestBody Comment comment){
-        System.out.println(comment);
+    @RequestMapping("/like")
+    public Result like(Integer commentId, int uid) {
         try {
+            commentService.like(commentId, uid);
+            return new Result(true, "点赞成功");
+        } catch (Exception e) {
+            return new Result(false, "点赞失败");
+        }
+    }
+
+    @RequestMapping("/removeLike")
+    public Result removeLike(Integer commentId, int uid) {
+        try {
+            commentService.removeLike(commentId, uid);
+            return new Result(true, "取消点赞成功");
+        } catch (Exception e) {
+            return new Result(false, "取消点赞失败");
+        }
+    }
+
+
+    @RequestMapping("/releaseComment")
+    public Result releaseComment(@RequestBody Comment comment) {
+        try {
+            comment.setLikeCount(0);
             commentService.releaseComment(comment);
-            return new Result(true,"评论成功");
+            return new Result(true, "评论成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false,"评论出现错误");
+            return new Result(false, "评论出现错误");
         }
     }
 }

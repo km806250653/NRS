@@ -11,11 +11,16 @@ http://www.springframework.org/schema/security/spring-security.xsd">
     <http pattern="/fonts/**" security="none"></http>
     <http pattern="/img/**" security="none"></http>
     <http pattern="/js/**" security="none"></http>
-    <http pattern="/pages/**" security="none"></http>
+    <!--<http pattern="/pages/**" security="none"></http>-->
     <http pattern="/plugins/**" security="none"></http>
     <!--   entry-point-ref  入口点引用 -->
     <http use-expressions="false" entry-point-ref="casProcessingFilterEntryPoint">
+        <headers>
+            <!--允许加载所有frame-->
+            <frame-options policy="SAMEORIGIN"></frame-options>
+        </headers>
         <intercept-url pattern="/user/login.do" access="ROLE_USER"/>
+        <intercept-url pattern="/pages/own_page_edit.html" access="ROLE_USER"/>
         <csrf disabled="true"/>
         <!-- custom-interceptor 为过滤器， position 表示将过滤器放在指定的位置上，before 表示放
 在指定位置之前  ，after 表示放在指定的位置之后  -->

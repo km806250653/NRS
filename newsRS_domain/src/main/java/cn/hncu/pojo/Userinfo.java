@@ -11,7 +11,7 @@ public class Userinfo {
 
     private String email;
 
-    private Integer phoneNumber;
+    private Long phoneNumber;
 
     private String ismanager;
 
@@ -22,6 +22,12 @@ public class Userinfo {
     private String image;
 
     private String background;
+
+    private String introduction;
+
+    private Integer follow;
+
+    private Integer follower;
 
     public Integer getId() {
         return id;
@@ -63,11 +69,11 @@ public class Userinfo {
         this.email = email == null ? null : email.trim();
     }
 
-    public Integer getPhoneNumber() {
+    public Long getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Integer phoneNumber) {
+    public void setPhoneNumber(Long phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -109,5 +115,29 @@ public class Userinfo {
 
     public void setBackground(String background) {
         this.background = background == null ? null : background.trim();
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction == null ? null : introduction.trim();
+    }
+
+    public Integer getFollow() {
+        return follow;
+    }
+
+    public void setFollow(Integer follow) {
+        this.follow = follow;
+    }
+
+    public Integer getFollower() {
+        return follower;
+    }
+
+    public void setFollower(Integer follower) {
+        this.follower = follower;
     }
 }

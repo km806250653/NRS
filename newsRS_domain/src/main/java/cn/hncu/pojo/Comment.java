@@ -18,20 +18,9 @@ public class Comment {
 
     private Integer parentId;
 
-    private String text;
+    private Integer likeCount;
 
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", nid=" + nid +
-                ", uid=" + uid +
-                ", releaseTime=" + releaseTime +
-                ", status='" + status + '\'' +
-                ", parentId=" + parentId +
-                ", text='" + text + '\'' +
-                '}';
-    }
+    private String text;
 
     public Integer getId() {
         return id;
@@ -79,6 +68,14 @@ public class Comment {
 
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
+    }
+
+    public Integer getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(Integer likeCount) {
+        this.likeCount = likeCount;
     }
 
     public String getText() {

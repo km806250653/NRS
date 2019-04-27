@@ -13,9 +13,14 @@
     <script src="../js/service/detailService.js"></script>
     <script src="../js/controller/detailController.js"></script>
 
-    <title></title>
+    <title>新闻详情</title>
+    <style>
+        wrapper div {
+            margin: 10px;
+        }
+    </style>
 </head>
-<body ng-app="newsRS" ng-controller="detailController" ng-init="findNews();childTexts = []">
+<body ng-app="newsRS" ng-controller="detailController" ng-init="init()">
 
 <div ng-include="'../pages/header.html'"></div>
 <!-- END header -->
@@ -25,11 +30,48 @@
         <div class="row">
             <div class="col-sm-12 col-md-9 article_text">
                 <div class="current">
-                    <h1 class="text-center yel_line current__title">{{news.title}}</h1>
-                    <div ng-bind-html="news.content|trustHtml">{{news.content}}</div>
+                    <h1 class="text-center yel_line current__title">{{newsGroup.news.title}}</h1>
+                    <!-- 新闻信息 -->
+                    <div style="border-bottom: 1px solid gray;padding-bottom: 15px">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="comment-avatar">
+                                    <a href="own_page.html#?id={{newsGroup.user.id}}">
+                                        <img
+                                                style="width: 55px;height: 55px;border-radius: 99%"
+                                                src="{{newsGroup.user.image==null?pathJson.projectPath+'pages/img/photo.png':newsGroup.user.image}}">
+                                    </a>
+                                </div>
+                                <div class="comment-text">
+                                    <div class="comment-text">
+                                        <a href="own_page.html#?id={{newsGroup.user.id}}"><h6 class="comment-author">
+                                            {{newsGroup.user.name}}</h6></a>
+                                        <div class="comment-metadata">
+                                            <span class="comment-date">{{newsGroup.user.introduction}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-offset-2 col-sm-2">
+                                <a href="#" class="comment-date">{{newsGroup.news.releaseDate}}</a>
+
+                            </div>
+                            <div>
+                                <img src="../img/icon/yanjing.png" style="width: 15px;height: 15px">{{newsGroup.news.visitCount}}
+                                <img src="../img/icon/msg.jpg" style="width: 15px;height: 15px">{{newsGroup.news.commentCount}}
+                                <a href="javascript:void(0)" ng-click="favorite()"><img
+                                        src="../img/icon/{{newsGroup.favorite?'yishoucang':'shoucang'}}.png"
+                                        style="width: 15px;height: 15px">{{newsGroup.news.favoriteCount}}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 内容 -->
+                    <div ng-bind-html="newsGroup.news.content|trustHtml" style="margin-top: 50px">
+                        {{newsGroup.news.content}}
+                    </div>
                     <p class="current__text"></p>
-                    <blockquote class="quote current__quote">Lorem</blockquote>
-                    <p class="current__text">Duis aute </p>
+                    <blockquote class="quote current__quote"><a href="{{newsGroup.news.source}}">原文地址</a></blockquote>
+                    <p class="current__text">原作者：{{newsGroup.news.author}} </p>
                 </div>
             </div>
             <!--标签-->
@@ -52,22 +94,31 @@
             <div class="col-sm-9 col-md-8 col-lg-6">
                 <p class="comments__title">笔削褒贬</p>
                 <ul class="comment-list">
-                    <li class="comment" ng-repeat="entity in list">
+                    <li class="comment" ng-repeat="entity in newsGroup.comments">
                         <div class="comment-body">
                             <div class="comment-avatar">
                                 <a href="own_page.html#?id={{entity.user.id}}">
                                     <img alt=""
                                          src="{{entity.user.image==null?pathJson.projectPath+'pages/img/photo.png':entity.user.image}}"
-                                         style="width: 45px;height: 45px;border-radius: 50%">
+                                         style="width: 55px;height: 55px;border-radius: 50%;margin-top: 20px">
                                 </a>
                             </div>
                             <div class="comment-text">
                                 <a href="own_page.html#?id={{entity.user.id}}"><h6 class="comment-author">
-                                    {{entity.user.name}}</h6></a>
+                                    {{entity.user.name}}</h6><span
+                                        class="comment-date">{{entity.comment.releaseTime}}</span></a>
                                 <div class="comment-metadata">
-                                    <a href="#" class="comment-date">{{entity.comment.releaseTime}}</a>
+                                    <span class="comment-date">{{entity.user.introduction}}</span>
                                 </div>
-                                <p>{{entity.comment.text}}</p>
+
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <p>{{entity.comment.text}}</p>
+                                    </div>
+                                    <a href="javascript:void(0)" ng-click="like(entity)"><img
+                                            src="../img/icon/{{entity.like?'yidianzan':'dianzan'}}.png"
+                                            style="width: 15px;height: 15px">{{entity.comment.likeCount}}</a>
+                                </div>
                             </div>
 
                             <textarea name="text" class="form-control" rows="3" required="required"
@@ -82,21 +133,33 @@
                                 <div class="comment-body">
                                     <div class="comment-avatar">
                                         <a href="own_page.html#?id={{child.user.id}}"><img
-                                                style="width: 45px;height: 45px;border-radius: 50%"
+                                                style="width: 55px;height: 55px;border-radius: 50%;margin-top: 20px"
                                                 src="{{child.user.image==null?pathJson.projectPath+'pages/img/photo.png':child.user.image}}">
                                         </a>
                                     </div>
                                     <div class="comment-text">
                                         <a href="own_page.html#?id={{child.user.id}}"><h6
                                                 class="comment-author">{{child.user.name}}</h6>
+                                            <span class="comment-date">{{child.comment.releaseTime}}</span>
+
                                         </a>
                                         <div class="comment-metadata">
-                                            <a href="#" class="comment-date">{{child.comment.releaseTime}}</a>
+                                            <span class="comment-date">{{child.user.introduction}}</span>
                                         </div>
-                                        <p class="comment-date">{{child.comment.text}}</p>
+
+                                        <div class="row">
+                                            <div class="col-sm-10">
+                                                <p>{{child.comment.text}}</p>
+                                            </div>
+                                            <div>
+                                                <a href="javascript:void(0)" ng-click="like(child)"><img
+                                                        src="../img/icon/{{child.like?'yidianzan':'dianzan'}}.png"
+                                                        style="width: 15px;height: 15px">{{child.comment.likeCount}}</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </li> <!-- end reply comment -->
+                            </li>
                         </ul>
                     </li>
                 </ul>

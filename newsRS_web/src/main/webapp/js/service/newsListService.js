@@ -1,5 +1,5 @@
-app.service('newsListService',function ($http) {
-    this.findOne= function (id) {
-        return $http.get('../news/findOne.do?id='+id);
+app.service('newsListService', function ($http) {
+    this.findUser = function () {
+        return $http.get('../user/getUser.do');
     }
 });

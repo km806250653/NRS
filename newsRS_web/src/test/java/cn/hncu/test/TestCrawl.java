@@ -44,33 +44,33 @@ public class TestCrawl {
             }
         });
     }
-
-    @Test
-    public void people() throws IOException {
-        List<String> urlList = JsoupForPeople.getUrlFromPeople();
-        urlList.forEach(url -> {
-            if(url==null){
-                return;
-            }
-            if (newsService.isExists(url)) {
-                System.err.println("该新闻 : <" + url + "> 已存在于数据库");
-            }else {
-                try {
-                    NewsWithImages newsWithImages = JsoupForPeople.getNewsFromPeople(url);
-                    newsService.insert(newsWithImages);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    @Test
-    public void deleCrawlNews() {
-        try {
-//            newsService.deleCrawlNews();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//
+//    @Test
+//    public void people() throws IOException {
+//        List<String> urlList = JsoupForPeople.getUrlFromPeople();
+//        urlList.forEach(url -> {
+//            if(url==null){
+//                return;
+//            }
+//            if (newsService.isExists(url)) {
+//                System.err.println("该新闻 : <" + url + "> 已存在于数据库");
+//            }else {
+//                try {
+//                    NewsWithImages newsWithImages = JsoupForPeople.getNewsFromPeople(url);
+//                    newsService.insert(newsWithImages);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//    }
+//
+//    @Test
+//    public void deleCrawlNews() {
+//        try {
+////            newsService.deleCrawlNews();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

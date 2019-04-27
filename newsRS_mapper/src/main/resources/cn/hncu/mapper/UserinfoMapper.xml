@@ -7,12 +7,15 @@
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
-    <result column="phone_number" property="phoneNumber" jdbcType="INTEGER" />
+    <result column="phone_number" property="phoneNumber" jdbcType="BIGINT" />
     <result column="ismanager" property="ismanager" jdbcType="VARCHAR" />
     <result column="isactivated" property="isactivated" jdbcType="VARCHAR" />
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="image" property="image" jdbcType="VARCHAR" />
     <result column="background" property="background" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+    <result column="follow" property="follow" jdbcType="INTEGER" />
+    <result column="follower" property="follower" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -74,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, username, password, name, email, phone_number, ismanager, isactivated, code, 
-    image, background
+    image, background, introduction, follow, follower
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.hncu.pojo.UserinfoExample" >
     select
@@ -110,11 +113,13 @@
     insert into userinfo (id, username, password, 
       name, email, phone_number, 
       ismanager, isactivated, code, 
-      image, background)
+      image, background, introduction, 
+      follow, follower)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=BIGINT}, 
       #{ismanager,jdbcType=VARCHAR}, #{isactivated,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
-      #{image,jdbcType=VARCHAR}, #{background,jdbcType=VARCHAR})
+      #{image,jdbcType=VARCHAR}, #{background,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, 
+      #{follow,jdbcType=INTEGER}, #{follower,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cn.hncu.pojo.Userinfo" >
     insert into userinfo
@@ -152,6 +157,15 @@
       <if test="background != null" >
         background,
       </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+      <if test="follow != null" >
+        follow,
+      </if>
+      <if test="follower != null" >
+        follower,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -170,7 +184,7 @@
         #{email,jdbcType=VARCHAR},
       </if>
       <if test="phoneNumber != null" >
-        #{phoneNumber,jdbcType=INTEGER},
+        #{phoneNumber,jdbcType=BIGINT},
       </if>
       <if test="ismanager != null" >
         #{ismanager,jdbcType=VARCHAR},
@@ -186,6 +200,15 @@
       </if>
       <if test="background != null" >
         #{background,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="follow != null" >
+        #{follow,jdbcType=INTEGER},
+      </if>
+      <if test="follower != null" >
+        #{follower,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -214,7 +237,7 @@
         email = #{record.email,jdbcType=VARCHAR},
       </if>
       <if test="record.phoneNumber != null" >
-        phone_number = #{record.phoneNumber,jdbcType=INTEGER},
+        phone_number = #{record.phoneNumber,jdbcType=BIGINT},
       </if>
       <if test="record.ismanager != null" >
         ismanager = #{record.ismanager,jdbcType=VARCHAR},
@@ -231,6 +254,15 @@
       <if test="record.background != null" >
         background = #{record.background,jdbcType=VARCHAR},
       </if>
+      <if test="record.introduction != null" >
+        introduction = #{record.introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.follow != null" >
+        follow = #{record.follow,jdbcType=INTEGER},
+      </if>
+      <if test="record.follower != null" >
+        follower = #{record.follower,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -243,12 +275,15 @@
       password = #{record.password,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
-      phone_number = #{record.phoneNumber,jdbcType=INTEGER},
+      phone_number = #{record.phoneNumber,jdbcType=BIGINT},
       ismanager = #{record.ismanager,jdbcType=VARCHAR},
       isactivated = #{record.isactivated,jdbcType=VARCHAR},
       code = #{record.code,jdbcType=VARCHAR},
       image = #{record.image,jdbcType=VARCHAR},
-      background = #{record.background,jdbcType=VARCHAR}
+      background = #{record.background,jdbcType=VARCHAR},
+      introduction = #{record.introduction,jdbcType=VARCHAR},
+      follow = #{record.follow,jdbcType=INTEGER},
+      follower = #{record.follower,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -269,7 +304,7 @@
         email = #{email,jdbcType=VARCHAR},
       </if>
       <if test="phoneNumber != null" >
-        phone_number = #{phoneNumber,jdbcType=INTEGER},
+        phone_number = #{phoneNumber,jdbcType=BIGINT},
       </if>
       <if test="ismanager != null" >
         ismanager = #{ismanager,jdbcType=VARCHAR},
@@ -286,6 +321,15 @@
       <if test="background != null" >
         background = #{background,jdbcType=VARCHAR},
       </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="follow != null" >
+        follow = #{follow,jdbcType=INTEGER},
+      </if>
+      <if test="follower != null" >
+        follower = #{follower,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -295,12 +339,15 @@
       password = #{password,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      phone_number = #{phoneNumber,jdbcType=INTEGER},
+      phone_number = #{phoneNumber,jdbcType=BIGINT},
       ismanager = #{ismanager,jdbcType=VARCHAR},
       isactivated = #{isactivated,jdbcType=VARCHAR},
       code = #{code,jdbcType=VARCHAR},
       image = #{image,jdbcType=VARCHAR},
-      background = #{background,jdbcType=VARCHAR}
+      background = #{background,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=VARCHAR},
+      follow = #{follow,jdbcType=INTEGER},
+      follower = #{follower,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

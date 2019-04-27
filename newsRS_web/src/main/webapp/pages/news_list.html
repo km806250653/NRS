@@ -17,7 +17,7 @@
 </head>
 <body class="page" ng-app="newsRS" ng-controller="newsListController" ng-init="init()">
 
-<div class="wrapper-sticky-footer" >
+<div class="wrapper-sticky-footer">
 
     <div class="content-sticky">
         <!-- Header -->
@@ -27,37 +27,42 @@
         <div class="wrap wrap_gray pt20">
             <div class="container">
 
-                <div class="row" >
-                        <div class="col-sm-3" style="height: 300px" ng-repeat="entity in list">
-                            <div class="thumbnail thumbnail_small">
-                                <a href="details.html#?id={{entity.id}}" class="thumbnail__link">
-                                    <img src="{{entity.image}}" style="width: 270px;height: 153px" alt="News">
-                                </a>
-                                <div class="caption thumbnail__caption">
-                                    <div class="news caption__news">
-                                        <p class="news__category yellow-line">Economy</p>
-                                        <a href="details.html#?id={{entity.id}}" class="news__link">
-                                            <p class="news__text">{{entity.title}}</p>
-                                        </a>
-                                    </div>
-                                    <div class="posted">
-                                        <span class="posted__date">today, 12:30</span>
-                                        <ul class="posted__icon">
-                                            <li>
+                <div class="row">
+                    <div class="col-sm-3" style="height: 300px" ng-repeat="entity in list">
+                        <div class="thumbnail thumbnail_small">
+                            <a href="details.html#?id={{entity.id}}" class="thumbnail__link">
+                                <img src="{{entity.image}}" style="width: 270px;height: 153px" alt="News">
+                            </a>
+                            <div class="caption thumbnail__caption">
+                                <div class="news caption__news">
+                                    <p class="news__category yellow-line">Economy</p>
+                                    <a href="details.html#?id={{entity.id}}" class="news__link">
+                                        <p class="news__text">{{entity.title}}</p>
+                                    </a>
+                                </div>
+                                <div class="posted">
+                                    <span class="posted__date">{{entity.releaseDate}}</span>
+                                    <ul class="posted__icon">
+                                        <li>
                                                     <span>
-                                                <i class="icon-comment-empty"></i>29
+                                                <i class="icon-comment-empty"></i>{{entity.commentCount}}
                                             </span>
-                                            </li>
-                                            <li>
+                                        </li>
+                                        <li>
                                                     <span>
-                                                <i class="icon-eye"></i>2.3k
+                                                <i class="icon-eye"></i>{{entity.visitCount}}
                                             </span>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                        </li>
+                                        <li>
+                                                    <span>
+                                                <img src="../img/icon/shoucang.png" style="width: 10px">{{entity.favoriteCount}}
+                                            </span>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
                 </div>
 
@@ -78,6 +83,8 @@
             <footer ng-include="'footer.html'">
             </footer>
         </div>
+    </div>
+</div>
 </body>
 </html>
 

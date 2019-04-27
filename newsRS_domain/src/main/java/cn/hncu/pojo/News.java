@@ -1,16 +1,18 @@
 package cn.hncu.pojo;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
-public class News implements Serializable {
+public class News {
     private Integer id;
 
     private String title;
 
     private String author;
 
-    private Date releasedate;
+    @JsonFormat(pattern = "yyyy,MM-dd hh:mm")
+    private Date releaseDate;
 
     private String source;
 
@@ -20,22 +22,13 @@ public class News implements Serializable {
 
     private String image;
 
-    private String content;
+    private Integer commentCount;
 
-    @Override
-    public String toString() {
-        return "News{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", releasedate=" + releasedate +
-                ", source='" + source + '\'' +
-                ", cid=" + cid +
-                ", uid=" + uid +
-                ", image='" + image + '\'' +
-                ", content='" + content + '\'' +
-                '}';
-    }
+    private Integer visitCount;
+
+    private Integer favoriteCount;
+
+    private String content;
 
     public Integer getId() {
         return id;
@@ -61,12 +54,12 @@ public class News implements Serializable {
         this.author = author == null ? null : author.trim();
     }
 
-    public Date getReleasedate() {
-        return releasedate;
+    public Date getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setReleasedate(Date releasedate) {
-        this.releasedate = releasedate;
+    public void setReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public String getSource() {
@@ -99,6 +92,30 @@ public class News implements Serializable {
 
     public void setImage(String image) {
         this.image = image == null ? null : image.trim();
+    }
+
+    public Integer getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(Integer commentCount) {
+        this.commentCount = commentCount;
+    }
+
+    public Integer getVisitCount() {
+        return visitCount;
+    }
+
+    public void setVisitCount(Integer visitCount) {
+        this.visitCount = visitCount;
+    }
+
+    public Integer getFavoriteCount() {
+        return favoriteCount;
+    }
+
+    public void setFavoriteCount(Integer favoriteCount) {
+        this.favoriteCount = favoriteCount;
     }
 
     public String getContent() {

@@ -3,17 +3,32 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>个人中心</title>
+
+    <!-- 富文本编辑器 -->
+    <link rel="stylesheet" href="../plugins/kindeditor/themes/default/default.css" />
+    <script charset="utf-8" src="../plugins/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="../plugins/kindeditor/lang/zh_CN.js"></script>
+    
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
     <link href="../css/own_page.css" rel="stylesheet">
     <link href="../css/own_page_routes.css" rel="stylesheet">
     <script src="../plugins/angularjs/angular.min.js"></script>
     <script src="../js/ownPage.js"></script>
     <script src="../js/service/ownpageService.js"></script>
     <script src="../js/controller/ownpageController.js"></script>
+    <style>
+        #content img{
+            display: none;
+        }
+    </style>
 </head>
 <body ng-app="newsRS" ng-controller="ownpageController" ng-init="init()" style="line-height: 1.42858;
   font-size: 14px;">
+
 <!-- 头部 -->
-<header class="AppHeader" >
+<header class="AppHeader">
     <div class="AppHeader-inner">
         <nav class="AppHeader-nav">
             <a class="AppHeader-navItem" href="http://192.168.25.1/newsRS_web">首页</a>
@@ -23,41 +38,58 @@
             <div class="Popover">
                 <img src="../img/icon/msg.jpg" style="width:25px;height: 25px"><span class="Messages-count">1</span>
             </div>
-            &nbsp;&nbsp;<img src="{{user.image==null?'../img/icon/photo.png':user.image}}" style="width:35px;height: 35px;border-radius: 50%">
+            &nbsp;&nbsp;<img src="{{user.image==null?'../img/icon/photo.png':user.image}}"
+                             style="width:35px;height: 35px;border-radius: 50%">
         </div>
     </div>
 </header>
+
 <main class="App-main">
     <div class="ProfileHeader">
         <div class="Card">
             <div class="UserCoverEditor">
                 <div>
                     <div class="UserCover">
-                        <img src="{{currentUser.user.background==null?'../img/content/backgroud.jpg':currentUser.user.background}}"
+                        <img src="{{currentUser.background==null?'../img/content/background.jpg':currentUser.background}}"
                              style="width: 1000px">
                     </div>
                 </div>
             </div>
             <div class="ProfileHeader-main">
                 <!-- 大头像 -->
-                <div class="UserAvatarEditor ProfileHeader-avatar" style="top: -74px">
+                <div class="UserAvatarEditor ProfileHeader-avatar">
                     <div class="UserAvatar">
                         <img class="Avatar Avatar--large UserAvatar-inner" width="160" height="160"
-                             src="{{currentUser.user.image==null?'../img/icon/photo.png':currentUser.user.image}}">
+                             src="{{currentUser.image==null?'../img/icon/photo.png':currentUser.image}}">
                     </div>
                 </div>
 
                 <div class="ProfileHeader-content">
                     <div class="ProfileHeader-contentHead"><h1 class="ProfileHeader-title"><span
-                            class="ProfileHeader-name">{{currentUser.user.name}}</span></h1></div>
+                            class="ProfileHeader-name">{{currentUser.name}}</span></h1>
+                        <span class="ztext ProfileHeader-headline">{{currentUser.introduction}}</span>
+                    </div>
                     <div class="ProfileHeader-contentBody">
-                        <span ng-if="isOwn()" >我</span><span ng-if="!isOwn()">TA</span>的关注 <span class="Tabs-meta">1</span>
-                        &nbsp;&nbsp;关注<span ng-if="isOwn()" >我</span><span ng-if="!isOwn()">TA</span>的 <span class="Tabs-meta">1</span>
+                        {{isOwn()?'我':'TA'}}的关注 <span class="Tabs-meta">{{currentUser.follow}}</span>
+                        &nbsp;&nbsp;关注{{isOwn()?'我':'TA'}}的 <span
+                            class="Tabs-meta">{{currentUser.follower}}</span>
                     </div>
                     <div class="ProfileHeader-contentFooter">
-                        <div class="ProfileHeader-buttons">
-                            <a type="button" class="Button Button--blue" ng-if="isOwn()">编辑个人资料</a>
-                            <a type="button" class="Button Button--blue" ng-if="!isOwn()">查看详细资料</a>
+                        <div class="ProfileHeader-buttons" ng-show="user">
+                            <a type="button" href="../pages/news_edit.html" class="Button Button--blue"
+                               ng-if="isOwn()">发布新闻</a>
+                            <a type="button" href="../pages/own_page_edit.html" class="Button Button--blue"
+                               ng-if="isOwn()">编辑个人资料</a>
+                            <span ng-if="!isOwn()">
+                                <a type="button" href="javascript:void(0)"
+                                   class="Button Button--blue"
+                                   ng-click="follow()" ng-if="!followFlag">关注TA</a>
+
+                                <a type="button" href="javascript:void(0)"
+                                   class="Button Button--blue"
+                                   ng-click="removeFollow()" ng-if="followFlag">取消关注</a>
+                            </span>
+
                         </div>
                     </div>
                 </div>
@@ -68,99 +100,152 @@
     <div class="Profile-main">
         <div class="Profile-mainColumn" style="width: 100%">
             <div class="Card ProfileMain">
-                <div class="ProfileMain-header">
-                    <ul class="Tabs ProfileMain-tabs">
-                        <li class="Tabs-item">
-                            <a class="Tabs-link" href="javascript:void (0)">文章<span class="Tabs-meta">0</span></a>
-                        </li>
-                        <li class="Tabs-item">
-                            <a class="Tabs-link" href="javascript:void (0)">评论<span class="Tabs-meta">0</span></a>
-                        </li>
-                        <li class="Tabs-item">
-                            <div class="Popover Tabs-link">
-                                更多<img src="../img/icon/xiala.png" style="height: 12px;width: 12px">
+                <!--tab头-->
+                <ul class="nav nav-tabs">
+                    <li class="active Tabs ProfileMain-tabs">
+                        <a href="#news" data-toggle="tab">文章<span class="Tabs-meta">{{newsCount}}</span></a>
+                    </li>
+                    <li class="Tabs ProfileMain-tabs">
+                        <a href="#comment" data-toggle="tab">评论<span class="Tabs-meta">{{commentCount}}</span></a>
+                    </li>
+
+                </ul>
+                <!--tab头/-->
+
+                <!--tab内容-->
+                <div class="tab-content">
+                    <!--文章-->
+                    <div class="tab-pane active" id="news">
+                        <div class="List-header"><h4 class="List-headerText"><span>{{isOwn()?'我':'TA'}}的文章</span></h4>
+                            <div class="List-headerOptions">
+                                <div class="Popover">
+                                    <button type="button"
+                                            class="Button Select-button Select-plainButton Button--plain">
+                                        按时间排序<img src="../img/icon/shangxia.png"
+                                                  style="width: 24px;height: 24px">
+                                    </button>
+                                </div>
                             </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="List-header"><h4 class="List-headerText"><span>我的动态</span></h4>
-                    <div class="List-headerOptions">
-                        <div class="Popover">
-                            <button type="button"
-                                    class="Button Select-button Select-plainButton Button--plain">
-                                按时间排序<img src="../img/icon/shangxia.png"
-                                          style="width: 24px;height: 24px">
-                            </button>
+                        </div>
+                        <div class="EmptyState" style="margin-top: 75px;padding-bottom: 75px"
+                             ng-if="newsList.length<=0">
+                            <div class="EmptyState-inner">
+                                <img src="../img/icon/blankdoc.png" style="width: 100px;height: 100px">
+                                <div>空空如也</div>
+                            </div>
+                        </div>
+                        <div class="List-item" ng-repeat="news in newsList">
+                            <!-- 新闻标题 -->
+                            <h2 class="ContentItem-title">
+                                <a href="../pages/details.html#?id={{news.id}}" ng-click="">{{news.title}}</a>
+                            </h2>
+                            <div class="RichContent is-collapsed">
+                                <!-- 文章的图片 -->
+                                <div class="RichContent-cover" ng-if="news.image.length>0">
+                                    <div class="RichContent-cover-inner">
+                                        <img src="{{news.image}}">
+                                    </div>
+                                </div>
+                                <!-- 内容预览 -->
+                                <div style="margin-top: 15px" id="content">
+                                    <span ng-bind-html="news.content|trustHtml" style='display:-webkit-box;-webkit-box-orient: vertical;
+                                        -webkit-line-clamp: 3;overflow:hidden;'>
+                                        {{news.content}}</span> ……
+                                </div>
+                                <!-- 下面的图标-->
+                                <div class="ContentItem-actions">
+                                    {{news.releaseDate}}
+                                    &nbsp;&nbsp;<img src="../img/icon/msg.jpg" style="width: 15px;height: 15px"><span
+                                        class="Tabs-meta">{{news.commentCount}}</span>
+                                    &nbsp;&nbsp;<img src="../img/icon/yanjing.png"
+                                                     style="width: 15px;height: 15px"><span class="Tabs-meta">{{news.visitCount}}</span>
+                                    &nbsp;&nbsp;<img src="../img/icon/shoucang.png"
+                                                     style="width: 15px;height: 15px"><span class="Tabs-meta">{{news.favoriteCount}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div  style="margin: 20px;margin-left: 400px" ng-if="newsList.length < newsCount">
+                            <a class="Button Button--primary" ng-click="findNews()">
+                                加载更多……
+                            </a>
                         </div>
                     </div>
-                </div>
-                <div class="EmptyState" style="margin-top: 100px">
-                    <div class="EmptyState-inner">
-                        <img src="../img/icon/blankdoc.png" style="width: 100px;height: 100px">
-                        <div>空空如也</div>
-                    </div>
-                </div>
-                <div style="margin-top: 15px">
-                    <div class="List-item">
-                        <!-- 新闻标题 -->
-                        <h2 class="ContentItem-title">
-                            <a href="javascript:void (0)">小米国内销量逐年下滑，如果你是雷军，有什么办法挽救颓势？</a>
-                        </h2>
-                        <div class="ContentItem-meta">
-                            <div class="AuthorInfo AnswerItem-authorInfo">
-                                <!-- 头像 -->
-                                <a class="UserLink-link" href="https://www.zhihu.com/people/qygg-36">
-                                    <img width="38" height="38"
-                                         src="../img/icon/photo.png">
-                                </a>
-                                <div class="AuthorInfo-content">
-                                    <!-- 昵称 -->
-                                    <div class="AuthorInfo-head">
+
+                    <!--评论-->
+                    <div class="tab-pane" id="comment">
+                        <div class="List-header"><h4 class="List-headerText"><span>{{isOwn()?'我':'TA'}}的评论</span></h4>
+                            <div class="List-headerOptions">
+                                <div class="Popover">
+                                    <button type="button"
+                                            class="Button Select-button Select-plainButton Button--plain">
+                                        按时间排序<img src="../img/icon/shangxia.png"
+                                                  style="width: 24px;height: 24px">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="EmptyState" style="margin-top: 100px" ng-if="commentList.lenth<=0">
+                            <div class="EmptyState-inner">
+                                <img src="../img/icon/blankdoc.png" style="width: 100px;height: 100px">
+                                <div>空空如也</div>
+                            </div>
+                        </div>
+                        <div class="List-item" ng-repeat="entity in commentList" >
+                            <!-- 新闻标题 -->
+                            <h2 class="ContentItem-title">
+                                <a href="../pages/details.html#?id={{entity.news.id}}">{{entity.news.title}}</a>
+                            </h2>
+                            <div class="ContentItem-meta">
+                                <div class="AuthorInfo AnswerItem-authorInfo">
+                                    <!-- 头像 -->
+                                    <a class="UserLink-link" href="https://www.zhihu.com/people/qygg-36">
+                                        <img width="38" height="38" style="border-radius: 50%"
+                                             src="{{currentUser.image}}">
+                                    </a>
+                                    <div class="AuthorInfo-content">
+                                        <!-- 昵称 -->
+                                        <div class="AuthorInfo-head">
                                                     <span class="UserLink AuthorInfo-name">
                                                         <div class="Popover">
-                                                            <a class="UserLink-link" href="javascript:void(0)">qygg</a>
+                                                            <a class="UserLink-link" href="javascript:void(0)">{{currentUser.name}}</a>
                                                         </div>
                                                     </span>
-                                    </div>
-                                    <!-- 签名 -->
-                                    <div class="AuthorInfo-detail">
-                                        <div class="AuthorInfo-badge">
-                                            <div class="AuthorInfo-badgeText">
-                                                最近回答了几个小米和吴京的问题，被喷的自闭了，卸载知乎。
+                                        </div>
+                                        <!-- 签名 -->
+                                        <div class="AuthorInfo-detail">
+                                            <div class="AuthorInfo-badge">
+                                                <div class="AuthorInfo-badgeText">
+                                                    {{currentUser.introduction}}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="RichContent is-collapsed">
-                            <!-- 文章的图片 -->
-                            <div class="RichContent-cover">
-                                <div class="RichContent-cover-inner">
-                                    <img src="../img/content/news1.jpg">
+                            <div class="RichContent is-collapsed">
+                                <!-- 内容预览 -->
+                                <div style="margin-top: 15px">
+                                    <span>{{entity.comment.text}}</span>
+                                </div>
+                                <!-- 下面的图标-->
+                                <div class="ContentItem-actions">
+                                    {{entity.comment.releaseTime}}
+                                    &nbsp;&nbsp;<img src="../img/icon/dianzan.png"
+                                                     style="width: 15px;height: 15px"><span class="Tabs-meta">{{entity.comment.likeCount}}</span>
                                 </div>
                             </div>
-                            <!-- 内容预览 -->
-                            <div style="margin-top: 15px">
-                                <span>先说结论 1.大力发展智能家居，用小米手机给智能家居引流，再用智能家居在反哺小米手机。 2.用使用高通旗舰芯片的红米和小屏次旗舰小米se接住2000-3000档的市场，小米自己冲击更高的价格区间。 又到了知…</span>
-                                <button type="button" class="Button ContentItem-more Button--plain">阅读全文
-                                    <span>​<img src="../img/icon/xiala.png"
-                                                style="width: 12px;height: 12px"></span>
-                                </button>
-                            </div>
-                            <!-- 下面的图标-->
-                            <div class="ContentItem-actions">
-                                <img src="../img/icon/msg.jpg" style="width: 15px;height: 15px"><span class="Tabs-meta">1</span>
-                                &nbsp;&nbsp;<img src="../img/icon/yanjing.png" style="width: 15px;height: 15px"><span class="Tabs-meta">1</span>
-                            </div>
+                        </div>
+                        <div  style="margin: 20px;margin-left: 400px" ng-if="commentList.length < commentCount">
+                            <a class="Button Button--primary" ng-click="findComments()">
+                                加载更多……
+                            </a>
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>
 </main>
+
 </body>
 </html>

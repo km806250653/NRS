@@ -31,4 +31,14 @@ public interface INewsService {
      * @return
      */
     boolean isExists(String source);
+
+    void update(News news);
+
+    PageResult findListByUid(Integer uid, int pageNum);
+
+    void favorite(Integer nid, Integer uid);
+
+    void removeFavorite(Integer nid, Integer uid);
+
+    boolean isFavorite(Integer nid, Integer uid);
 }

@@ -8,6 +8,7 @@
     <result column="release_time" property="releaseTime" jdbcType="DATE" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="like_count" property="likeCount" jdbcType="INTEGER" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="cn.hncu.pojo.Comment" extends="BaseResultMap" >
     <result column="text" property="text" jdbcType="LONGVARCHAR" />
@@ -71,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, nid, uid, release_time, status, parent_id
+    id, nid, uid, release_time, status, parent_id, like_count
   </sql>
   <sql id="Blob_Column_List" >
     text
@@ -127,10 +128,10 @@
   <insert id="insert" parameterType="cn.hncu.pojo.Comment" >
     insert into comment (id, nid, uid, 
       release_time, status, parent_id, 
-      text)
+      like_count, text)
     values (#{id,jdbcType=INTEGER}, #{nid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, 
       #{releaseTime,jdbcType=DATE}, #{status,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
-      #{text,jdbcType=LONGVARCHAR})
+      #{likeCount,jdbcType=INTEGER}, #{text,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.hncu.pojo.Comment" >
     insert into comment
@@ -152,6 +153,9 @@
       </if>
       <if test="parentId != null" >
         parent_id,
+      </if>
+      <if test="likeCount != null" >
+        like_count,
       </if>
       <if test="text != null" >
         text,
@@ -175,6 +179,9 @@
       </if>
       <if test="parentId != null" >
         #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="likeCount != null" >
+        #{likeCount,jdbcType=INTEGER},
       </if>
       <if test="text != null" >
         #{text,jdbcType=LONGVARCHAR},
@@ -208,6 +215,9 @@
       <if test="record.parentId != null" >
         parent_id = #{record.parentId,jdbcType=INTEGER},
       </if>
+      <if test="record.likeCount != null" >
+        like_count = #{record.likeCount,jdbcType=INTEGER},
+      </if>
       <if test="record.text != null" >
         text = #{record.text,jdbcType=LONGVARCHAR},
       </if>
@@ -224,6 +234,7 @@
       release_time = #{record.releaseTime,jdbcType=DATE},
       status = #{record.status,jdbcType=VARCHAR},
       parent_id = #{record.parentId,jdbcType=INTEGER},
+      like_count = #{record.likeCount,jdbcType=INTEGER},
       text = #{record.text,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -236,7 +247,8 @@
       uid = #{record.uid,jdbcType=INTEGER},
       release_time = #{record.releaseTime,jdbcType=DATE},
       status = #{record.status,jdbcType=VARCHAR},
-      parent_id = #{record.parentId,jdbcType=INTEGER}
+      parent_id = #{record.parentId,jdbcType=INTEGER},
+      like_count = #{record.likeCount,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -259,6 +271,9 @@
       <if test="parentId != null" >
         parent_id = #{parentId,jdbcType=INTEGER},
       </if>
+      <if test="likeCount != null" >
+        like_count = #{likeCount,jdbcType=INTEGER},
+      </if>
       <if test="text != null" >
         text = #{text,jdbcType=LONGVARCHAR},
       </if>
@@ -272,6 +287,7 @@
       release_time = #{releaseTime,jdbcType=DATE},
       status = #{status,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=INTEGER},
+      like_count = #{likeCount,jdbcType=INTEGER},
       text = #{text,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -281,7 +297,8 @@
       uid = #{uid,jdbcType=INTEGER},
       release_time = #{releaseTime,jdbcType=DATE},
       status = #{status,jdbcType=VARCHAR},
-      parent_id = #{parentId,jdbcType=INTEGER}
+      parent_id = #{parentId,jdbcType=INTEGER},
+      like_count = #{likeCount,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

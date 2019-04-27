@@ -14,6 +14,7 @@ public class AjaxAllowInterceptor implements HandlerInterceptor {
     @Override
     @CrossOrigin(origins = "*")
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
         // 指定允许其他域名访问
 //        response.setHeader("Access-Control-Allow-Origin", "*");
 //        // 响应类型

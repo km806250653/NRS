@@ -112,7 +112,7 @@ public class JsoupForBaidu {
             System.err.println("时间解析出现异常");
         }
         date_now.setYear(new Date().getYear());
-        news.setReleasedate(date_now);
+        news.setReleaseDate(date_now);
 
         //随机设置分类
         news.setCid(new Random().nextInt(11) + 1);

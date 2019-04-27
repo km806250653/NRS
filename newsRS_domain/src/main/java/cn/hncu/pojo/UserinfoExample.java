@@ -454,52 +454,52 @@ public class UserinfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andPhoneNumberEqualTo(Integer value) {
+        public Criteria andPhoneNumberEqualTo(Long value) {
             addCriterion("phone_number =", value, "phoneNumber");
             return (Criteria) this;
         }
 
-        public Criteria andPhoneNumberNotEqualTo(Integer value) {
+        public Criteria andPhoneNumberNotEqualTo(Long value) {
             addCriterion("phone_number <>", value, "phoneNumber");
             return (Criteria) this;
         }
 
-        public Criteria andPhoneNumberGreaterThan(Integer value) {
+        public Criteria andPhoneNumberGreaterThan(Long value) {
             addCriterion("phone_number >", value, "phoneNumber");
             return (Criteria) this;
         }
 
-        public Criteria andPhoneNumberGreaterThanOrEqualTo(Integer value) {
+        public Criteria andPhoneNumberGreaterThanOrEqualTo(Long value) {
             addCriterion("phone_number >=", value, "phoneNumber");
             return (Criteria) this;
         }
 
-        public Criteria andPhoneNumberLessThan(Integer value) {
+        public Criteria andPhoneNumberLessThan(Long value) {
             addCriterion("phone_number <", value, "phoneNumber");
             return (Criteria) this;
         }
 
-        public Criteria andPhoneNumberLessThanOrEqualTo(Integer value) {
+        public Criteria andPhoneNumberLessThanOrEqualTo(Long value) {
             addCriterion("phone_number <=", value, "phoneNumber");
             return (Criteria) this;
         }
 
-        public Criteria andPhoneNumberIn(List<Integer> values) {
+        public Criteria andPhoneNumberIn(List<Long> values) {
             addCriterion("phone_number in", values, "phoneNumber");
             return (Criteria) this;
         }
 
-        public Criteria andPhoneNumberNotIn(List<Integer> values) {
+        public Criteria andPhoneNumberNotIn(List<Long> values) {
             addCriterion("phone_number not in", values, "phoneNumber");
             return (Criteria) this;
         }
 
-        public Criteria andPhoneNumberBetween(Integer value1, Integer value2) {
+        public Criteria andPhoneNumberBetween(Long value1, Long value2) {
             addCriterion("phone_number between", value1, value2, "phoneNumber");
             return (Criteria) this;
         }
 
-        public Criteria andPhoneNumberNotBetween(Integer value1, Integer value2) {
+        public Criteria andPhoneNumberNotBetween(Long value1, Long value2) {
             addCriterion("phone_number not between", value1, value2, "phoneNumber");
             return (Criteria) this;
         }
@@ -851,6 +851,196 @@ public class UserinfoExample {
 
         public Criteria andBackgroundNotBetween(String value1, String value2) {
             addCriterion("background not between", value1, value2, "background");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntroductionIsNull() {
+            addCriterion("introduction is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntroductionIsNotNull() {
+            addCriterion("introduction is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntroductionEqualTo(String value) {
+            addCriterion("introduction =", value, "introduction");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntroductionNotEqualTo(String value) {
+            addCriterion("introduction <>", value, "introduction");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntroductionGreaterThan(String value) {
+            addCriterion("introduction >", value, "introduction");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntroductionGreaterThanOrEqualTo(String value) {
+            addCriterion("introduction >=", value, "introduction");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntroductionLessThan(String value) {
+            addCriterion("introduction <", value, "introduction");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntroductionLessThanOrEqualTo(String value) {
+            addCriterion("introduction <=", value, "introduction");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntroductionLike(String value) {
+            addCriterion("introduction like", value, "introduction");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntroductionNotLike(String value) {
+            addCriterion("introduction not like", value, "introduction");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntroductionIn(List<String> values) {
+            addCriterion("introduction in", values, "introduction");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntroductionNotIn(List<String> values) {
+            addCriterion("introduction not in", values, "introduction");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntroductionBetween(String value1, String value2) {
+            addCriterion("introduction between", value1, value2, "introduction");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntroductionNotBetween(String value1, String value2) {
+            addCriterion("introduction not between", value1, value2, "introduction");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowIsNull() {
+            addCriterion("follow is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowIsNotNull() {
+            addCriterion("follow is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowEqualTo(Integer value) {
+            addCriterion("follow =", value, "follow");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowNotEqualTo(Integer value) {
+            addCriterion("follow <>", value, "follow");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowGreaterThan(Integer value) {
+            addCriterion("follow >", value, "follow");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowGreaterThanOrEqualTo(Integer value) {
+            addCriterion("follow >=", value, "follow");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowLessThan(Integer value) {
+            addCriterion("follow <", value, "follow");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowLessThanOrEqualTo(Integer value) {
+            addCriterion("follow <=", value, "follow");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowIn(List<Integer> values) {
+            addCriterion("follow in", values, "follow");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowNotIn(List<Integer> values) {
+            addCriterion("follow not in", values, "follow");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowBetween(Integer value1, Integer value2) {
+            addCriterion("follow between", value1, value2, "follow");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowNotBetween(Integer value1, Integer value2) {
+            addCriterion("follow not between", value1, value2, "follow");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowerIsNull() {
+            addCriterion("follower is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowerIsNotNull() {
+            addCriterion("follower is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowerEqualTo(Integer value) {
+            addCriterion("follower =", value, "follower");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowerNotEqualTo(Integer value) {
+            addCriterion("follower <>", value, "follower");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowerGreaterThan(Integer value) {
+            addCriterion("follower >", value, "follower");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowerGreaterThanOrEqualTo(Integer value) {
+            addCriterion("follower >=", value, "follower");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowerLessThan(Integer value) {
+            addCriterion("follower <", value, "follower");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowerLessThanOrEqualTo(Integer value) {
+            addCriterion("follower <=", value, "follower");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowerIn(List<Integer> values) {
+            addCriterion("follower in", values, "follower");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowerNotIn(List<Integer> values) {
+            addCriterion("follower not in", values, "follower");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowerBetween(Integer value1, Integer value2) {
+            addCriterion("follower between", value1, value2, "follower");
+            return (Criteria) this;
+        }
+
+        public Criteria andFollowerNotBetween(Integer value1, Integer value2) {
+            addCriterion("follower not between", value1, value2, "follower");
             return (Criteria) this;
         }
     }

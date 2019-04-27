@@ -1,9 +1,7 @@
 package cn.hncu.service.impl;
 
 import cn.hncu.entity.PageResult;
-import cn.hncu.mapper.CommentMapper;
-import cn.hncu.mapper.NewsImageMapper;
-import cn.hncu.mapper.NewsMapper;
+import cn.hncu.mapper.*;
 import cn.hncu.pojo.*;
 import cn.hncu.pojo_group.NewsWithImages;
 import cn.hncu.service.INewsService;
@@ -30,6 +28,9 @@ public class NewsServiceImpl implements INewsService {
     @Autowired
     private CommentMapper commentMapper;
 
+    @Autowired
+    private FavoritesMapper favoritesMapper;
+
 
 
     @Override
@@ -40,9 +41,9 @@ public class NewsServiceImpl implements INewsService {
 
     @Override
     public void insert(NewsWithImages newsWithImages) {
-        if (newsWithImages ==null)
+        if (newsWithImages == null)
             return;
-        System.out.println("已爬取 ： "+ newsWithImages.getNews().getTitle());
+        System.out.println("已爬取 ： " + newsWithImages.getNews().getTitle());
         newsMapper.insert(newsWithImages.getNews());
         Integer nid = newsWithImages.getNews().getId();
         newsWithImages.getImages().forEach(newsImage -> {
@@ -54,16 +55,73 @@ public class NewsServiceImpl implements INewsService {
 
     @Override
     public PageResult findListByCid(Integer cid, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
-        NewsExample example =new NewsExample();
+        PageHelper.startPage(pageNum, pageSize);
+        NewsExample example = new NewsExample();
         NewsExample.Criteria criteria = example.createCriteria();
         criteria.andCidEqualTo(cid);
         Page<News> page = (Page<News>) newsMapper.selectByExample(example);
-        return new PageResult(page.getTotal(),page.getResult());
+        return new PageResult(page.getTotal(), page.getResult());
     }
+
+    @Override
+    public PageResult findListByUid(Integer uid, int pageNum) {
+        PageHelper.startPage(pageNum, 4);
+        NewsExample example = new NewsExample();
+        NewsExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("release_date desc");
+        criteria.andUidEqualTo(uid);
+        //长文本需使用该方法
+        Page<News> page = (Page<News>) newsMapper.selectByExampleWithBLOBs(example);
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    @Override
+    public void favorite(Integer nid, Integer uid) {
+        //添加到收藏表
+        Favorites favorite = new Favorites(nid, uid);
+        favoritesMapper.insert(favorite);
+        //新闻被收藏+1
+        News news = newsMapper.selectByPrimaryKey(nid);
+        news.setFavoriteCount(news.getFavoriteCount() + 1);
+        newsMapper.updateByPrimaryKey(news);
+    }
+
+    @Override
+    public void removeFavorite(Integer nid, Integer uid) {
+        //从收藏表删除
+        FavoritesExample example = new FavoritesExample();
+        FavoritesExample.Criteria criteria = example.createCriteria();
+        criteria.andNidEqualTo(nid);
+        criteria.andUidEqualTo(uid);
+        favoritesMapper.deleteByExample(example);
+        //新闻收藏量-1
+        News news = newsMapper.selectByPrimaryKey(nid);
+        news.setFavoriteCount(news.getFavoriteCount() - 1);
+        newsMapper.updateByPrimaryKey(news);
+    }
+
+    @Override
+    public boolean isFavorite(Integer nid, Integer uid) {
+        if(uid == -1)
+            //未登录
+            return false;
+        //查询数据库是否存在该记录
+        FavoritesExample example = new FavoritesExample();
+        FavoritesExample.Criteria criteria = example.createCriteria();
+        criteria.andNidEqualTo(nid);
+        criteria.andUidEqualTo(uid);
+        List<Favorites> favorites = favoritesMapper.selectByExample(example);
+        System.out.println("aaaaaaaaaaaaa");
+        System.out.println(favorites.size()+"----------");
+        if (favorites.size() > 0)
+            return true;
+        return false;
+    }
+
 
     /**
      * 根据id删除图片
+     *
      * @param id
      * @throws Exception
      */
@@ -72,7 +130,7 @@ public class NewsServiceImpl implements INewsService {
         //查询该新闻，用于写日志  暂时为控制台输出
         News news = newsMapper.selectByPrimaryKey(id);
         System.out.print(new Date());
-        System.out.println("准备删除新闻id:"+news.getId()+",标题 : "+news.getTitle());
+        System.out.println("准备删除新闻id:" + news.getId() + ",标题 : " + news.getTitle());
         //获取fdfs客户端工具类对象
         FastDFSClient fastDFSClient = new FastDFSClient("classpath:fast_dfs_client.conf");
 
@@ -86,9 +144,9 @@ public class NewsServiceImpl implements INewsService {
             try {
                 //从fdfs服务器删除该图片
                 String url = newsImage.getUrl();
-                fastDFSClient.deleteFile(url,"http://192.168.25.136/");
+                fastDFSClient.deleteFile(url, "http://192.168.25.136/");
                 //伪日志
-                System.out.println("从fdfs删除文件 : "+newsImage.getUrl());
+                System.out.println("从fdfs删除文件 : " + newsImage.getUrl());
                 //从数据库删除该图片url
                 imageMapper.deleteByPrimaryKey(newsImage.getId());
             } catch (Exception e) {
@@ -104,13 +162,13 @@ public class NewsServiceImpl implements INewsService {
 
         //删除该新闻
         newsMapper.deleteByPrimaryKey(id);
-        System.out.print(new Date()+" : ");
-        System.out.println("已删除新闻id:"+news.getId()+",标题 : "+news.getTitle());
+        System.out.print(new Date() + " : ");
+        System.out.println("已删除新闻id:" + news.getId() + ",标题 : " + news.getTitle());
     }
 
     @Override
-    public void deleCrawlNews()  {
-        System.out.print(new Date()+" : ");
+    public void deleCrawlNews() {
+        System.out.print(new Date() + " : ");
         System.out.println("开始批量删除爬取的新闻");
         //查询所有爬取的新闻
         NewsExample example = new NewsExample();
@@ -131,6 +189,7 @@ public class NewsServiceImpl implements INewsService {
 
     /**
      * 判断新闻是否存在于数据库中
+     *
      * @param source
      * @return
      */
@@ -140,9 +199,16 @@ public class NewsServiceImpl implements INewsService {
         NewsExample.Criteria criteria = example.createCriteria();
         criteria.andSourceEqualTo(source);
         List<News> newsList = newsMapper.selectByExample(example);
-        if(newsList.size()>0){
+        if (newsList.size() > 0) {
             return true;
         }
         return false;
     }
+
+    @Override
+    public void update(News news) {
+        newsMapper.updateByPrimaryKeySelective(news);
+    }
+
+
 }

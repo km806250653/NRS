@@ -4,10 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.hncu.utils.FastDFSClient;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
 
 
 @RestController
@@ -17,7 +18,7 @@ public class UploadController {
 
 
     @RequestMapping("/upload")
-    public Map<String, Object> upload(MultipartFile imgFile) {
+    public Map<String, Object> upload(MultipartFile imgFile, HttpServletResponse response) {
         HashMap<String, Object> map = new HashMap<>();
 
         //获取文件拓展名

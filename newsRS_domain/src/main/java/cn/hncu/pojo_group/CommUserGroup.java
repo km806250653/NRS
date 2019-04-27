@@ -11,15 +11,10 @@ import java.util.List;
 public class CommUserGroup {
     private Comment comment;
     private Userinfo user;
+    private boolean isLike;
     private List<CommUserGroup> children;
 
-    public List<CommUserGroup> getChildren() {
-        return children;
-    }
 
-    public void setChildren(List<CommUserGroup> children) {
-        this.children = children;
-    }
 
     public CommUserGroup() {
     }
@@ -29,6 +24,28 @@ public class CommUserGroup {
         this.user = user;
     }
 
+    public CommUserGroup(Comment comment, Userinfo user, boolean isLike, List<CommUserGroup> children) {
+        this.comment = comment;
+        this.user = user;
+        this.isLike = isLike;
+        this.children = children;
+    }
+
+    public boolean isLike() {
+        return isLike;
+    }
+
+    public void setLike(boolean like) {
+        isLike = like;
+    }
+
+    public List<CommUserGroup> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<CommUserGroup> children) {
+        this.children = children;
+    }
     public Comment getComment() {
         return comment;
     }

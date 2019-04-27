@@ -30,7 +30,9 @@ app.controller('registerController', function ($scope, $controller, registerServ
         //去除最终选择的图片
         $scope.urlArr.splice($scope.urlArr.indexOf($scope.entity.image),1);
         //删除未选择的图片
-        registerService.deleImage($scope.urlArr);
+        if($scope.urlArr.length>0){
+            registerService.deleImage($scope.urlArr);
+        }
 
         registerService.register($scope.entity).success(
             function (response) {

@@ -5,11 +5,14 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="author" property="author" jdbcType="VARCHAR" />
-    <result column="releaseDate" property="releasedate" jdbcType="TIMESTAMP" />
+    <result column="release_date" property="releaseDate" jdbcType="TIMESTAMP" />
     <result column="source" property="source" jdbcType="VARCHAR" />
     <result column="cid" property="cid" jdbcType="INTEGER" />
     <result column="uid" property="uid" jdbcType="INTEGER" />
     <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="comment_count" property="commentCount" jdbcType="INTEGER" />
+    <result column="visit_count" property="visitCount" jdbcType="INTEGER" />
+    <result column="favorite_count" property="favoriteCount" jdbcType="INTEGER" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="cn.hncu.pojo.News" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
@@ -73,7 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, title, author, releaseDate, source, cid, uid, image
+    id, title, author, release_date, source, cid, uid, image, comment_count, visit_count, 
+    favorite_count
   </sql>
   <sql id="Blob_Column_List" >
     content
@@ -127,17 +131,15 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.hncu.pojo.News" >
-    <selectKey resultType="java.lang.Integer" order="AFTER"
-               keyProperty="id">
-      SELECT LAST_INSERT_ID() AS id
-    </selectKey>
     insert into news (id, title, author, 
-      releaseDate, source, cid, 
-      uid, image, content
+      release_date, source, cid, 
+      uid, image, comment_count, 
+      visit_count, favorite_count, content
       )
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
-      #{releasedate,jdbcType=TIMESTAMP}, #{source,jdbcType=VARCHAR}, #{cid,jdbcType=INTEGER}, 
-      #{uid,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
+      #{releaseDate,jdbcType=TIMESTAMP}, #{source,jdbcType=VARCHAR}, #{cid,jdbcType=INTEGER}, 
+      #{uid,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{commentCount,jdbcType=INTEGER}, 
+      #{visitCount,jdbcType=INTEGER}, #{favoriteCount,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.hncu.pojo.News" >
@@ -152,8 +154,8 @@
       <if test="author != null" >
         author,
       </if>
-      <if test="releasedate != null" >
-        releaseDate,
+      <if test="releaseDate != null" >
+        release_date,
       </if>
       <if test="source != null" >
         source,
@@ -166,6 +168,15 @@
       </if>
       <if test="image != null" >
         image,
+      </if>
+      <if test="commentCount != null" >
+        comment_count,
+      </if>
+      <if test="visitCount != null" >
+        visit_count,
+      </if>
+      <if test="favoriteCount != null" >
+        favorite_count,
       </if>
       <if test="content != null" >
         content,
@@ -181,8 +192,8 @@
       <if test="author != null" >
         #{author,jdbcType=VARCHAR},
       </if>
-      <if test="releasedate != null" >
-        #{releasedate,jdbcType=TIMESTAMP},
+      <if test="releaseDate != null" >
+        #{releaseDate,jdbcType=TIMESTAMP},
       </if>
       <if test="source != null" >
         #{source,jdbcType=VARCHAR},
@@ -195,6 +206,15 @@
       </if>
       <if test="image != null" >
         #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="commentCount != null" >
+        #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="visitCount != null" >
+        #{visitCount,jdbcType=INTEGER},
+      </if>
+      <if test="favoriteCount != null" >
+        #{favoriteCount,jdbcType=INTEGER},
       </if>
       <if test="content != null" >
         #{content,jdbcType=LONGVARCHAR},
@@ -219,8 +239,8 @@
       <if test="record.author != null" >
         author = #{record.author,jdbcType=VARCHAR},
       </if>
-      <if test="record.releasedate != null" >
-        releaseDate = #{record.releasedate,jdbcType=TIMESTAMP},
+      <if test="record.releaseDate != null" >
+        release_date = #{record.releaseDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.source != null" >
         source = #{record.source,jdbcType=VARCHAR},
@@ -233,6 +253,15 @@
       </if>
       <if test="record.image != null" >
         image = #{record.image,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentCount != null" >
+        comment_count = #{record.commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.visitCount != null" >
+        visit_count = #{record.visitCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.favoriteCount != null" >
+        favorite_count = #{record.favoriteCount,jdbcType=INTEGER},
       </if>
       <if test="record.content != null" >
         content = #{record.content,jdbcType=LONGVARCHAR},
@@ -247,11 +276,14 @@
     set id = #{record.id,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
       author = #{record.author,jdbcType=VARCHAR},
-      releaseDate = #{record.releasedate,jdbcType=TIMESTAMP},
+      release_date = #{record.releaseDate,jdbcType=TIMESTAMP},
       source = #{record.source,jdbcType=VARCHAR},
       cid = #{record.cid,jdbcType=INTEGER},
       uid = #{record.uid,jdbcType=INTEGER},
       image = #{record.image,jdbcType=VARCHAR},
+      comment_count = #{record.commentCount,jdbcType=INTEGER},
+      visit_count = #{record.visitCount,jdbcType=INTEGER},
+      favorite_count = #{record.favoriteCount,jdbcType=INTEGER},
       content = #{record.content,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -262,11 +294,14 @@
     set id = #{record.id,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
       author = #{record.author,jdbcType=VARCHAR},
-      releaseDate = #{record.releasedate,jdbcType=TIMESTAMP},
+      release_date = #{record.releaseDate,jdbcType=TIMESTAMP},
       source = #{record.source,jdbcType=VARCHAR},
       cid = #{record.cid,jdbcType=INTEGER},
       uid = #{record.uid,jdbcType=INTEGER},
-      image = #{record.image,jdbcType=VARCHAR}
+      image = #{record.image,jdbcType=VARCHAR},
+      comment_count = #{record.commentCount,jdbcType=INTEGER},
+      visit_count = #{record.visitCount,jdbcType=INTEGER},
+      favorite_count = #{record.favoriteCount,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -280,8 +315,8 @@
       <if test="author != null" >
         author = #{author,jdbcType=VARCHAR},
       </if>
-      <if test="releasedate != null" >
-        releaseDate = #{releasedate,jdbcType=TIMESTAMP},
+      <if test="releaseDate != null" >
+        release_date = #{releaseDate,jdbcType=TIMESTAMP},
       </if>
       <if test="source != null" >
         source = #{source,jdbcType=VARCHAR},
@@ -295,6 +330,15 @@
       <if test="image != null" >
         image = #{image,jdbcType=VARCHAR},
       </if>
+      <if test="commentCount != null" >
+        comment_count = #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="visitCount != null" >
+        visit_count = #{visitCount,jdbcType=INTEGER},
+      </if>
+      <if test="favoriteCount != null" >
+        favorite_count = #{favoriteCount,jdbcType=INTEGER},
+      </if>
       <if test="content != null" >
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
@@ -305,11 +349,14 @@
     update news
     set title = #{title,jdbcType=VARCHAR},
       author = #{author,jdbcType=VARCHAR},
-      releaseDate = #{releasedate,jdbcType=TIMESTAMP},
+      release_date = #{releaseDate,jdbcType=TIMESTAMP},
       source = #{source,jdbcType=VARCHAR},
       cid = #{cid,jdbcType=INTEGER},
       uid = #{uid,jdbcType=INTEGER},
       image = #{image,jdbcType=VARCHAR},
+      comment_count = #{commentCount,jdbcType=INTEGER},
+      visit_count = #{visitCount,jdbcType=INTEGER},
+      favorite_count = #{favoriteCount,jdbcType=INTEGER},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -317,11 +364,14 @@
     update news
     set title = #{title,jdbcType=VARCHAR},
       author = #{author,jdbcType=VARCHAR},
-      releaseDate = #{releasedate,jdbcType=TIMESTAMP},
+      release_date = #{releaseDate,jdbcType=TIMESTAMP},
       source = #{source,jdbcType=VARCHAR},
       cid = #{cid,jdbcType=INTEGER},
       uid = #{uid,jdbcType=INTEGER},
-      image = #{image,jdbcType=VARCHAR}
+      image = #{image,jdbcType=VARCHAR},
+      comment_count = #{commentCount,jdbcType=INTEGER},
+      visit_count = #{visitCount,jdbcType=INTEGER},
+      favorite_count = #{favoriteCount,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh" data-hairline="true" data-focus-visible="">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>修改资料</title>
+    <link href="../css/own_page.css" rel="stylesheet">
+    <link href="../css/own_page_routes.css" rel="stylesheet">
+    <script src="../plugins/angularjs/angular.min.js"></script>
+    <script src="../js/ownPage.js"></script>
+    <script src="../js/service/editService.js"></script>
+    <script src="../js/controller/editController.js"></script>
+    <style>
+        error {
+            color: red;
+        }
+
+        .success {
+            width: 18px;
+            height: 18px;
+        }
+    </style>
+</head>
+<body ng-app="newsRS" ng-controller="editController" ng-init="init()" style="line-height: 1.42858;
+  font-size: 14px;">
+
+<!-- 头部 -->
+<header class="AppHeader">
+    <div class="AppHeader-inner">
+        <nav class="AppHeader-nav">
+            <a class="AppHeader-navItem" href="http://192.168.25.1/newsRS_web">首页</a>
+        </nav>
+        <div class="AppHeader-userInfo">
+            <div class="Popover">
+                <img src="../img/icon/msg.jpg" style="width:25px;height: 25px"><span class="Messages-count">1</span>
+            </div>
+            &nbsp;&nbsp;<img src="{{user.image==null?'../img/icon/photo.png':user.image}}"
+                             style="width:35px;height: 35px;border-radius: 50%">
+        </div>
+    </div>
+</header>
+<main role="main" class="App-main">
+            <div class="ProfileHeader">
+                <div class="Card">
+                    <div class="UserCoverEditor">
+                        <div>
+                            <div class="UserCover">
+                                <img src="{{editUser.background==null?'../img/content/background.jpg':editUser.background}}"
+                                     style="width: 1000px">
+                                <label class="UploadPicture-wrapper"><input type="file" id="backImage"
+                                                                            accept="image/png,image/jpeg"
+                                                                            class="UploadPicture-input" ng-model="aaa"
+                                                                            ng-change="upload('backImage')">
+                                    <div class="Mask UserAvatarEditor-mask">
+                                        <div class="Mask-mask Mask-mask--black UserAvatarEditor-maskInner"></div>
+                                        <div class="Mask-content">
+                                            <img src="../img/icon/paizhao.png" width="50">
+                                            <div class="UserAvatarEditor-maskInnerText">修改封面图片</div>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ProfileHeader-main">
+                        <!-- 大头像 -->
+                        <div class="UserAvatarEditor ProfileHeader-avatar">
+                            <div class="UserAvatar">
+                                <img class="Avatar Avatar--large UserAvatar-inner" width="160" height="160"
+                                     src="{{editUser.image==null?'../img/icon/photo.png':editUser.image}}">
+                                <label class="UploadPicture-wrapper"><input type="file" id="headImage"
+                                                                            accept="image/png,image/jpeg"
+                                                                            class="UploadPicture-input" ng-model="bbb"
+                                                                            ng-change="upload('headImage')">
+                                    <div class="Mask UserAvatarEditor-mask">
+                                        <div class="Mask-mask Mask-mask--black UserAvatarEditor-maskInner"></div>
+                                        <div class="Mask-content">
+                                            <img src="../img/icon/paizhao.png" width="50">
+                                            <div class="UserAvatarEditor-maskInnerText">修改我的头像</div>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="ProfileHeader-content">
+                            <div class="ProfileHeader-contentFooter" style="margin:20px">
+                                <div class="ProfileHeader-buttons">
+                                    <a type="button" href="../pages/own_page.html"
+                                       class="Button Button--blue">返回个人中心</a>
+                                </div>
+                            </div>
+                            <div class="ProfileEdit-fields">
+                                <form name="editForm">
+                                    <div class="Field"><h3 class="Field-label">昵称</h3>
+                                        <div class="Field-content">
+                                            <div class="HeadlineField-input Input-wrapper is-focus">
+                                                <input class="Input" ng-model="editUser.name" name="name" required
+                                                       ng-pattern="/^[a-zA-Z0-9_\u4e00-\u9fa5]+$/">
+                                                <error ng-show="editForm.name.$dirty && editForm.name.$error.required">*
+                                                </error>
+                                                <error ng-show="editForm.name.$error.pattern">
+                                                    不能包含特殊字符
+                                                </error>
+                                                <span ng-show="editUser.name != user.name && editForm.name.$valid">
+                                                <img class="success" src="../img/icon/success.png">
+                                            </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="Field"><h3 class="Field-label">邮箱</h3>
+                                        <div class="Field-content">
+                                            <div class="HeadlineField-input Input-wrapper is-focus">
+                                                <input class="Input" name="email" required ng-model="editUser.email"
+                                                       ng-pattern="/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/">
+                                                <error ng-show="editForm.email.$dirty && editForm.email.$error.required">
+                                                    *
+                                                </error>
+                                                <error ng-show="editForm.email.$error.pattern">
+                                                    邮箱格式不正确
+                                                </error>
+                                                <span ng-show="editUser.email != user.email && editForm.email.$valid">
+                                                    <img class="success" src="../img/icon/success.png">
+                                                 </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="Field"><h3 class="Field-label">签名</h3>
+                                        <div class="Field-content">
+                                            <div class="HeadlineField-input Input-wrapper is-focus">
+                                                <input class="Input" name="introduction" ng-model="editUser.introduction" required ng-maxlength="40">
+                                                <error ng-show="editForm.introduction.$dirty && editForm.introduction.$error.required">
+                                                    *
+                                                </error>
+                                                <error ng-show="editForm.introduction.$error.maxlength">
+                                                    长度不得大于40
+                                                </error>
+                                                <!-- 第二个条件意思是，未做改变时，不显示勾提高用户体验 -->
+                                                <span ng-show="editForm.introduction.$valid && editUser.introduction!=user.introduction">
+                                                    <img class="success" src="../img/icon/success.png">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="Field"><h3 class="Field-label">电话号码</h3>
+                                        <div class="Field-content">
+                                            <div class="HeadlineField-input Input-wrapper is-focus">
+                                                <input class="Input"   name="phoneNumber" ng-model="editUser.phoneNumber" required
+                                                       ng-pattern="/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/">
+                                                <error ng-show="editForm.phoneNumber.$dirty && editForm.phoneNumber.$error.required">
+                                                    *
+                                                </error>
+                                                <error ng-show="editForm.phoneNumber.$error.pattern">
+                                                    手机号不正确
+                                                </error>
+                                                <span ng-show="editUser.phoneNumber!=user.phoneNumber && editForm.phoneNumber.$valid">
+                                                    <img class="success" src="../img/icon/success.png">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="Field">
+                                    <div class="Field-content">
+                                        <div>
+                                            <div class="HeadlineField-actions" style="margin-left: 150px">
+                                                <a class="Button Button--primary Button--blue" ng-click="update()">
+                                                    保存
+                                                </a>
+                                                <a class="Button Button--primary" ng-click="cloneUser()">
+                                                    重置
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+</main>
+</body>
+</html>
