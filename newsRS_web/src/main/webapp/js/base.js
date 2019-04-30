@@ -14,7 +14,7 @@ var allPath = {
 app.service('baseService', function ($http) {
     path = allPath.projectPath;
     this.getCategory = function (type) {
-        return $http.get(path + "category/findAll.do?type=" + type);
+        return $http.get(path + "category/findSome.do?type=" + type);
     }
     this.getIp = function () {
         //第三方天气api

@@ -10,6 +10,7 @@ import cn.hncu.service.ICommentService;
 import cn.hncu.service.INewsService;
 import cn.hncu.service.IUserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,6 +43,15 @@ public class NewsController {
         return newsService.findListByUid(uid, pageNum);
     }
 
+    @RequestMapping("/insert")
+    public Result insertNews(@RequestBody News news) {
+        try {
+            newsService.insertNews(news);
+            return new Result(true, "收藏成功");
+        } catch (Exception e) {
+            return new Result(false, "收藏失败");
+        }
+    }
     @RequestMapping("/favorite")
     public Result favorite(Integer nid, Integer uid) {
         try {
@@ -82,8 +92,6 @@ public class NewsController {
         newsDetail.setComments(comments);
         //是否已被当前用户收藏
         boolean isFavorite = newsService.isFavorite(nid, uid);
-        System.out.println(nid+"************"+uid);
-        System.out.println(isFavorite);
         newsDetail.setFavorite(isFavorite);
 
         return newsDetail;

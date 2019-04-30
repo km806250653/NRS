@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -13,17 +14,22 @@ import java.util.List;
 /**
  * Created by Enzo Cotter on 2019/3/23.
  */
-@Controller
+@RestController
 @RequestMapping("category")
 public class CategoryController {
 
     @Autowired
     private ICategoryService categoryService;
 
-    @RequestMapping("/findAll")
-    @ResponseBody
-    public List<Category> findAll(String type) {
-        List<Category> categories = categoryService.findAll(type);
+    @RequestMapping("/findSome")
+    public List<Category> findSome(String type) {
+        List<Category> categories = categoryService.findSome(type);
         return categories;
     }
+
+    @RequestMapping("/findAll")
+    public List<Category> findAll(){
+        return categoryService.findAll();
+    }
+
 }

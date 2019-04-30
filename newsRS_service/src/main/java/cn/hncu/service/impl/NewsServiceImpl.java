@@ -111,11 +111,24 @@ public class NewsServiceImpl implements INewsService {
         criteria.andNidEqualTo(nid);
         criteria.andUidEqualTo(uid);
         List<Favorites> favorites = favoritesMapper.selectByExample(example);
-        System.out.println("aaaaaaaaaaaaa");
-        System.out.println(favorites.size()+"----------");
         if (favorites.size() > 0)
             return true;
         return false;
+    }
+
+    @Override
+    public void insertNews(News news) {
+        //设置发布时间
+        news.setReleaseDate(new Date());
+        news.setFavoriteCount(0);
+        news.setVisitCount(0);
+        news.setCommentCount(0);
+        newsMapper.insert(news);
+        if("".equals(news.getSource())){
+            //原创
+            news.setSource("../pages/details.html#?id="+news.getId());
+        }
+        newsMapper.updateByPrimaryKey(news);
     }
 
 

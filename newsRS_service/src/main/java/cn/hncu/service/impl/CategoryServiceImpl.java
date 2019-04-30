@@ -18,7 +18,7 @@ public class CategoryServiceImpl implements ICategoryService {
     @Autowired
     private CategoryMapper categoryMapper;
     @Override
-    public List<Category> findAll(String type) {
+    public List<Category> findSome(String type) {
         CategoryExample example = new CategoryExample();
         CategoryExample.Criteria criteria = example.createCriteria();
         if(type.equals("more"))
@@ -26,5 +26,10 @@ public class CategoryServiceImpl implements ICategoryService {
         else
             criteria.andIdLessThanOrEqualTo(6);
         return categoryMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<Category> findAll() {
+        return categoryMapper.selectByExample(null);
     }
 }

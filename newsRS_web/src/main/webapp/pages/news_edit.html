@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>发布新闻</title>
+    <title>新闻编辑</title>
     <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <link href="../css/own_page.css" rel="stylesheet">
@@ -11,13 +11,18 @@
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
     <!-- 富文本编辑器 -->
     <link rel="stylesheet" href="../plugins/kindeditor/themes/default/default.css"/>
-    <script charset="utf-8" src="../plugins/kindeditor/kindeditor-min.js"></script>
-    <script charset="utf-8" src="../plugins/kindeditor/lang/zh_CN.js"></script>
+    <script charset="utf-8" src="../plugins/kindeditor/kindeditor-all-min.js"></script>
+    <script charset="utf-8" src="../plugins/kindeditor/lang/zh-CN.js"></script>
 
     <script src="../plugins/angularjs/angular.min.js"></script>
     <script src="../js/ownPage.js"></script>
     <script src="../js/service/editService.js"></script>
     <script src="../js/controller/newsEditController.js"></script>
+    <style>
+        .Input-wrapper {
+            width: 110%;
+        }
+    </style>
 
 </head>
 <body ng-app="newsRS" ng-controller="newsEditController" ng-init="init()">
@@ -35,54 +40,85 @@
         </div>
     </div>
 </header>
-<main class="App-main">
+<main role="main" class="App-main">
     <div class="ProfileHeader">
         <div class="Card">
+            <div class="UserCoverEditor">
+                <div>
+                    <div class="UserCover">
+                        <img src="{{entity.image==null?'../img/content/background.jpg':entity.image}}"
+                             style="width: 1000px">
+                        <label class="UploadPicture-wrapper" ng-show="!entity.image"><input type="file" id="newsImage"
+                                                                    accept="image/png,image/jpeg"
+                                                                    class="UploadPicture-input" ng-model="aaa"
+                                                                    ng-change="upload()">
+                            <div class="Mask UserAvatarEditor-mask" >
+                                <div class="Mask-mask Mask-mask--black UserAvatarEditor-maskInner"></div>
+                                <div class="Mask-content">
+                                    <img src="../img/icon/paizhao.png" width="50">
+                                    <div class="UserAvatarEditor-maskInnerText">上传封面图片</div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
             <div class="ProfileHeader-main">
                 <div class="ProfileEdit-fields" style="margin-left: 100px">
                     <div class="Field"><h3 class="Field-label">标题</h3>
                         <div class="Field-content">
                             <div class="HeadlineField-input Input-wrapper is-focus">
-                                <input class="Input">
+                                <input class="Input" ng-model="entity.title">
                             </div>
                         </div>
                     </div>
-                    <div class="Field"><h3 class="Field-label">邮箱</h3>
+                    <div class="Field"><h3 class="Field-label">分类</h3>
                         <div class="Field-content">
                             <div class="HeadlineField-input Input-wrapper is-focus">
-                                <input class="Input">
+                                <select class="Input" ng-options="item.id as item.text for item in categories"
+                                        ng-model="entity.cid">
+                                    {{item.text}}
+                                </select>
                             </div>
                         </div>
                     </div>
-                    <div class="Field"><h3 class="Field-label">签名</h3>
+                    <div class="Field"><h3 class="Field-label">原创</h3>
                         <div class="Field-content">
-                            <div class="HeadlineField-input Input-wrapper is-focus">
-                                <input class="Input">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    原创<input class="Input" type="radio" ng-checked="true" ng-model="origin" value="1"
+                                             name="isOrigin">
+                                    转自<input class="Input" type="radio" ng-model="origin" value="0" name="isOrigin">
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="HeadlineField-input Input-wrapper is-focus" ng-show="origin=='0'">
+                                        <input class="Input" ng-model="entity.source" placeholder="请输入原网址">
+                                        <input class="Input" ng-model="entity.author" placeholder="请输入原作者">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="Field"><h3 class="Field-label">电话号码</h3>
+                    <div class="Field"><h3 class="Field-label">正文</h3>
                         <div class="Field-content">
-                            <div class="HeadlineField-input Input-wrapper is-focus">
-                                <input class="Input">
-                            </div>
+                            <textarea name="content"></textarea>
                         </div>
                     </div>
                     <div class="Field">
                         <div class="Field-content">
                             <div>
                                 <div class="HeadlineField-actions" style="margin-left: 150px">
-                                    <a class="Button Button--primary Button--blue" ng-click="update()">
+                                    <a class="Button Button--primary Button--blue" ng-click="insertNews()">
                                         保存
                                     </a>
-                                    <a class="Button Button--primary" ng-click="cloneUser()">
+                                    <a class="Button Button--primary" ng-click="clear()">
                                         重置
                                     </a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <textarea name="content"></textarea>
+
                 </div>
             </div>
         </div>
@@ -94,7 +130,9 @@
     KindEditor.ready(function (K) {
         editor = K.create('textarea[name="content"]', {
             allowFileManager: true,
-            uploadJson: '../upload.do'
+            uploadJson: '../upload.do',
+            width: '700px',
+            height: '400px'
         });
     });
 
