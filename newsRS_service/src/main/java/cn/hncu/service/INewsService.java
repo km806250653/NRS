@@ -43,4 +43,7 @@ public interface INewsService {
     boolean isFavorite(Integer nid, Integer uid);
 
     void insertNews(News news);
+
+    News findByNid(Integer id);
+
 }

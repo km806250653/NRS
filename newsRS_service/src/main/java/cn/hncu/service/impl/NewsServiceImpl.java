@@ -131,6 +131,12 @@ public class NewsServiceImpl implements INewsService {
         newsMapper.updateByPrimaryKey(news);
     }
 
+    @Override
+    public News findByNid(Integer id) {
+        return newsMapper.selectByPrimaryKey(id);
+    }
+
+
 
     /**
      * 根据id删除图片
@@ -145,7 +151,7 @@ public class NewsServiceImpl implements INewsService {
         System.out.print(new Date());
         System.out.println("准备删除新闻id:" + news.getId() + ",标题 : " + news.getTitle());
         //获取fdfs客户端工具类对象
-        FastDFSClient fastDFSClient = new FastDFSClient("classpath:fast_dfs_client.conf");
+        FastDFSClient fastDFSClient = new FastDFSClient("classpath:fast_dfs/fast_dfs_client.conf");
 
         //查询该新闻的所有图片
         NewsImageExample imageExample = new NewsImageExample();
@@ -153,19 +159,21 @@ public class NewsServiceImpl implements INewsService {
         imageExampleCriteria.andNidEqualTo(id);
         List<NewsImage> newsImages = imageMapper.selectByExample(imageExample);
         //遍历图片集合
-        newsImages.forEach(newsImage -> {
-            try {
-                //从fdfs服务器删除该图片
-                String url = newsImage.getUrl();
-                fastDFSClient.deleteFile(url, "http://192.168.25.136/");
-                //伪日志
-                System.out.println("从fdfs删除文件 : " + newsImage.getUrl());
-                //从数据库删除该图片url
-                imageMapper.deleteByPrimaryKey(newsImage.getId());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+            newsImages.forEach(newsImage -> {
+                try {
+                    //从fdfs服务器删除该图片
+                    String url = newsImage.getUrl();
+                    fastDFSClient.deleteFile(url, "http://192.168.25.136/");
+                    //伪日志
+                    System.out.println("从fdfs删除文件 : " + newsImage.getUrl());
+                    //从数据库删除该图片url
+                    imageMapper.deleteByPrimaryKey(newsImage.getId());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+
         //删除该新闻的评论
         CommentExample commentExample = new CommentExample();
         CommentExample.Criteria commentExampleCriteria = commentExample.createCriteria();

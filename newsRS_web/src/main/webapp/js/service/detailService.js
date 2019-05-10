@@ -1,6 +1,6 @@
 app.service('detailService',function ($http) {
     this.findNews = function (nid,uid) {
-        return $http.get('../news/findOne.do?nid='+nid+'&uid='+uid);
+        return $http.get('../news/findDetail.do?nid='+nid+'&uid='+uid);
     }
 
     this.releaseComment = function (comment) {

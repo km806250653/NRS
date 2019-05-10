@@ -132,7 +132,15 @@ app.controller('baseController', function ($scope, $interval, baseService) {
         baseService.findNewsList($scope.cid,$scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage).success(function (response) {
             $scope.list = response.rows;
             $scope.paginationConf.totalItems = response.total;
+            $scope.randomNullImage();
         });
+    }
+
+    $scope.randomNullImage = function () {
+        for (var i = 0;i<$scope.list.length;i++){
+            if(!$scope.list[i].image)
+                $scope.list[i].image = '../img/content/news'+Math.round(Math.random()*12+1)+'.jpg';
+        }
     }
 });
 

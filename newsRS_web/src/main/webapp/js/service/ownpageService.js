@@ -24,4 +24,8 @@ app.service('ownpageService',function ($http) {
     this.findComments = function (uid, currentPage) {
         return $http.get('../comment/findByUid.do?uid='+uid+'&pageNum='+currentPage)
     }
+
+    this.delete = function (id) {
+        return $http.get('../news/delete.do?id='+id);
+    }
 });

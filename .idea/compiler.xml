@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="newsRS_common" />
         <module name="newsRS_domain" />
         <module name="newsRS_mapper" />
         <module name="newsRS_service" />
@@ -17,9 +18,11 @@
       <module name="casdemo" target="1.8" />
       <module name="casdemo2" target="1.8" />
       <module name="casdemo3" target="1.8" />
+      <module name="control_service" target="1.8" />
       <module name="news_crawl" target="1.8" />
-      <module name="newsRS_common" target="1.8" />
       <module name="newsRS_crawl" target="1.8" />
+      <module name="synchro_redis_micro_service" target="1.8" />
+      <module name="synchro_solr_micro_service" target="1.8" />
       <module name="upload_service" target="1.8" />
     </bytecodeTargetLevel>
   </component>

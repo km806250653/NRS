@@ -25,24 +25,28 @@ public class TestCrawl {
     @Autowired
     private INewsService newsService;
 
+//    @Test
+//    public void baiDu() throws IOException {
+//        List<String> urlList = JsoupForBaidu.getUrlFromBaiDu();
+//        urlList.forEach(url -> {
+//            if(url==null){
+//                return;
+//            }
+//            if (newsService.isExists(url)) {
+//                System.err.println("该新闻 : <" + url + "> 已存在于数据库");
+//            }else {
+//                try {
+//                    NewsWithImages newsWithImages = JsoupForBaidu.getNewsFromBaiDu(url);
+//                    newsService.insert(newsWithImages);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//    }
     @Test
-    public void baiDu() throws IOException {
-        List<String> urlList = JsoupForBaidu.getUrlFromBaiDu();
-        urlList.forEach(url -> {
-            if(url==null){
-                return;
-            }
-            if (newsService.isExists(url)) {
-                System.err.println("该新闻 : <" + url + "> 已存在于数据库");
-            }else {
-                try {
-                    NewsWithImages newsWithImages = JsoupForBaidu.getNewsFromBaiDu(url);
-                    newsService.insert(newsWithImages);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+    public void deleteOne() throws Exception {
+        newsService.deleById(2109);
     }
 //
 //    @Test

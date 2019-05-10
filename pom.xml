@@ -14,6 +14,7 @@
         <module>newsRS_domain</module>
         <module>newsRS_service</module>
         <module>newsRS_utils</module>
+        <module>newsRS_common</module>
     </modules>
 
     <properties>

@@ -38,6 +38,34 @@ public class NewsController {
         return newsService.findListByCid(cid, pageNum, pageSize);
     }
 
+    @RequestMapping("/findOne")
+    public News findOne(Integer id) {
+
+        return newsService.findByNid(id);
+    }
+
+    @RequestMapping("/update")
+    public Result update(@RequestBody News news) {
+        try {
+            newsService.update(news);
+            return new Result(true,"修改成功");
+        } catch (Exception e) {
+            return new Result(false,"修改失败");
+        }
+    }
+
+    @RequestMapping("/delete")
+    public Result delete(Integer id) {
+        try {
+            newsService.deleById(id);
+            return new Result(true,"删除成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"删除失败");
+        }
+    }
+
+
     @RequestMapping("/findListByUid")
     public PageResult findListByUid(Integer uid, Integer pageNum) {
         return newsService.findListByUid(uid, pageNum);
@@ -58,6 +86,7 @@ public class NewsController {
             newsService.favorite(nid, uid);
             return new Result(true, "收藏成功");
         } catch (Exception e) {
+            e.printStackTrace();
             return new Result(false, "收藏失败");
         }
     }
@@ -74,7 +103,7 @@ public class NewsController {
 
 
 
-    @RequestMapping("/findOne")
+    @RequestMapping("/findDetail")
     public NewsDetail findOne(Integer nid, Integer uid) {
         NewsDetail newsDetail = new NewsDetail();
         News news = newsService.findOne(nid);
