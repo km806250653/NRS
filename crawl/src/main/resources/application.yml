@@ -1,0 +1,10 @@
+spring:
+  activemq:
+    broker-url: tcp://192.168.25.136:61616
+  datasource:
+    username: root
+    password: 123
+    url: jdbc:mysql://192.168.25.136:3306/nrs?characterEncoding=utf-8&serverTimezone=GMT%2B8&amp&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml

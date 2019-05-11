@@ -123,12 +123,11 @@ public class NewsServiceImpl implements INewsService {
         news.setFavoriteCount(0);
         news.setVisitCount(0);
         news.setCommentCount(0);
-        newsMapper.insert(news);
         if("".equals(news.getSource())){
             //原创
             news.setSource("../pages/details.html#?id="+news.getId());
         }
-        newsMapper.updateByPrimaryKey(news);
+        newsMapper.insert(news);
     }
 
     @Override
@@ -228,6 +227,10 @@ public class NewsServiceImpl implements INewsService {
 
     @Override
     public void update(News news) {
+        if("".equals(news.getSource())){
+            //原创
+            news.setSource("../pages/details.html#?id="+news.getId());
+        }
         newsMapper.updateByPrimaryKeySelective(news);
     }
 

@@ -44,10 +44,7 @@ public class TestCrawl {
 //            }
 //        });
 //    }
-    @Test
-    public void deleteOne() throws Exception {
-        newsService.deleById(2109);
-    }
+
 //
 //    @Test
 //    public void people() throws IOException {

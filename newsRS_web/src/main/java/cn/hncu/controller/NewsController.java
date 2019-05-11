@@ -75,9 +75,10 @@ public class NewsController {
     public Result insertNews(@RequestBody News news) {
         try {
             newsService.insertNews(news);
-            return new Result(true, "收藏成功");
+            return new Result(true, "发布成功");
         } catch (Exception e) {
-            return new Result(false, "收藏失败");
+            e.printStackTrace();
+            return new Result(false, "发布失败");
         }
     }
     @RequestMapping("/favorite")

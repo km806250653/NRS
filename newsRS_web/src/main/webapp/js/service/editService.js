@@ -20,6 +20,11 @@ app.service('editService',function ($http) {
         });
     }
 
+    //修改新闻时回显
+    this.findOne = function (id) {
+        return $http.get('../news/findOne.do?id='+id);
+    }
+
     //从文件服务器删除文件
     this.deleImage = function(urlArr){
         return $http.get("../deleImage.do?urlArr="+urlArr);
@@ -40,5 +45,8 @@ app.service('editService',function ($http) {
     //发布新闻
     this.insertNews = function (editNews) {
         return $http.post('../news/insert.do',editNews);
+    }
+    this.updateNews = function (editNews) {
+        return $http.post('../news/update.do',editNews);
     }
 });

@@ -1,10 +1,22 @@
-app.controller('newsEditController',function ($scope, editService) {
+app.controller('newsEditController',function ($scope,$location, editService) {
     $scope.init = function(){
         $scope.findUser();
         $scope.findCategory();
         $scope.entity = {};
         $scope.origin = '1';
         $scope.imageArr = [];
+        var id = $location.search()['id'];
+        if(id){
+            $scope.entity.id = id;
+            $scope.findOne();
+        }
+    }
+    //回显新闻
+    $scope.findOne = function(){
+        editService.findOne($scope.entity.id).success(function (response) {
+            $scope.entity = response;
+            editor.html($scope.entity.content);
+        });
     }
     $scope.findUser = function () {
         editService.findUser().success(function (response) {
@@ -38,16 +50,21 @@ app.controller('newsEditController',function ($scope, editService) {
             //来源置空，后台处理
             $scope.entity.source = '';
         }
-        editService.insertNews($scope.entity).success(function (response) {
+        var object = $scope.entity.id? editService.updateNews($scope.entity):editService.insertNews($scope.entity);
+        object.success(function (response) {
             if(response.success){
                 location.href = 'own_page.html#?id='+$scope.user.id;
             }
         });
     }
     //清空
-    $scope.clear = function () {
-        $scope.entity = {};
-        editor.html('');
+    $scope.reset = function () {
+        if($scope.entity.id){
+            $scope.findOne();
+        }else {
+            $scope.entity = {};
+            editor.html('');
+        }
     }
 
     //上传

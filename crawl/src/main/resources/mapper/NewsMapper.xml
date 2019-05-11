@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.hncu.mapper.NewsMapper" >
+  <resultMap id="BaseResultMap" type="cn.hncu.pojo.News" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="release_date" property="releaseDate" jdbcType="TIMESTAMP" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="cid" property="cid" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="comment_count" property="commentCount" jdbcType="INTEGER" />
+    <result column="visit_count" property="visitCount" jdbcType="INTEGER" />
+    <result column="favorite_count" property="favoriteCount" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="cn.hncu.pojo.News" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, title, author, release_date, source, cid, uid, image, comment_count, visit_count, 
+    favorite_count
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="cn.hncu.pojo.NewsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.hncu.pojo.NewsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from news
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from news
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.hncu.pojo.NewsExample" >
+    delete from news
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.hncu.pojo.News" >
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into news (id, title, author, 
+      release_date, source, cid, 
+      uid, image, comment_count, 
+      visit_count, favorite_count, content
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
+      #{releaseDate,jdbcType=TIMESTAMP}, #{source,jdbcType=VARCHAR}, #{cid,jdbcType=INTEGER}, 
+      #{uid,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{commentCount,jdbcType=INTEGER}, 
+      #{visitCount,jdbcType=INTEGER}, #{favoriteCount,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.hncu.pojo.News" >
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into news
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="releaseDate != null" >
+        release_date,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="cid != null" >
+        cid,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="commentCount != null" >
+        comment_count,
+      </if>
+      <if test="visitCount != null" >
+        visit_count,
+      </if>
+      <if test="favoriteCount != null" >
+        favorite_count,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseDate != null" >
+        #{releaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="commentCount != null" >
+        #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="visitCount != null" >
+        #{visitCount,jdbcType=INTEGER},
+      </if>
+      <if test="favoriteCount != null" >
+        #{favoriteCount,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.hncu.pojo.NewsExample" resultType="java.lang.Integer" >
+    select count(*) from news
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update news
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.author != null" >
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.releaseDate != null" >
+        release_date = #{record.releaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.source != null" >
+        source = #{record.source,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cid != null" >
+        cid = #{record.cid,jdbcType=INTEGER},
+      </if>
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.image != null" >
+        image = #{record.image,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentCount != null" >
+        comment_count = #{record.commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.visitCount != null" >
+        visit_count = #{record.visitCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.favoriteCount != null" >
+        favorite_count = #{record.favoriteCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update news
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      release_date = #{record.releaseDate,jdbcType=TIMESTAMP},
+      source = #{record.source,jdbcType=VARCHAR},
+      cid = #{record.cid,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      image = #{record.image,jdbcType=VARCHAR},
+      comment_count = #{record.commentCount,jdbcType=INTEGER},
+      visit_count = #{record.visitCount,jdbcType=INTEGER},
+      favorite_count = #{record.favoriteCount,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update news
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      release_date = #{record.releaseDate,jdbcType=TIMESTAMP},
+      source = #{record.source,jdbcType=VARCHAR},
+      cid = #{record.cid,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      image = #{record.image,jdbcType=VARCHAR},
+      comment_count = #{record.commentCount,jdbcType=INTEGER},
+      visit_count = #{record.visitCount,jdbcType=INTEGER},
+      favorite_count = #{record.favoriteCount,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.hncu.pojo.News" >
+    update news
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseDate != null" >
+        release_date = #{releaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        cid = #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="commentCount != null" >
+        comment_count = #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="visitCount != null" >
+        visit_count = #{visitCount,jdbcType=INTEGER},
+      </if>
+      <if test="favoriteCount != null" >
+        favorite_count = #{favoriteCount,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.hncu.pojo.News" >
+    update news
+    set title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      release_date = #{releaseDate,jdbcType=TIMESTAMP},
+      source = #{source,jdbcType=VARCHAR},
+      cid = #{cid,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR},
+      comment_count = #{commentCount,jdbcType=INTEGER},
+      visit_count = #{visitCount,jdbcType=INTEGER},
+      favorite_count = #{favoriteCount,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.hncu.pojo.News" >
+    update news
+    set title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      release_date = #{releaseDate,jdbcType=TIMESTAMP},
+      source = #{source,jdbcType=VARCHAR},
+      cid = #{cid,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR},
+      comment_count = #{commentCount,jdbcType=INTEGER},
+      visit_count = #{visitCount,jdbcType=INTEGER},
+      favorite_count = #{favoriteCount,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
