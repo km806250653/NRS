@@ -1,4 +1,7 @@
 spring:
+  data:
+    solr:
+      host: http://192.168.25.136:8080/solr
   activemq:
     broker-url: tcp://192.168.25.136:61616
   datasource:

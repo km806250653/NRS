@@ -39,18 +39,6 @@ public class NewsServiceImpl implements INewsService {
         return newsMapper.selectByPrimaryKey(id);
     }
 
-    @Override
-    public void insert(NewsWithImages newsWithImages) {
-        if (newsWithImages == null)
-            return;
-        System.out.println("已爬取 ： " + newsWithImages.getNews().getTitle());
-        newsMapper.insert(newsWithImages.getNews());
-        Integer nid = newsWithImages.getNews().getId();
-        newsWithImages.getImages().forEach(newsImage -> {
-            newsImage.setNid(nid);
-            imageMapper.insert(newsImage);
-        });
-    }
 
 
     @Override
@@ -186,44 +174,6 @@ public class NewsServiceImpl implements INewsService {
         System.out.println("已删除新闻id:" + news.getId() + ",标题 : " + news.getTitle());
     }
 
-    @Override
-    public void deleCrawlNews() {
-        System.out.print(new Date() + " : ");
-        System.out.println("开始批量删除爬取的新闻");
-        //查询所有爬取的新闻
-        NewsExample example = new NewsExample();
-        NewsExample.Criteria criteria = example.createCriteria();
-        criteria.andUidEqualTo(1);
-        List<News> newsList = newsMapper.selectByExample(example);
-
-        //按照id删除每一条
-        newsList.forEach(news -> {
-            try {
-                deleById(news.getId());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        System.out.println("爬取的新闻删除结束");
-    }
-
-    /**
-     * 判断新闻是否存在于数据库中
-     *
-     * @param source
-     * @return
-     */
-    @Override
-    public boolean isExists(String source) {
-        NewsExample example = new NewsExample();
-        NewsExample.Criteria criteria = example.createCriteria();
-        criteria.andSourceEqualTo(source);
-        List<News> newsList = newsMapper.selectByExample(example);
-        if (newsList.size() > 0) {
-            return true;
-        }
-        return false;
-    }
 
     @Override
     public void update(News news) {

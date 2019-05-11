@@ -26,6 +26,7 @@ public class MessageListener {
      * 初始化线程池
      */
     private static ExecutorService executorService;
+
     static {
         executorService = Executors.newFixedThreadPool(10);
     }
@@ -35,9 +36,13 @@ public class MessageListener {
     private INewsService newsService;
 
     @JmsListener(destination = "crawl")
-    public void Crawl(){
-        executorService.submit(()-> baiDu());
-        executorService.submit(()-> people());
+    public void Crawl() {
+        executorService.submit(() -> baiDu());
+        executorService.submit(() -> {
+                    people();
+                    deleOldNews();
+                }
+        );
     }
 
 
@@ -50,12 +55,12 @@ public class MessageListener {
             e.printStackTrace();
         }
         urlList.forEach(url -> {
-            if(url==null){
+            if (url == null) {
                 return;
             }
             if (newsService.isExists(url)) {
                 System.err.println("该新闻 : <" + url + "> 已存在于数据库");
-            }else {
+            } else {
                 try {
                     NewsWithImages newsWithImages = JsoupForBaidu.getNewsFromBaiDu(url);
                     newsService.insert(newsWithImages);
@@ -67,7 +72,7 @@ public class MessageListener {
     }
 
 
-    public void people(){
+    public void people() {
         List<String> urlList = null;
         try {
             //获取人民网的新闻链接
@@ -76,12 +81,12 @@ public class MessageListener {
             e.printStackTrace();
         }
         urlList.forEach(url -> {
-            if(url==null){
+            if (url == null) {
                 return;
             }
             if (newsService.isExists(url)) {
                 System.err.println("该新闻 : <" + url + "> 已存在于数据库");
-            }else {
+            } else {
                 try {
                     NewsWithImages newsWithImages = JsoupForPeople.getNewsFromPeople(url);
                     newsService.insert(newsWithImages);
@@ -92,11 +97,11 @@ public class MessageListener {
         });
     }
 
-//    public void deleCrawlNews() {
-//        try {
-//            newsService.deleCrawlNews();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void deleOldNews() {
+        try {
+            newsService.deleOldNews();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

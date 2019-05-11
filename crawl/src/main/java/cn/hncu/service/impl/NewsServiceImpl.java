@@ -1,13 +1,19 @@
 package cn.hncu.service.impl;
 
+import cn.hncu.mapper.CategoryMapper;
 import cn.hncu.mapper.NewsImageMapper;
 import cn.hncu.mapper.NewsMapper;
 import cn.hncu.pojo.*;
 import cn.hncu.service.INewsService;
 import cn.hncu.utils.FastDFSClient;
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -23,13 +29,44 @@ public class NewsServiceImpl implements INewsService {
     @Autowired
     private NewsImageMapper imageMapper;
 
+    @Autowired
+    private SolrClient solrClient;
+
+    @Autowired
+    private CategoryMapper categoryMapper;
+
 
 
     @Override
-    public void insert(NewsWithImages newsWithImages) {
+    public void insert(NewsWithImages newsWithImages) throws IOException, SolrServerException {
         if (newsWithImages == null)
             return;
-        newsMapper.insert(newsWithImages.getNews());
+        News news = newsWithImages.getNews();
+        //插入数据库
+        newsMapper.insert(news);
+        //插入solr
+        SolrInputDocument solrDoc = new SolrInputDocument();
+
+        //news表
+        solrDoc.setField("id",news.getId());
+        solrDoc.setField("km_news_title",news.getTitle());
+        solrDoc.setField("km_news_release_date",news.getReleaseDate());
+        solrDoc.setField("km_news_content",news.getContent());
+        solrDoc.setField("km_news_source",news.getSource());
+        solrDoc.setField("km_news_image",news.getImage());
+        solrDoc.setField("km_news_comment_count",0);
+        solrDoc.setField("km_news_visit_count",0);
+
+        //userinfo表
+        solrDoc.setField("km_user_id",1);
+        solrDoc.setField("km_user_name","系统用户");
+        solrDoc.setField("km_user_image","http://192.168.25.136/group1/M00/00/00/wKgZiFy5cbuAPutBAAAdmrE4e_4288.png");
+        //category表
+        Category category = categoryMapper.selectByPrimaryKey(news.getCid());
+        solrDoc.setField("km_category_text",category.getText());
+
+        solrClient.add(solrDoc);
+        solrClient.commit();
         System.out.println("已爬取 ： " + newsWithImages.getNews().getTitle());
 
         Integer nid = newsWithImages.getNews().getId();
@@ -74,20 +111,27 @@ public class NewsServiceImpl implements INewsService {
                     e.printStackTrace();
                 }
             });
-        //删除该新闻
+        //从mysql删除该新闻
         newsMapper.deleteByPrimaryKey(id);
+        //从solr删除该新闻
+        solrClient.deleteById(id+"");
+        solrClient.commit();
         System.out.print(new Date() + " : ");
         System.out.println("已删除新闻id:" + news.getId() + ",标题 : " + news.getTitle());
     }
 
     @Override
-    public void deleCrawlNews() {
+    public void deleOldNews() {
         System.out.print(new Date() + " : ");
-        System.out.println("开始批量删除爬取的新闻");
+        System.out.println("开始批量删除爬取的过时新闻");
         //查询所有爬取的新闻
         NewsExample example = new NewsExample();
         NewsExample.Criteria criteria = example.createCriteria();
         criteria.andUidEqualTo(1);
+        //三天前
+        long time = new Date().getTime() - 1000 * 60 * 60 * 24 * 3;
+        Date limit = new Date(time);
+        criteria.andReleaseDateLessThan(limit);
         List<News> newsList = newsMapper.selectByExample(example);
 
         //按照id删除每一条

@@ -123,7 +123,6 @@ public class NewsController {
         //是否已被当前用户收藏
         boolean isFavorite = newsService.isFavorite(nid, uid);
         newsDetail.setFavorite(isFavorite);
-
         return newsDetail;
     }
 }

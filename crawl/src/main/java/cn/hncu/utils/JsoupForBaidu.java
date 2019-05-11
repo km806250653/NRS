@@ -122,6 +122,9 @@ public class JsoupForBaidu {
         }
         //设置发布者为system
         news.setUid(1);
+        news.setFavoriteCount(0);
+        news.setVisitCount(0);
+        news.setCommentCount(0);
         return new NewsWithImages(news, images);
     }
 }
