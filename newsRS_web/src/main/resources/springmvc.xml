@@ -15,7 +15,7 @@
 		http://www.springframework.org/schema/aop/spring-aop.xsd
            ">
     <!--加载配置文件-->
-    <context:property-placeholder location="classpath*:fast_dfs/application.properties"/>
+    <context:property-placeholder location="classpath*:application.properties"/>
 
 <!--    开启注解扫描-->
     <context:component-scan base-package="cn.hncu.controller"/>
@@ -53,6 +53,5 @@
             <bean id="ajaxAllowInterceptor" class="cn.hncu.interceptor.AjaxAllowInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>
-<!--    AOP相关-->
 
 </beans>

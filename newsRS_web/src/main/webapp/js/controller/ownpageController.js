@@ -66,7 +66,10 @@ app.controller('ownpageController', function ($scope, $location, ownpageService)
         });
     }
 
-    $scope.findCurrentUser = function () {
+    $scope.findCurrentUser = function (id) {
+        if(id){
+            $scope.currentId = id;
+        }
         ownpageService.findCurrentUser($scope.currentId).success(function (response) {
             $scope.currentUser = response;
             //重新查找当前用户时,重置参数

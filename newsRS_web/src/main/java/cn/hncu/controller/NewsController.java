@@ -6,15 +6,19 @@ import cn.hncu.pojo.News;
 import cn.hncu.pojo.Userinfo;
 import cn.hncu.pojo_group.CommUserGroup;
 import cn.hncu.pojo_group.NewsDetail;
+import cn.hncu.pojo_group.NewsWithImages;
 import cn.hncu.service.ICommentService;
 import cn.hncu.service.INewsService;
 import cn.hncu.service.IUserInfoService;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Enzo Cotter on 2019/3/22.
@@ -32,6 +36,15 @@ public class NewsController {
     @Autowired
     private IUserInfoService userService;
 
+    @RequestMapping("/findHot")
+    public Map<String,Object> findCover(){
+        return newsService.findHot();
+    }
+
+    @RequestMapping("/findRank")
+    public List<Map> findRank(){
+        return newsService.findRank();
+    }
     @RequestMapping("/findList")
     public PageResult findList(Integer cid, int pageNum, int pageSize) {
 
@@ -105,7 +118,7 @@ public class NewsController {
 
 
     @RequestMapping("/findDetail")
-    public NewsDetail findOne(Integer nid, Integer uid) {
+    public NewsDetail findOne(Integer nid, Integer uid) throws IOException, SolrServerException {
         NewsDetail newsDetail = new NewsDetail();
         News news = newsService.findOne(nid);
         //访问量+1

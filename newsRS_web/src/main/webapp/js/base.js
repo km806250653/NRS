@@ -5,6 +5,34 @@ app.filter('trustHtml',function ($sce) {
         return $sce.trustAsHtml(data);
     }
 });
+app.filter('cutTxt', function () {
+    return function (value, max,tail) {
+        var judgeLength = 0,cutString = new String();
+        var re = /^[\u4E00-\u9FA5]$/;
+        if (!value){
+            return ''
+        };
+        max = parseInt(max);
+        for (var i = 0; i < value.length; i++) {
+            if (judgeLength >= max) {
+                cutString = cutString.substr(0, cutString.length-1);
+                cutString = cutString.concat(tail||"..");
+                return cutString;
+            }
+
+            var singleChar = value.charAt(i);
+            if (re.test(singleChar)) {
+                judgeLength+=2;
+                // console.log(singleChar);
+            }
+            else{
+                judgeLength++;
+            }
+            cutString = cutString.concat(singleChar);
+        }
+        return cutString;
+    };
+});
 var allPath = {
     projectPath: getAbsolutePath(),
     casServerPath: 'http://192.168.25.136:8080/',
@@ -84,7 +112,7 @@ app.controller('baseController', function ($scope, $interval, baseService) {
         var minutes = date.getMinutes();
         var seconds = date.getSeconds();
         $scope.time = day + "日  " + hours + ":" + minutes + ":" + seconds;
-    },0, 1000);
+    },1000);
 
     //待调用方法
     //加载剩下的分类列表
@@ -98,6 +126,7 @@ app.controller('baseController', function ($scope, $interval, baseService) {
     $scope.chooseDate = function (index) {
         $scope.selectDate = $scope.weather.data[index];
     }
+
     //获取用户信息
     $scope.getUser = function () {
         baseService.getUser().success(function (response) {
@@ -141,6 +170,10 @@ app.controller('baseController', function ($scope, $interval, baseService) {
             if(!$scope.list[i].image)
                 $scope.list[i].image = '../img/content/news'+Math.round(Math.random()*12+1)+'.jpg';
         }
+    }
+
+    $scope.limitImage = function () {
+
     }
 });
 
