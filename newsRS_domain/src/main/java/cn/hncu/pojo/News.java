@@ -28,6 +28,8 @@ public class News {
 
     private Integer favoriteCount;
 
+    private Integer status;
+
     private String content;
 
     public Integer getId() {
@@ -116,6 +118,14 @@ public class News {
 
     public void setFavoriteCount(Integer favoriteCount) {
         this.favoriteCount = favoriteCount;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getContent() {

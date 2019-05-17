@@ -125,6 +125,7 @@ public class JsoupForBaidu {
         news.setFavoriteCount(0);
         news.setVisitCount(0);
         news.setCommentCount(0);
+        news.setStatus(1);
         return new NewsWithImages(news, images);
     }
 }

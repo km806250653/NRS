@@ -109,6 +109,10 @@ public class JsoupForPeople {
         news.setCid(new Random().nextInt(11)+1);
         //1号用户是system
         news.setUid(1);
+        news.setFavoriteCount(0);
+        news.setVisitCount(0);
+        news.setCommentCount(0);
+        news.setStatus(1);
         return new NewsWithImages(news, images);
     }
 }

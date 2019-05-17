@@ -13,6 +13,7 @@
     <result column="comment_count" property="commentCount" jdbcType="INTEGER" />
     <result column="visit_count" property="visitCount" jdbcType="INTEGER" />
     <result column="favorite_count" property="favoriteCount" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="cn.hncu.pojo.News" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
@@ -77,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, title, author, release_date, source, cid, uid, image, comment_count, visit_count, 
-    favorite_count
+    favorite_count, status
   </sql>
   <sql id="Blob_Column_List" >
     content
@@ -131,24 +132,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.hncu.pojo.News" >
-    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into news (id, title, author, 
       release_date, source, cid, 
       uid, image, comment_count, 
-      visit_count, favorite_count, content
-      )
+      visit_count, favorite_count, status, 
+      content)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
       #{releaseDate,jdbcType=TIMESTAMP}, #{source,jdbcType=VARCHAR}, #{cid,jdbcType=INTEGER}, 
       #{uid,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{commentCount,jdbcType=INTEGER}, 
-      #{visitCount,jdbcType=INTEGER}, #{favoriteCount,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}
-      )
+      #{visitCount,jdbcType=INTEGER}, #{favoriteCount,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.hncu.pojo.News" >
-    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into news
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -183,6 +178,9 @@
       </if>
       <if test="favoriteCount != null" >
         favorite_count,
+      </if>
+      <if test="status != null" >
+        status,
       </if>
       <if test="content != null" >
         content,
@@ -221,6 +219,9 @@
       </if>
       <if test="favoriteCount != null" >
         #{favoriteCount,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="content != null" >
         #{content,jdbcType=LONGVARCHAR},
@@ -269,6 +270,9 @@
       <if test="record.favoriteCount != null" >
         favorite_count = #{record.favoriteCount,jdbcType=INTEGER},
       </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
       <if test="record.content != null" >
         content = #{record.content,jdbcType=LONGVARCHAR},
       </if>
@@ -290,6 +294,7 @@
       comment_count = #{record.commentCount,jdbcType=INTEGER},
       visit_count = #{record.visitCount,jdbcType=INTEGER},
       favorite_count = #{record.favoriteCount,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
       content = #{record.content,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -307,7 +312,8 @@
       image = #{record.image,jdbcType=VARCHAR},
       comment_count = #{record.commentCount,jdbcType=INTEGER},
       visit_count = #{record.visitCount,jdbcType=INTEGER},
-      favorite_count = #{record.favoriteCount,jdbcType=INTEGER}
+      favorite_count = #{record.favoriteCount,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -345,6 +351,9 @@
       <if test="favoriteCount != null" >
         favorite_count = #{favoriteCount,jdbcType=INTEGER},
       </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
       <if test="content != null" >
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
@@ -363,6 +372,7 @@
       comment_count = #{commentCount,jdbcType=INTEGER},
       visit_count = #{visitCount,jdbcType=INTEGER},
       favorite_count = #{favoriteCount,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -377,7 +387,8 @@
       image = #{image,jdbcType=VARCHAR},
       comment_count = #{commentCount,jdbcType=INTEGER},
       visit_count = #{visitCount,jdbcType=INTEGER},
-      favorite_count = #{favoriteCount,jdbcType=INTEGER}
+      favorite_count = #{favoriteCount,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

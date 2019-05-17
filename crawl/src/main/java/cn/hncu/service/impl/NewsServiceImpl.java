@@ -10,7 +10,6 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -32,6 +31,7 @@ public class NewsServiceImpl implements INewsService {
     @Autowired
     private SolrClient solrClient;
 
+
     @Autowired
     private CategoryMapper categoryMapper;
 
@@ -46,21 +46,16 @@ public class NewsServiceImpl implements INewsService {
         newsMapper.insert(news);
         //插入solr
         SolrInputDocument solrDoc = new SolrInputDocument();
-
         //news表
         solrDoc.setField("id",news.getId());
         solrDoc.setField("km_news_title",news.getTitle());
         solrDoc.setField("km_news_release_date",news.getReleaseDate());
         solrDoc.setField("km_news_content",news.getContent());
-        solrDoc.setField("km_news_source",news.getSource());
         solrDoc.setField("km_news_image",news.getImage());
         solrDoc.setField("km_news_comment_count",0);
         solrDoc.setField("km_news_visit_count",0);
+        solrDoc.setField("km_news_favorite_count",0);
 
-        //userinfo表
-        solrDoc.setField("km_user_id",1);
-        solrDoc.setField("km_user_name","系统用户");
-        solrDoc.setField("km_user_image","http://192.168.25.136/group1/M00/00/00/wKgZiFy5cbuAPutBAAAdmrE4e_4288.png");
         //category表
         Category category = categoryMapper.selectByPrimaryKey(news.getCid());
         solrDoc.setField("km_category_text",category.getText());
@@ -128,10 +123,11 @@ public class NewsServiceImpl implements INewsService {
         NewsExample example = new NewsExample();
         NewsExample.Criteria criteria = example.createCriteria();
         criteria.andUidEqualTo(1);
-        //三天前
-        long time = new Date().getTime() - 1000 * 60 * 60 * 24 * 3;
+        //半个月前
+        long time = new Date().getTime() - 1000 * 60 * 60 * 24 * 180;
         Date limit = new Date(time);
         criteria.andReleaseDateLessThan(limit);
+        System.out.println(limit);
         List<News> newsList = newsMapper.selectByExample(example);
 
         //按照id删除每一条

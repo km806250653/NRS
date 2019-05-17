@@ -14,7 +14,8 @@
         <module>newsRS_domain</module>
         <module>newsRS_service</module>
         <module>newsRS_utils</module>
-        <module>newsRS_common</module>
+        <module>search_service</module>
+        <module>news_manager_web</module>
     </modules>
 
     <properties>
@@ -265,6 +266,13 @@
             <artifactId>commons-fileupload</artifactId>
             <version>1.4</version>
         </dependency>
+
+        <!-- solr-->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-solr</artifactId>
+            <version>1.5.5.RELEASE</version>
+        </dependency>
     </dependencies>
 
     <!-- 添加tomcat7插件 -->
@@ -285,6 +293,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.0</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>

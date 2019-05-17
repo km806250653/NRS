@@ -1,35 +1,14 @@
 package cn.hncu.pojo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.util.Date;
 
 public class News {
-    @Override
-    public String toString() {
-        return "News{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", releaseDate=" + releaseDate +
-                ", source='" + source + '\'' +
-                ", cid=" + cid +
-                ", uid=" + uid +
-                ", image='" + image + '\'' +
-                ", commentCount=" + commentCount +
-                ", visitCount=" + visitCount +
-                ", favoriteCount=" + favoriteCount +
-                ", content='" + content + '\'' +
-                '}';
-    }
-
     private Integer id;
 
     private String title;
 
     private String author;
 
-    @JsonFormat(pattern = "yyyy,MM-dd hh:mm")
     private Date releaseDate;
 
     private String source;
@@ -45,6 +24,8 @@ public class News {
     private Integer visitCount;
 
     private Integer favoriteCount;
+
+    private Integer status;
 
     private String content;
 
@@ -134,6 +115,14 @@ public class News {
 
     public void setFavoriteCount(Integer favoriteCount) {
         this.favoriteCount = favoriteCount;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getContent() {

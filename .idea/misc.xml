@@ -5,6 +5,7 @@
     <file type="web" url="file://$PROJECT_DIR$/casdemo" />
     <file type="web" url="file://$PROJECT_DIR$/casdemo2" />
     <file type="web" url="file://$PROJECT_DIR$/casdemo3" />
+    <file type="web" url="file://$PROJECT_DIR$/news_manager_web" />
     <file type="web" url="file://$PROJECT_DIR$/newsRS_web" />
   </component>
   <component name="JavaScriptSettings">
@@ -86,6 +87,12 @@
         <option value="$PROJECT_DIR$/task_scheduling/pom.xml" />
         <option value="$PROJECT_DIR$/crawl/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/newsRS_common/pom.xml" />
+        <option value="$PROJECT_DIR$/newsRS_search_service/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">

@@ -1,6 +1,5 @@
 package cn.hncu.mapper;
 
-
 import cn.hncu.pojo.News;
 import cn.hncu.pojo.NewsExample;
 import org.apache.ibatis.annotations.Param;

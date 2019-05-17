@@ -5,6 +5,8 @@ public class Category {
 
     private String text;
 
+    private Integer sort;
+
     public Integer getId() {
         return id;
     }
@@ -19,5 +21,13 @@ public class Category {
 
     public void setText(String text) {
         this.text = text == null ? null : text.trim();
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 }
