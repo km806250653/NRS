@@ -1,12 +1,12 @@
 package cn.hncu.service.impl;
 
+import cn.hncu.entity.PageResult;
 import cn.hncu.mapper.FollowMapper;
-import cn.hncu.pojo.Follow;
-import cn.hncu.pojo.FollowExample;
-import cn.hncu.pojo.Userinfo;
+import cn.hncu.pojo.*;
 import cn.hncu.mapper.UserinfoMapper;
-import cn.hncu.pojo.UserinfoExample;
 import cn.hncu.service.IUserInfoService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -116,5 +116,22 @@ public class UserInfoServiceImpl implements IUserInfoService {
         userFrom.setFollow(userFrom.getFollow()-1);
         userMapper.updateByPrimaryKeySelective(userFrom);
 
+    }
+
+    @Override
+    public PageResult findPage(int currentPage, int pageSize, String keywords) {
+        PageHelper.offsetPage((currentPage-1)*pageSize,pageSize);
+        UserinfoExample example = new UserinfoExample();
+        if(!"".equals(keywords)){
+            UserinfoExample.Criteria criteria = example.createCriteria();
+            criteria.andNameLike("%"+keywords+"%");
+        }
+        Page<Userinfo> page = (Page<Userinfo>)userMapper.selectByExample(example);
+        return new PageResult(page.getTotal(),page.getResult());
+    }
+
+    @Override
+    public Userinfo findOne(Integer id) {
+        return userMapper.selectByPrimaryKey(id);
     }
 }

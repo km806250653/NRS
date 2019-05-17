@@ -3,16 +3,15 @@ package cn.hncu.service.impl;
 import cn.hncu.entity.PageResult;
 import cn.hncu.mapper.*;
 import cn.hncu.pojo.*;
-import cn.hncu.pojo_group.NewsWithImages;
 import cn.hncu.service.INewsService;
 import cn.hncu.utils.FastDFSClient;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Enzo Cotter on 2019/3/22.
@@ -25,17 +24,27 @@ public class NewsServiceImpl implements INewsService {
 
     @Autowired
     private NewsImageMapper imageMapper;
+
     @Autowired
     private CommentMapper commentMapper;
+
 
     @Autowired
     private FavoritesMapper favoritesMapper;
 
 
+    @Autowired
+    private CategoryMapper categoryMapper;
+
+
+
+    @Autowired
+    private SolrTemplate solrTemplate;
+
+
 
     @Override
     public News findOne(Integer id) {
-
         return newsMapper.selectByPrimaryKey(id);
     }
 
@@ -72,6 +81,8 @@ public class NewsServiceImpl implements INewsService {
         News news = newsMapper.selectByPrimaryKey(nid);
         news.setFavoriteCount(news.getFavoriteCount() + 1);
         newsMapper.updateByPrimaryKey(news);
+        //操作solr
+        importToSolr(news);
     }
 
     @Override
@@ -83,9 +94,13 @@ public class NewsServiceImpl implements INewsService {
         criteria.andUidEqualTo(uid);
         favoritesMapper.deleteByExample(example);
         //新闻收藏量-1
+
+        //操作mysql
         News news = newsMapper.selectByPrimaryKey(nid);
         news.setFavoriteCount(news.getFavoriteCount() - 1);
         newsMapper.updateByPrimaryKey(news);
+        //操作solr
+        importToSolr(news);
     }
 
     @Override
@@ -111,11 +126,14 @@ public class NewsServiceImpl implements INewsService {
         news.setFavoriteCount(0);
         news.setVisitCount(0);
         news.setCommentCount(0);
+        news.setStatus(0);
         if("".equals(news.getSource())){
             //原创
             news.setSource("../pages/details.html#?id="+news.getId());
         }
         newsMapper.insert(news);
+        //操作solr
+        importToSolr(news);
     }
 
     @Override
@@ -123,6 +141,70 @@ public class NewsServiceImpl implements INewsService {
         return newsMapper.selectByPrimaryKey(id);
     }
 
+    //查找主页封面
+    @Override
+    public Map<String,Object> findHot() {
+        HashMap<String, Object> map = new HashMap<>();
+        //查询带图片的，用作轮播图
+        map.put("listImage",hotRank(10, true,-1));
+        map.put("list",hotRank(10,false,-1));
+        return map;
+    }
+
+    @Override
+    public List<Map> findRank() {
+        ArrayList<Map> list = new ArrayList<>();
+        List<Category> categories = categoryMapper.selectByExample(null);
+        categories.forEach(category -> {
+            Map map = new HashMap<>();
+            map.put("category",category);
+            //查询带图片三条
+            map.put("imageNewsList",hotRank(3,true,category.getId()));
+            //查询不带图片的十条
+            map.put("list",hotRank(10,false,category.getId()));
+            list.add(map);
+        });
+        return list;
+    }
+
+    @Override
+    public PageResult findPage(int currentPage, int pageSize,Integer cid, String keywords) {
+        PageHelper.offsetPage((currentPage-1)*pageSize,pageSize);
+        NewsExample example = new NewsExample();
+        NewsExample.Criteria criteria = example.createCriteria();
+        if(cid!=-1){
+            criteria.andCidEqualTo(cid);
+        }
+        if(!"".equals(keywords)){
+            criteria.andTitleLike("%"+keywords+"%");
+        }
+        Page<News> page = (Page<News>)newsMapper.selectByExample(example);
+        return new PageResult(page.getTotal(),page.getResult());
+    }
+
+    /**
+     * 封装按访问量查询前N条新闻的方法
+     * @param count 查询条数
+     * @param image 是否带图片
+     * @param cid   是否带分类
+     * @return
+     */
+    public List<News> hotRank(int count,boolean image,int cid){
+        PageHelper.offsetPage(0,count);
+        NewsExample example = new NewsExample();
+        NewsExample.Criteria criteria = example.createCriteria();
+        if(cid!=-1){
+            criteria.andCidEqualTo(cid);
+        }
+        if(image){
+            criteria.andImageIsNotNull();
+        }else {
+            criteria.andImageIsNull();
+        }
+        example.setOrderByClause("visit_count DESC");
+        List<News> list = newsMapper.selectByExampleWithBLOBs(example);
+        return list;
+    }
 
 
     /**
@@ -138,7 +220,7 @@ public class NewsServiceImpl implements INewsService {
         System.out.print(new Date());
         System.out.println("准备删除新闻id:" + news.getId() + ",标题 : " + news.getTitle());
         //获取fdfs客户端工具类对象
-        FastDFSClient fastDFSClient = new FastDFSClient("classpath:fast_dfs/fast_dfs_client.conf");
+        FastDFSClient fastDFSClient = new FastDFSClient();
 
         //查询该新闻的所有图片
         NewsImageExample imageExample = new NewsImageExample();
@@ -168,8 +250,13 @@ public class NewsServiceImpl implements INewsService {
         commentMapper.deleteByExample(commentExample);
         System.out.println("评论删除完毕");
 
-        //删除该新闻
+
+        //从solr索引库中删除
+        solrTemplate.deleteById(id+"");
+        solrTemplate.commit();
+        //从mysql删除该新闻
         newsMapper.deleteByPrimaryKey(id);
+
         System.out.print(new Date() + " : ");
         System.out.println("已删除新闻id:" + news.getId() + ",标题 : " + news.getTitle());
     }
@@ -181,8 +268,19 @@ public class NewsServiceImpl implements INewsService {
             //原创
             news.setSource("../pages/details.html#?id="+news.getId());
         }
+        //导入solr
+        importToSolr(news);
         newsMapper.updateByPrimaryKeySelective(news);
     }
 
+    public void importToSolr(News news){
 
+        NewsForSolr newsForSolr = new NewsForSolr();
+        newsForSolr.setNews(news);
+        //查询分类
+        Category category = categoryMapper.selectByPrimaryKey(news.getCid());
+        newsForSolr.setCategory(category.getText());
+        solrTemplate.saveBean(newsForSolr);
+        solrTemplate.commit();
+    }
 }

@@ -1,5 +1,6 @@
 package cn.hncu.service;
 
+import cn.hncu.entity.PageResult;
 import cn.hncu.pojo.Category;
 
 import java.util.List;
@@ -9,6 +10,16 @@ import java.util.List;
  */
 public interface ICategoryService {
     List<Category> findSome(String type);
+
+    PageResult findPage(int currentPage, int pageSize,String keywords);
+
+    Category findOne(Integer id);
+
+    void add(Category category);
+
+    void update(Category category);
+
+    void delete(Integer[] ids);
 
     List<Category> findAll();
 }

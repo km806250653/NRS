@@ -1,5 +1,6 @@
 package cn.hncu.service;
 
+import cn.hncu.entity.PageResult;
 import cn.hncu.pojo.Userinfo;
 
 /**
@@ -25,4 +26,8 @@ public interface IUserInfoService {
     boolean isFollow(Integer uid, Integer followId);
 
     void removeFollow(Integer uid, Integer followId);
+
+    PageResult findPage(int currentPage, int pageSize, String keywords);
+
+    Userinfo findOne(Integer id);
 }
