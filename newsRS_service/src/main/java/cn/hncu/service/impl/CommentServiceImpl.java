@@ -75,6 +75,7 @@ public class CommentServiceImpl implements ICommentService {
     @Override
     public void releaseComment(Comment comment) {
         comment.setReleaseTime(new Date());
+        comment.setLikeCount(0);
         //添加评论
         commentMapper.insert(comment);
         //对应的新闻的评论量+1
@@ -148,6 +149,27 @@ public class CommentServiceImpl implements ICommentService {
         if (likes.size() > 0)
             return true;
         return false;
+    }
+
+    @Override
+    public void delete(Integer id) {
+        Comment comment = commentMapper.selectByPrimaryKey(id);
+        News news = newsMapper.selectByPrimaryKey(comment.getNid());
+
+
+
+        CommentExample example = new CommentExample();
+        CommentExample.Criteria criteria = example.createCriteria();
+        criteria.andParentIdEqualTo(id);
+        //统计子评论个数
+        //int count = commentMapper.countByExample(example)+1;
+        //删除子评论
+        int count = commentMapper.deleteByExample(example)+1;
+        //删除该评论
+        commentMapper.deleteByPrimaryKey(id);
+
+        news.setCommentCount(news.getCommentCount()-count);
+        newsMapper.updateByPrimaryKey(news);
     }
 
 }

@@ -41,5 +41,7 @@ public interface INewsService {
 
     List<Map> findRank();
 
-    PageResult findPage(int currentPage, int pageSize,Integer cid, String keywords);
+    PageResult findPage(int currentPage, int pageSize,Integer cid, String keywords,String type);
+
+    void updateStatus(Integer id, int status);
 }

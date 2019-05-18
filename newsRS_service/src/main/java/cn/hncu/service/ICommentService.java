@@ -24,4 +24,6 @@ public interface ICommentService {
     void removeLike(Integer commentId, int uid);
 
     boolean isLike(Integer commentId, int uid);
+
+    void delete(Integer id);
 }

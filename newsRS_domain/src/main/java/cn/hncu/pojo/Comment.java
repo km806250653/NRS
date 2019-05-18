@@ -11,7 +11,7 @@ public class Comment {
 
     private Integer uid;
 
-    @JsonFormat(pattern = "yyyy,MM-dd hh:mm")
+    @JsonFormat(pattern = "yyyy,MM-dd hh:mm",timezone = "GMT+8")
     private Date releaseTime;
 
     private String status;

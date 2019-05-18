@@ -41,6 +41,8 @@ public class NewsServiceImpl implements INewsService {
     @Autowired
     private SolrTemplate solrTemplate;
 
+    @Autowired
+    private ExamineMapper examineMapper;
 
 
     @Override
@@ -168,18 +170,36 @@ public class NewsServiceImpl implements INewsService {
     }
 
     @Override
-    public PageResult findPage(int currentPage, int pageSize,Integer cid, String keywords) {
+    public PageResult findPage(int currentPage, int pageSize,Integer cid, String keywords,String type) {
         PageHelper.offsetPage((currentPage-1)*pageSize,pageSize);
         NewsExample example = new NewsExample();
         NewsExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("visit_count DESC");
+        //过滤条件
+        //分类
         if(cid!=-1){
             criteria.andCidEqualTo(cid);
         }
+        //搜索
         if(!"".equals(keywords)){
             criteria.andTitleLike("%"+keywords+"%");
         }
+        //待审核
+        if("examine".equals(type)){
+            criteria.andStatusEqualTo(0);
+            NewsExample.Criteria criteriaExamine = example.createCriteria();
+            criteriaExamine.andStatusEqualTo(3);
+            example.or(criteriaExamine);
+        }
         Page<News> page = (Page<News>)newsMapper.selectByExample(example);
         return new PageResult(page.getTotal(),page.getResult());
+    }
+
+    @Override
+    public void updateStatus(Integer id,int status) {
+        News news = newsMapper.selectByPrimaryKey(id);
+        news.setStatus(status);
+        newsMapper.updateByPrimaryKey(news);
     }
 
     /**
@@ -241,7 +261,11 @@ public class NewsServiceImpl implements INewsService {
                     e.printStackTrace();
                 }
             });
-
+            //删除审核记录
+        ExamineExample examineExample = new ExamineExample();
+        ExamineExample.Criteria criteria = examineExample.createCriteria();
+        criteria.andNidEqualTo(news.getId());
+        examineMapper.deleteByExample(examineExample);
 
         //删除该新闻的评论
         CommentExample commentExample = new CommentExample();
