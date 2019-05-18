@@ -30,7 +30,8 @@
         <div class="row">
             <div class="col-sm-12 col-md-9 article_text">
                 <div class="current">
-                    <h1 class="text-center yel_line current__title">{{newsGroup.news.title}}</h1>
+                    <h1 class="text-center yel_line">{{newsGroup.news.title}}</h1>
+                    <hr>
                     <!-- 新闻信息 -->
                     <div style="border-bottom: 1px solid gray;padding-bottom: 15px">
                         <div class="row">
@@ -118,6 +119,11 @@
                                     <a href="javascript:void(0)" ng-click="like(entity)"><img
                                             src="../img/icon/{{entity.like?'yidianzan':'dianzan'}}.png"
                                             style="width: 15px;height: 15px">{{entity.comment.likeCount}}</a>
+                                    <span ng-if="user.id==entity.comment.uid">
+                                    <a href="javascript:void(0)" ng-click="delete(entity.comment.id)" ><img
+                                            src="../img/icon/delete.png"
+                                            style="width: 15px;height: 15px"></a>
+                                    </span>
                                 </div>
                             </div>
 
@@ -154,7 +160,13 @@
                                             <div>
                                                 <a href="javascript:void(0)" ng-click="like(child)"><img
                                                         src="../img/icon/{{child.like?'yidianzan':'dianzan'}}.png"
-                                                        style="width: 15px;height: 15px">{{child.comment.likeCount}}</a>
+                                                        style="width: 15px;height: 15px"><span>{{child.comment.likeCount}}</span></a>
+                                                <span ng-if="user.id==child.comment.uid">
+                                                     <a href="javascript:void(0)" ng-click="delete(child.comment.id)" ><img
+                                                             src="../img/icon/delete.png"
+                                                             style="width: 15px;height: 15px"></a>
+                                                </span>
+
                                             </div>
                                         </div>
                                     </div>
