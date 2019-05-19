@@ -27,5 +27,11 @@ public class CategoryController {
         return categories;
     }
 
+    @RequestMapping("/findAll")
+    public List<Category> findAll(String type) {
+        List<Category> categories = categoryService.findAll();
+        return categories;
+    }
+
 
 }

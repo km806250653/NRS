@@ -86,6 +86,17 @@ app.controller('detailController', function ($scope, $controller, $location, det
         }
     }
 
+    $scope.delete = function(id){
+        detailService.delete(id).success(function (response) {
+            if(response.success){
+                //刷新页面
+                $scope.findNews();
+            }else {
+                alert(response.msg);
+            }
+        });
+    }
+
     //评论点赞
     $scope.like = function (commentGroup) {
         if (!$scope.user) {

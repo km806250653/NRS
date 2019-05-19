@@ -37,6 +37,7 @@ public class CategoryServiceImpl implements ICategoryService {
     public PageResult findPage(int currentPage, int pageSize,String keywords) {
         PageHelper.offsetPage((currentPage-1)*pageSize,pageSize);
         CategoryExample example = new CategoryExample();
+        example.setOrderByClause("sort ASC");
         if(!"".equals(keywords)){
             CategoryExample.Criteria criteria = example.createCriteria();
             criteria.andTextLike("%"+keywords+"%");

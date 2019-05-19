@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -124,10 +125,10 @@ public class NewsServiceImpl implements INewsService {
         NewsExample.Criteria criteria = example.createCriteria();
         criteria.andUidEqualTo(1);
         //半个月前
-        long time = new Date().getTime() - 1000 * 60 * 60 * 24 * 180;
+        long time = new Date().getTime() - 1000 * 60 * 60 * 24 * 15;
         Date limit = new Date(time);
         criteria.andReleaseDateLessThan(limit);
-        System.out.println(limit);
+        criteria.andReleaseDateLessThanOrEqualTo(limit);
         List<News> newsList = newsMapper.selectByExample(example);
 
         //按照id删除每一条

@@ -15,7 +15,7 @@ public class TaskScheduling {
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
 
-    @Scheduled(cron = "1 */10 * * * ?")
+    @Scheduled(cron = "1 0 * * * ?")
     public void jmsForCrawl(){
         jmsMessagingTemplate.convertAndSend("crawl","aaa");
     }

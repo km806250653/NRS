@@ -12,6 +12,10 @@ app.controller('editController',function ($scope, editService) {
         });
     }
 
+    $scope.go = function(keywords){
+        location.href = "../pages/search.html#?keywords="+keywords;
+    }
+
     //深克隆user
     $scope.cloneUser = function(){
         var JsonStr = JSON.stringify($scope.user)

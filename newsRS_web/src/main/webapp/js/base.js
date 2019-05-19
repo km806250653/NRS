@@ -35,7 +35,7 @@ app.filter('cutTxt', function () {
 });
 var allPath = {
     projectPath: getAbsolutePath(),
-    casServerPath: 'http://192.168.25.136:8080/',
+    casServerPath: 'http://localhost:8080/',
     defaultHeaderImagePath: 'http://localhost:8080/newsRS_web/pages/img/photo.png'
 }
 //服务层
@@ -54,7 +54,7 @@ app.service('baseService', function ($http) {
     }
     //登出
     this.logout = function () {
-        return $http.get('http://192.168.25.136:8080/cas/logout', {
+        return $http.get(allPath.casServerPath+'cas/logout', {
             //携带cookie
             withCredentials: true
         })

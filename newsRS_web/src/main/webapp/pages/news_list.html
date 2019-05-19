@@ -5,13 +5,13 @@
     <meta name="referrer" content="never">
     <link href="../css/main.css" rel="stylesheet" type="text/css"/>
     <!-- All JavaScript libraries -->
-    <script src="../js/jquery-3.3.1.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
+    <script src="../plugins/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="../js/main.js"></script>
     <script src="../plugins/angularjs/angular.min.js"></script>
     <script src="../plugins/angularjs/pagination-search.js"></script>
     <script src="../js/base.js"></script>
-    <script src="../js/service/newsService.js"></script>
+    <script src="../js/service/newsListService.js"></script>
     <script src="../js/controller/newsListController.js"></script>
     <title></title>
 </head>
@@ -24,7 +24,9 @@
         <div ng-include="'../pages/header.html'"></div>
         <!-- END header -->
         <!-- content-->
+
         <div class="Card">
+            <div ng-if="list.length<=0" style="text-align: center"><h1><strong>暂无数据,<a href="http://localhost/newsRS_web">返回主页</a></strong></h1></div>
             <div class="row">
                 <div class="col-sm-1" style="width: 20px;height: 500px;position: fixed">
                     <tm-pagination conf="paginationConf"></tm-pagination>

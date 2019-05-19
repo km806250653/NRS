@@ -27,6 +27,10 @@ public interface INewsService {
 
     PageResult findListByUid(Integer uid, int pageNum);
 
+    PageResult findFavoriteByUid(Integer uid, Integer pageNum);
+
+    List<News> findExceptionListByUid(Integer uid, Integer status);
+
     void favorite(Integer nid, Integer uid) throws IOException, SolrServerException;
 
     void removeFavorite(Integer nid, Integer uid) throws IOException, SolrServerException;
@@ -44,4 +48,7 @@ public interface INewsService {
     PageResult findPage(int currentPage, int pageSize,Integer cid, String keywords,String type);
 
     void updateStatus(Integer id, int status);
+
+
+
 }

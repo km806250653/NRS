@@ -66,12 +66,57 @@ public class NewsServiceImpl implements INewsService {
     public PageResult findListByUid(Integer uid, int pageNum) {
         PageHelper.startPage(pageNum, 4);
         NewsExample example = new NewsExample();
+        //构建查询条件
         NewsExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("release_date desc");
+        //查询状态未未审核或审核通过的
+        criteria.andStatusIn(Arrays.asList(new Integer[]{0,1}));
         criteria.andUidEqualTo(uid);
+        //排序方式
+        example.setOrderByClause("release_date desc");
         //长文本需使用该方法
         Page<News> page = (Page<News>) newsMapper.selectByExampleWithBLOBs(example);
         return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    @Override
+    public PageResult findFavoriteByUid(Integer uid, Integer pageNum) {
+        //从收藏表中查询该用户的收藏
+        FavoritesExample favoriteExample = new FavoritesExample();
+        FavoritesExample.Criteria favoriteExampleCriteria = favoriteExample.createCriteria();
+        favoriteExampleCriteria.andUidEqualTo(uid);
+        List<Favorites> favorites = favoritesMapper.selectByExample(favoriteExample);
+        if(favorites.size()<=0){
+            //没有收藏
+            return new PageResult(0,new ArrayList<News>());
+        }
+        //获取收藏新闻的id集合
+        ArrayList<Integer> idList = new ArrayList<>();
+        favorites.forEach(favorite->idList.add(favorite.getNid()));
+
+        PageHelper.startPage(pageNum, 4);
+        NewsExample example = new NewsExample();
+        //构建查询条件
+        NewsExample.Criteria criteria = example.createCriteria();
+        criteria.andIdIn(idList);
+        //长文本需使用该方法
+        Page<News> page = (Page<News>) newsMapper.selectByExampleWithBLOBs(example);
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    @Override
+    public List<News> findExceptionListByUid(Integer uid, Integer status) {
+        NewsExample example = new NewsExample();
+        //构建查询条件
+        NewsExample.Criteria criteria = example.createCriteria();
+        criteria.andUidEqualTo(uid);
+        //根据状态构建条件
+        if(status==-1){
+            criteria.andStatusIn(Arrays.asList(new Integer[]{2,3,4}));
+        }else {
+            criteria.andStatusEqualTo(status);
+        }
+        //长文本需使用该方法
+        return newsMapper.selectByExampleWithBLOBs(example);
     }
 
     @Override
@@ -186,10 +231,11 @@ public class NewsServiceImpl implements INewsService {
         }
         //待审核
         if("examine".equals(type)){
-            criteria.andStatusEqualTo(0);
-            NewsExample.Criteria criteriaExamine = example.createCriteria();
-            criteriaExamine.andStatusEqualTo(3);
-            example.or(criteriaExamine);
+            criteria.andStatusIn(Arrays.asList(new Integer[]{0,3}));
+        }
+        //违规新闻
+        if("violation".equals(type)){
+            criteria.andStatusIn(Arrays.asList(new Integer[]{2,4}));
         }
         Page<News> page = (Page<News>)newsMapper.selectByExample(example);
         return new PageResult(page.getTotal(),page.getResult());
@@ -198,8 +244,25 @@ public class NewsServiceImpl implements INewsService {
     @Override
     public void updateStatus(Integer id,int status) {
         News news = newsMapper.selectByPrimaryKey(id);
+
+        //更新solr索引库
+        //第一种情况：未审核的审核通过，不做处理
+        //第二种情况：未审核的驳回或删除，从索引库删除
+        if(news.getStatus()==0 && (status==2||status==4)){
+            solrTemplate.deleteById(id+"");
+            solrTemplate.commit();
+        }
+        //第三种情况：再次审核的驳回或删除，不做处理
+        //第四种情况：再次审核的审核通过，加入索引库
+        if(news.getStatus()==3&&status==1){
+            importToSolr(news);
+        }
+        //第五种情况：驳回或删除的申请再次审核，不做处理
+
         news.setStatus(status);
         newsMapper.updateByPrimaryKey(news);
+
+
     }
 
     /**
@@ -274,6 +337,11 @@ public class NewsServiceImpl implements INewsService {
         commentMapper.deleteByExample(commentExample);
         System.out.println("评论删除完毕");
 
+        //删除对应的收藏
+        FavoritesExample favoritesExample = new FavoritesExample();
+        FavoritesExample.Criteria favoritesCriteria = favoritesExample.createCriteria();
+        favoritesCriteria.andNidEqualTo(id);
+        favoritesMapper.deleteByExample(favoritesExample);
 
         //从solr索引库中删除
         solrTemplate.deleteById(id+"");

@@ -11,6 +11,10 @@ app.controller('newsEditController',function ($scope,$location, editService) {
             $scope.findOne();
         }
     }
+
+    $scope.go = function(keywords){
+        location.href = "../pages/search.html#?keywords="+keywords;
+    }
     //回显新闻
     $scope.findOne = function(){
         editService.findOne($scope.entity.id).success(function (response) {
@@ -27,6 +31,7 @@ app.controller('newsEditController',function ($scope,$location, editService) {
     $scope.findCategory = function () {
             editService.findCategory().success(function (response) {
                 $scope.categories = response;
+                $scope.entity.cid = $scope.categories[0].id;
             });
     }
 

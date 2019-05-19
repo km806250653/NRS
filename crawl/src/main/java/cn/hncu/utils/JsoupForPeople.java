@@ -93,7 +93,7 @@ public class JsoupForPeople {
             //上传文件到fastdfs
             FastDFSClient fastDFSClient = new FastDFSClient();
             String path = fastDFSClient.uploadFile(filename);
-            String fdfsUrl = "http://192.168.25.136/" + path;
+            String fdfsUrl = "http://192.168.25.133/" + path;
             images.add(new NewsImage(fdfsUrl));
             //将url替换成fastdfs上的url
             imageDoM.attr("src", fdfsUrl);

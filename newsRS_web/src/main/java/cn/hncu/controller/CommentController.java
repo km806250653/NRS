@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -54,7 +55,6 @@ public class CommentController {
     @RequestMapping("/releaseComment")
     public Result releaseComment(@RequestBody Comment comment) {
         try {
-            comment.setLikeCount(0);
             commentService.releaseComment(comment);
             return new Result(true, "评论成功");
         } catch (Exception e) {
@@ -62,4 +62,16 @@ public class CommentController {
             return new Result(false, "评论出现错误");
         }
     }
+
+    @RequestMapping("/delete")
+    public Result deleteComment(Integer id) {
+        try {
+            commentService.delete(id);
+            return new Result(true, "删除评论成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, "删除评论失败");
+        }
+    }
+
 }

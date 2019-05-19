@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 public class UploadController {
 
-    private String FILE_SERVER_URL = "http://192.168.25.136/";
+    private String FILE_SERVER_URL = "http://192.168.25.133/";
 
 
     @RequestMapping("/upload")

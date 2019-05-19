@@ -9,7 +9,7 @@
 
 
     <!-- solrTemplate -->
-    <solr:solr-server id="solrServer" url="http://192.168.25.136:8080/solr" />
+    <solr:solr-server id="solrServer" url="http://localhost:8080/solr/collection1" />
     <bean id="solrTemplate" class="org.springframework.data.solr.core.SolrTemplate">
         <constructor-arg ref="solrServer" />
     </bean>

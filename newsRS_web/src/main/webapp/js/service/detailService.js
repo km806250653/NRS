@@ -23,4 +23,8 @@ app.service('detailService',function ($http) {
         return $http.get('../comment/removeLike.do?commentId='+cid+'&uid='+uid)
     }
 
+    this.delete = function (id) {
+        return $http.get('../comment/delete.do?id='+id);
+    }
+
 });
